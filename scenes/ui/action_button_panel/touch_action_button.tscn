@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://8vx5t34tn6qi"]
+
+[ext_resource type="Script" uid="uid://dj1s5x0qr01st" path="res://scenes/ui/action_button_panel/touch_action_button.gd" id="1_qwv8y"]
+[ext_resource type="Texture2D" uid="uid://edhlck68enk2" path="res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_ru3i0"]
+[ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="3_tegi4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhbcy"]
+bg_color = Color(0.121094, 0.121094, 0.121094, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.390625, 0.390625, 0.390625, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[node name="TouchActionButton" type="Control"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+script = ExtResource("1_qwv8y")
+keep_pressed = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="InputActionRequester" type="Node" parent="."]
+script = ExtResource("3_tegi4")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qhbcy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ru3i0")
+expand_mode = 1
+stretch_mode = 5

@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://qq0lx8rkpbnw"]
+
+[ext_resource type="Texture2D" uid="uid://weirmy7o6ebe" path="res://assets/icons/change_history_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_hcj1r"]
+[ext_resource type="Script" uid="uid://c1p0vkjf8e4op" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.gd" id="1_umvfa"]
+
+[node name="PopupArrowPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_umvfa")
+
+[node name="Triangle2" type="TextureRect" parent="."]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(0.980392, 0.956863, 0.901961, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_top = -18.0
+offset_right = 12.0
+offset_bottom = 6.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(12, 18)
+texture = ExtResource("1_hcj1r")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MainPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -78.0
+offset_right = 94.0
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_type_variation = &"popup_panel"
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Triangle" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_top = -20.0
+offset_right = 12.0
+offset_bottom = 4.0
+grow_horizontal = 2
+pivot_offset = Vector2(12, 20)
+texture = ExtResource("1_hcj1r")
+expand_mode = 1
+stretch_mode = 5

@@ -1,0 +1,118 @@
+[gd_scene load_steps=6 format=3 uid="uid://by4rjjub5hhuh"]
+
+[ext_resource type="Script" uid="uid://ckvp3ji85t6ho" path="res://components/custom_spin_box_widget/custom_spin_box_widget.gd" id="1_pjp46"]
+[ext_resource type="Texture2D" uid="uid://mh2qrrgff6ak" path="res://assets/icons/keyboard_arrow_up_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="4_gfhhi"]
+[ext_resource type="Texture2D" uid="uid://s2ubk5c4twon" path="res://assets/icons/chevron_left_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="4_mpmek"]
+[ext_resource type="Texture2D" uid="uid://cohqac8xvo007" path="res://assets/icons/keyboard_arrow_down_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="5_mpmek"]
+[ext_resource type="Texture2D" uid="uid://c3beiqctvdpf4" path="res://assets/icons/chevron_right_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="5_u0e6o"]
+
+[node name="CustomSpinBoxWidget" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 100)
+offset_right = 300.0
+offset_bottom = 100.0
+theme_type_variation = &"base_panel"
+script = ExtResource("1_pjp46")
+value = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LVBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LTopButton" type="TextureButton" parent="HBoxContainer/LVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("4_gfhhi")
+stretch_mode = 5
+
+[node name="Panel" type="HSeparator" parent="HBoxContainer/LVBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_h"
+
+[node name="LBottomButton" type="TextureButton" parent="HBoxContainer/LVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("5_mpmek")
+stretch_mode = 5
+
+[node name="LeftButton" type="TextureButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_mpmek")
+stretch_mode = 5
+
+[node name="VSeparatorL" type="VSeparator" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"label_details"
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparatorR" type="VSeparator" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="RightButton" type="TextureButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("5_u0e6o")
+stretch_mode = 5
+
+[node name="RVBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RTopButton" type="TextureButton" parent="HBoxContainer/RVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("4_gfhhi")
+stretch_mode = 5
+
+[node name="Panel2" type="HSeparator" parent="HBoxContainer/RVBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_h"
+
+[node name="RBottomButton" type="TextureButton" parent="HBoxContainer/RVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("5_mpmek")
+stretch_mode = 5

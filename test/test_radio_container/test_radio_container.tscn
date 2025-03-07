@@ -1,0 +1,148 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkc8li2rs34ik"]
+
+[ext_resource type="Script" uid="uid://cohsm4kdgnn5y" path="res://scenes/ui/radio_container.gd" id="1_i3o4k"]
+[ext_resource type="Script" uid="uid://cj18ca36blaxf" path="res://scenes/ui/components/touch_button.gd" id="2_lpgsd"]
+[ext_resource type="Texture2D" uid="uid://e0x3l4j87yfl" path="res://assets/icons/colorize_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="3_qxflk"]
+[ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="4_xkapw"]
+[ext_resource type="Texture2D" uid="uid://ddh14srfsw5xy" path="res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_lpgsd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqxqm"]
+bg_color = Color(0.121094, 0.121094, 0.121094, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.390625, 0.390625, 0.390625, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+
+[node name="RadioContainer" type="Container"]
+anchors_preset = -1
+anchor_right = 0.0708333
+anchor_bottom = 0.101852
+offset_left = 756.0
+offset_top = 288.0
+offset_right = 620.0
+offset_bottom = 178.0
+script = ExtResource("1_i3o4k")
+radius = 200
+end_angle = 95
+
+[node name="TouchButton" type="Control" parent="."]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+script = ExtResource("2_lpgsd")
+keep_pressed = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="TouchButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqxqm")
+
+[node name="TextureRect" type="TextureRect" parent="TouchButton"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_qxflk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InputActionRequester" type="Node" parent="TouchButton"]
+script = ExtResource("4_xkapw")
+action_name = "action_pick_color"
+
+[node name="TouchButton2" type="Control" parent="."]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("2_lpgsd")
+keep_pressed = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="TouchButton2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqxqm")
+
+[node name="TextureRect" type="TextureRect" parent="TouchButton2"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_lpgsd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InputActionRequester" type="Node" parent="TouchButton2"]
+script = ExtResource("4_xkapw")
+action_name = "action_pick_color"
+
+[node name="TouchButton3" type="Control" parent="."]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("2_lpgsd")
+keep_pressed = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="TouchButton3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqxqm")
+
+[node name="TextureRect" type="TextureRect" parent="TouchButton3"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_lpgsd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InputActionRequester" type="Node" parent="TouchButton3"]
+script = ExtResource("4_xkapw")
+action_name = "action_pick_color"

@@ -1,0 +1,36 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgbf2127bhkwf"]
+
+[ext_resource type="Script" uid="uid://dmu5dlu8f4pxn" path="res://systems/system_manager.gd" id="1_o855j"]
+[ext_resource type="Script" uid="uid://c2xmpue80gfjg" path="res://systems/input_system/input_system.gd" id="2_wbmq8"]
+[ext_resource type="Script" uid="uid://chqtvbgywsaq1" path="res://systems/tool_system/tool_system.gd" id="4_30wyy"]
+[ext_resource type="Script" uid="uid://b72l784w0wx8u" path="res://systems/canvas_system/canvas_system.gd" id="5_0e3a4"]
+[ext_resource type="Script" uid="uid://d2d556elibf6x" path="res://systems/file_system/file_system.gd" id="7_efjkt"]
+[ext_resource type="Script" uid="uid://6i0srxwhddqa" path="res://systems/undo_redo_system.gd" id="9_r8ait"]
+[ext_resource type="Script" uid="uid://bg8os0pwxoqdg" path="res://systems/popup_system.gd" id="10_hjs4p"]
+[ext_resource type="Script" uid="uid://ban0u06ldcslg" path="res://systems/user_system/user_system.gd" id="11_7gdlc"]
+[ext_resource type="Resource" uid="uid://dg853k4cw4kd3" path="res://assets/resource/user_project_setting.tres" id="12_n5bbg"]
+
+[node name="SystemManager" type="Node"]
+script = ExtResource("1_o855j")
+
+[node name="UserSystem" type="Node" parent="."]
+script = ExtResource("11_7gdlc")
+project_setting = ExtResource("12_n5bbg")
+
+[node name="InputSystem" type="Node" parent="."]
+script = ExtResource("2_wbmq8")
+
+[node name="ToolSystem" type="Node" parent="."]
+script = ExtResource("4_30wyy")
+
+[node name="CanvasSystem" type="Node" parent="."]
+script = ExtResource("5_0e3a4")
+
+[node name="FileSystem" type="Node" parent="."]
+script = ExtResource("7_efjkt")
+
+[node name="UndoRedoSystem" type="Node" parent="."]
+script = ExtResource("9_r8ait")
+
+[node name="PopupSystem" type="Node" parent="."]
+script = ExtResource("10_hjs4p")

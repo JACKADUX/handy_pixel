@@ -1,0 +1,197 @@
+[gd_scene load_steps=13 format=3 uid="uid://bvf3lqvt6ku83"]
+
+[ext_resource type="Script" path="res://components/simple_color_picker/simple_color_picker.gd" id="1_k5wib"]
+[ext_resource type="Shader" path="res://components/simple_color_picker/resource/color_rect.gdshader" id="1_suah3"]
+[ext_resource type="Shader" path="res://components/simple_color_picker/resource/simple_color_picker_huebar.gdshader" id="2_jvm6d"]
+[ext_resource type="Texture2D" uid="uid://b5qx6rsvlx0lc" path="res://components/simple_color_picker/resource/CheckerboardMini.svg" id="3_2sfpe"]
+[ext_resource type="Script" path="res://components/simple_color_picker/handle_tracer.gd" id="3_ktg43"]
+[ext_resource type="Shader" path="res://components/simple_color_picker/resource/simple_color_picker_transparent.gdshader" id="3_pnl0p"]
+[ext_resource type="Texture2D" uid="uid://lh8f6nmjwo8u" path="res://components/simple_color_picker/resource/goback.png" id="7_3ut6l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uj22r"]
+resource_local_to_scene = true
+shader = ExtResource("1_suah3")
+shader_parameter/h = 1.0
+shader_parameter/s = 1.0
+shader_parameter/v = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8sbdb"]
+shader = ExtResource("2_jvm6d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nseh8"]
+shader = ExtResource("3_pnl0p")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nl764"]
+bg_color = Color(0.214844, 0.214844, 0.214844, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp4yo"]
+bg_color = Color(0.214844, 0.214844, 0.214844, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.952941, 0.94902, 0.960784, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SimpleColorPicker" type="MarginContainer"]
+offset_right = 184.0
+offset_bottom = 168.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_k5wib")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_uj22r")
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.483333, 1, 1)
+
+[node name="handle_tracer" type="Control" parent="VBoxContainer/HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+script = ExtResource("3_ktg43")
+
+[node name="ColorHueBar" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_8sbdb")
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="handle_tracer2" type="Control" parent="VBoxContainer/HBoxContainer/ColorHueBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ktg43")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_2sfpe")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="ColorTransparent" type="ColorRect" parent="VBoxContainer/HBoxContainer2/TextureRect"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_nseh8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="handle_tracer3" type="Control" parent="VBoxContainer/HBoxContainer2/TextureRect/ColorTransparent"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ktg43")
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("3_2sfpe")
+
+[node name="ColorFinal" type="ColorRect" parent="VBoxContainer/HBoxContainer2/TextureRect2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/caret_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_nl764")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rp4yo")
+placeholder_text = "# hex "
+alignment = 1
+max_length = 8
+context_menu_enabled = false
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer3"]
+visible = false
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_2sfpe")
+
+[node name="ColorPrev" type="ColorRect" parent="VBoxContainer/HBoxContainer3/TextureRect2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="ButtonGoBack" type="Button" parent="VBoxContainer/HBoxContainer3/TextureRect2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_colors/icon_normal_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/icon_pressed_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/icon_hover_color = Color(0.59375, 0.59375, 0.59375, 1)
+icon = ExtResource("7_3ut6l")
+flat = true

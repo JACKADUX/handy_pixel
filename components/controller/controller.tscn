@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1qoipohfm2n7"]
+
+[ext_resource type="Script" uid="uid://d34x5bknbhq88" path="res://components/controller/controller.gd" id="1_l76ue"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_25abj"]
+bg_color = Color(0.6, 0.6, 0.6, 0.113725)
+corner_radius_top_left = 500
+corner_radius_top_right = 500
+corner_radius_bottom_right = 500
+corner_radius_bottom_left = 500
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l76ue"]
+bg_color = Color(0.6, 0.6, 0.6, 0.94902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.425781, 0.425781, 0.425781, 1)
+corner_radius_top_left = 500
+corner_radius_top_right = 500
+corner_radius_bottom_right = 500
+corner_radius_bottom_left = 500
+
+[node name="Controller" type="Panel"]
+custom_minimum_size = Vector2(400, 400)
+offset_left = 115.0
+offset_top = 78.0
+offset_right = 515.0
+offset_bottom = 478.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_25abj")
+script = ExtResource("1_l76ue")
+
+[node name="Pointer" type="Panel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -66.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l76ue")

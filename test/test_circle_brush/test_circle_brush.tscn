@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://uy7sfdwdmtwf"]
+
+[ext_resource type="Script" uid="uid://b6tdla3vx5ase" path="res://test/test_circle_brush/test_circle_brush.gd" id="1_uth1n"]
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uth1n")
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_left = 253.0
+offset_top = 23.0
+offset_right = 423.0
+offset_bottom = 117.0
+min_value = 1.0
+max_value = 30.0
+value = 1.0
+rounded = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 747.0
+offset_top = 56.0
+offset_right = 929.0
+offset_bottom = 143.0
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 570.0
+offset_top = 16.0
+offset_right = 1217.0
+offset_bottom = 80.0
+value = 100.0
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]

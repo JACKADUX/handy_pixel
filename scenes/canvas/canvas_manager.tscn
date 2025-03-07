@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://hjp2wug037f7"]
+
+[ext_resource type="Script" uid="uid://dgwjv8hf67qj8" path="res://scenes/canvas/canvas_manager.gd" id="1_osm6k"]
+[ext_resource type="Script" uid="uid://b6hinq2ianxpr" path="res://scenes/canvas/checker_board.gd" id="2_bym0j"]
+[ext_resource type="Script" uid="uid://b257qy71ku835" path="res://scenes/canvas/canvas.gd" id="2_r06tu"]
+[ext_resource type="Script" uid="uid://c3mlepbqsg8oq" path="res://scenes/canvas/grid.gd" id="3_88g7m"]
+
+[node name="CanvasManager" type="Node2D"]
+script = ExtResource("1_osm6k")
+
+[node name="CheckerBoard" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_bym0j")
+
+[node name="Canvas" type="Node2D" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+script = ExtResource("2_r06tu")
+
+[node name="Grid" type="Node2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+script = ExtResource("3_88g7m")
+grid_color = Color(0.550781, 0.550781, 0.550781, 1)

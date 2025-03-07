@@ -1,0 +1,119 @@
+[gd_scene load_steps=4 format=3 uid="uid://bllt4mivxjyv6"]
+
+[ext_resource type="Script" uid="uid://cmm0rnfj5mvhw" path="res://systems/ui_system/modules/adapter/button_view_adapter.gd" id="1_y2jh3"]
+[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="2_fildv"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_fildv"]
+
+[node name="CanvasSpeedSelection" type="PanelContainer"]
+offset_right = 600.0
+offset_bottom = 108.0
+theme_type_variation = &"base_panel"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SpeedButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_tab_left"
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_fildv")
+text = ".25"
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton"]
+script = ExtResource("1_y2jh3")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = 0.25
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/SpeedButton/ButtonViewAdapter"]
+script = ExtResource("2_fildv")
+prop_name = "cursor_speed_factor"
+
+[node name="VSeparator3" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="SpeedButton2" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_tab"
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_fildv")
+text = ".5"
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton2"]
+script = ExtResource("1_y2jh3")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = 0.5
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/SpeedButton2/ButtonViewAdapter"]
+script = ExtResource("2_fildv")
+prop_name = "cursor_speed_factor"
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="SpeedButton3" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_tab"
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_fildv")
+text = ".75"
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton3"]
+script = ExtResource("1_y2jh3")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = 0.75
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/SpeedButton3/ButtonViewAdapter"]
+script = ExtResource("2_fildv")
+prop_name = "cursor_speed_factor"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="SpeedButton4" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_tab_right"
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_fildv")
+text = "1x"
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton4"]
+script = ExtResource("1_y2jh3")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = 1.0
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/SpeedButton4/ButtonViewAdapter"]
+script = ExtResource("2_fildv")
+prop_name = "cursor_speed_factor"

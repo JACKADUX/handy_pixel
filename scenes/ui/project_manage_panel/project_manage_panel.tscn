@@ -1,0 +1,83 @@
+[gd_scene load_steps=7 format=3 uid="uid://slkcdtbcptrs"]
+
+[ext_resource type="Script" uid="uid://cftgg2refn6j6" path="res://scenes/ui/project_manage_panel/project_manage_panel.gd" id="1_fg41p"]
+[ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="1_mv0x6"]
+[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="2_fg41p"]
+[ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_ktu8b"]
+[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="6_3a5jn"]
+[ext_resource type="PackedScene" uid="uid://bo4ekf0ypdo1f" path="res://components/card/card.tscn" id="6_ktu8b"]
+
+[node name="ProjectManagePanel" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_fg41p")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_type_variation = &"btn_middle"
+icon = ExtResource("2_ktu8b")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"label_title"
+text = "HandyPixel"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+script = ExtResource("1_mv0x6")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ContainerAgent" type="Node" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer" node_paths=PackedStringArray("container")]
+unique_name_in_owner = true
+script = ExtResource("2_fg41p")
+container = NodePath("../HFlowContainer")
+metadata/_custom_type_script = "uid://200q1ddqwf1s"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 48
+
+[node name="Card" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/HFlowContainer" instance=ExtResource("6_ktu8b")]
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/HFlowContainer/Card"]
+script = ExtResource("6_3a5jn")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"

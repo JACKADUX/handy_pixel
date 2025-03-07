@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dofr3x3sa4jvf"]
+
+[ext_resource type="Script" uid="uid://df67g4d5m3wlj" path="res://test/test_compute_shader/test_compute_shader.gd" id="1_j0v0n"]
+
+[node name="test_compute_shader" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j0v0n")

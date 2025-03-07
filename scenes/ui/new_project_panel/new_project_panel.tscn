@@ -1,0 +1,333 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlcwld5qjara0"]
+
+[ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="1_1yl1e"]
+[ext_resource type="Script" uid="uid://bi4cr2xrsjxhg" path="res://scenes/ui/new_project_panel/new_project_panel.gd" id="1_hklw0"]
+[ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_wxudy"]
+[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="2_xrq2b"]
+[ext_resource type="Script" uid="uid://bhpvvy2ijc6fr" path="res://scenes/ui/components/widget_value_combiner.gd" id="3_wxudy"]
+[ext_resource type="Script" uid="uid://cmm0rnfj5mvhw" path="res://systems/ui_system/modules/adapter/button_view_adapter.gd" id="4_thngy"]
+[ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/icons/CheckerboardMini.svg" id="4_wxudy"]
+[ext_resource type="Texture2D" uid="uid://ehh751hrv2c0" path="res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="5_thngy"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_xrq2b"]
+
+[node name="NewProjectPanel" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_hklw0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 96
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 96
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_type_variation = &"btn_middle"
+icon = ExtResource("2_wxudy")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"label_title"
+theme_override_font_sizes/font_size = 66
+text = "New Canvas"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 76
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "8x8"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(8, 8)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="Button6" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "16"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(16, 16)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "32"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(32, 32)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "64"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(64, 64)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "128"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(128, 128)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="Button5" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "256"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(256, 256)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="WidgetValueCombiner" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("widgets")]
+script = ExtResource("3_wxudy")
+value_type = "Vector2"
+widgets = [NodePath("../CustomSpinBoxWidget"), NodePath("../CustomSpinBoxWidget2")]
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3/WidgetValueCombiner"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="CustomSpinBoxWidget" parent="MarginContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_1yl1e")]
+custom_minimum_size = Vector2(400, 140)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+widget_layout_mode = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+theme_type_variation = &"label_sub_title"
+text = " W"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"label_small"
+text = "x"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_type_variation = &"label_sub_title"
+text = "H"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CustomSpinBoxWidget2" parent="MarginContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_1yl1e")]
+custom_minimum_size = Vector2(400, 140)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+widget_layout_mode = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_constants/separation = 65
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_xrq2b")
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Color(1, 1, 1, 0)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_bg_color"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_wxudy")
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_xrq2b")
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Color(1, 1, 1, 1)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_bg_color"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2/MarginContainer2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_xrq2b")
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Color(0, 0, 0, 1)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_bg_color"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3/MarginContainer3"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.0507813, 0.0507813, 0.0507813, 1)
+
+[node name="OkButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 140)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme_type_variation = &"btn_middle"
+icon = ExtResource("5_thngy")
+icon_alignment = 1
+expand_icon = true

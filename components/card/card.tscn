@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://bo4ekf0ypdo1f"]
+
+[ext_resource type="Script" uid="uid://oofrgxwggij1" path="res://components/card/card.gd" id="1_5577b"]
+[ext_resource type="Texture2D" uid="uid://bigvirwet4qta" path="res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_0nrb3"]
+[ext_resource type="Script" uid="uid://bmw0ca3ottv5s" path="res://components/card/button_animation_reactor.gd" id="2_hk754"]
+[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="4_in8cv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_in8cv"]
+bg_color = Color(0.203125, 0.203125, 0.203125, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Card" type="Button"]
+custom_minimum_size = Vector2(288, 288)
+offset_right = 288.0
+offset_bottom = 288.0
+theme_type_variation = &"btn_middle"
+script = ExtResource("1_5577b")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 282.0
+offset_bottom = 282.0
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+clip_children = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_in8cv")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="ButtonAnimationReactor" type="Node" parent="MarginContainer/Panel/TextureRect" node_paths=PackedStringArray("button")]
+script = ExtResource("2_hk754")
+button = NodePath("../../../..")
+
+[node name="Temp" type="TextureRect" parent="."]
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = -80.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_0nrb3")
+stretch_mode = 5
+
+[node name="FPWS" type="Node" parent="Temp"]
+script = ExtResource("4_in8cv")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"

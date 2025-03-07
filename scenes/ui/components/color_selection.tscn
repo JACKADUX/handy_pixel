@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://xwf3y70npyiy"]
+
+[ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
+[ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="3_p1kuo"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="4_jk00k"]
+[ext_resource type="ColorPalette" uid="uid://ehfk38ns2o4y" path="res://assets/color_palette/default_palette.tres" id="5_5nw6s"]
+[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="6_rb5g8"]
+[ext_resource type="Script" uid="uid://cmhg4lfb44m08" path="res://components/color_panel/color_panel.gd" id="7_2qx2g"]
+[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="8_x70kc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0iskg"]
+bg_color = Color(0.230469, 0.230469, 0.230469, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ColorSelection" type="VBoxContainer"]
+offset_right = 452.0
+offset_bottom = 400.0
+size_flags_vertical = 3
+
+[node name="ColorSelectionHandler" type="Node" parent="." node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("1_o3am5")
+color_palette_generator = NodePath("../ScrollContainer/ColorPaletteGenerator")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="ScrollContainer"]
+script = ExtResource("3_p1kuo")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="ScrollContainer" node_paths=PackedStringArray("container_agent")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("4_jk00k")
+default_palette = ExtResource("5_5nw6s")
+container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("6_rb5g8")
+container = NodePath("../PanelContainer/HFlowContainer")
+metadata/_custom_type_script = "uid://200q1ddqwf1s"
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/ColorPaletteGenerator"]
+clip_children = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0iskg")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="ColorPanel" type="Panel" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer/ColorPanel"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel2" type="Panel" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer/ColorPanel2"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel3" type="Panel" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer/ColorPanel3"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel4" type="Panel" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer/ColorPanel4"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"

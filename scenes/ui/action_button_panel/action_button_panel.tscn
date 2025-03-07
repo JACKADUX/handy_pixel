@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3u6qya6ghxee"]
+
+[ext_resource type="Script" uid="uid://bwiy73rw8u5y" path="res://scenes/ui/action_button_panel/action_button_panel.gd" id="1_6to04"]
+[ext_resource type="PackedScene" uid="uid://8vx5t34tn6qi" path="res://scenes/ui/action_button_panel/touch_action_button.tscn" id="2_nvoxd"]
+[ext_resource type="Script" uid="uid://cohsm4kdgnn5y" path="res://scenes/ui/radio_container.gd" id="5_qi656"]
+
+[node name="ActionButtonPanel" type="MarginContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -624.0
+offset_top = -624.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 192
+theme_override_constants/margin_top = 192
+theme_override_constants/margin_right = 192
+theme_override_constants/margin_bottom = 192
+script = ExtResource("1_6to04")
+mode = 2
+
+[node name="TouchActionButton0" parent="." instance=ExtResource("2_nvoxd")]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+
+[node name="RadioContainer" type="Container" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_qi656")
+radius = 280
+start_angle = 290
+end_angle = 160
+center_offset = Vector2(140, 140)
+metadata/_custom_type_script = ExtResource("5_qi656")
+
+[node name="TouchActionButton1" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+layout_mode = 2
+
+[node name="TouchActionButton2" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+layout_mode = 2
+
+[node name="TouchActionButton3" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+layout_mode = 2
+
+[node name="TouchActionButton4" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+layout_mode = 2

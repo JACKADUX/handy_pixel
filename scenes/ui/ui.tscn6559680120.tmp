@@ -1,0 +1,594 @@
+[gd_scene load_steps=42 format=3 uid="uid://ohii5c0hg52f"]
+
+[ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
+[ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
+[ext_resource type="Texture2D" uid="uid://ial5yrs25q7o" path="res://assets/icons/center_focus_strong_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_svq4k"]
+[ext_resource type="Texture2D" uid="uid://cgivrten675yv" path="res://assets/icons/grid_on_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="3_ygedu"]
+[ext_resource type="Texture2D" uid="uid://coh824dck7bo5" path="res://assets/icons/tamper_detection_on_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="4_oopc8"]
+[ext_resource type="Texture2D" uid="uid://6iiofphia8k0" path="res://assets/icons/menu_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_qmss2"]
+[ext_resource type="Texture2D" uid="uid://edhlck68enk2" path="res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="6_26a3v"]
+[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="6_vnqvi"]
+[ext_resource type="Texture2D" uid="uid://b0mh7sckahgcr" path="res://assets/icons/speed_1x_mobiledata_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="7_vnqvi"]
+[ext_resource type="Texture2D" uid="uid://jee4sb51g5mu" path="res://assets/icons/lasso_select_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="8_o71gb"]
+[ext_resource type="Script" uid="uid://cfpokx3k1uwdc" path="res://components/popup_arrow_panel_manager/popup_arrow_helper.gd" id="8_qmss2"]
+[ext_resource type="PackedScene" uid="uid://bllt4mivxjyv6" path="res://scenes/ui/components/canvas_speed_selection.tscn" id="9_26a3v"]
+[ext_resource type="Script" uid="uid://cuxcltq10tp26" path="res://scenes/ui/components/canvas_speed_handler.gd" id="10_26a3v"]
+[ext_resource type="Texture2D" uid="uid://dwdlss7eew5ha" path="res://assets/icons/stacks_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="13_vnqvi"]
+[ext_resource type="Texture2D" uid="uid://b66sa50fjhg6n" path="res://assets/icons/palette_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="14_7ygsn"]
+[ext_resource type="PackedScene" uid="uid://bwlq377qokg4n" path="res://scenes/ui/components/pen_attribute_panel.tscn" id="15_7ygsn"]
+[ext_resource type="PackedScene" uid="uid://xwf3y70npyiy" path="res://scenes/ui/components/color_selection.tscn" id="15_oopc8"]
+[ext_resource type="Texture2D" uid="uid://s2gp8byvgypg" path="res://assets/icons/polyline_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="16_272wc"]
+[ext_resource type="Script" uid="uid://bq16oqrhtgqyw" path="res://scenes/ui/active_tool_requester.gd" id="16_ydrdt"]
+[ext_resource type="Texture2D" uid="uid://de4mcswg5yniu" path="res://assets/icons/undo_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="17_o2sfg"]
+[ext_resource type="Script" uid="uid://c0npy70wkohae" path="res://scenes/ui/components/focus_scaler.gd" id="17_vnqvi"]
+[ext_resource type="Texture2D" uid="uid://dptt5y5o5csbh" path="res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="18_lkvmi"]
+[ext_resource type="Texture2D" uid="uid://ctlleuv8rr23x" path="res://assets/icons/redo_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="18_yy7ol"]
+[ext_resource type="Script" uid="uid://44t5s5ettca4" path="res://scenes/ui/components/active_color_apply.gd" id="20_fv78h"]
+[ext_resource type="Script" uid="uid://uiaimvrdcyin" path="res://scenes/ui/components/undo_redo_handler.gd" id="21_fv78h"]
+[ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="22_o71gb"]
+[ext_resource type="Script" uid="uid://bdwl1eq16j7h8" path="res://scenes/ui/components/canvas_cell_pos_handler.gd" id="24_o71gb"]
+[ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="26_en2kd"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="26_yy7ol"]
+[ext_resource type="Shader" uid="uid://cr25vi0osd8os" path="res://assets/shader/invert_color.gdshader" id="27_67jad"]
+[ext_resource type="PackedScene" uid="uid://slkcdtbcptrs" path="res://scenes/ui/project_manage_panel/project_manage_panel.tscn" id="27_en2kd"]
+[ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
+[ext_resource type="Script" uid="uid://xh36m7lqsdxt" path="res://scenes/ui/history_color_palette.gd" id="28_272wc"]
+[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="29_lkvmi"]
+[ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="29_yy7ol"]
+[ext_resource type="Script" uid="uid://cmhg4lfb44m08" path="res://components/color_panel/color_panel.gd" id="30_67jad"]
+[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="31_0xdx3"]
+[ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/ui/new_project_panel/new_project_panel.tscn" id="31_272wc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atqe7"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0xdx3"]
+shader = ExtResource("27_67jad")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0kyo"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.105469, 0.105469, 0.105469, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_fqqne")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MainPanel"]
+layout_mode = 2
+
+[node name="TopBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="HomeButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("1_4w2x3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="CenterViewButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("2_svq4k")
+icon_alignment = 1
+expand_icon = true
+
+[node name="InputActionRequester" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/CenterViewButton"]
+script = ExtResource("22_o71gb")
+action_name = "action_center_view"
+
+[node name="GridVisibleButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+toggle_mode = true
+icon = ExtResource("3_ygedu")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ProjectSettingController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/GridVisibleButton"]
+script = ExtResource("6_vnqvi")
+prop_name = "grid_visible"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="FollowCameraButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+toggle_mode = true
+icon = ExtResource("4_oopc8")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ProjectSettingController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/FollowCameraButton"]
+script = ExtResource("6_vnqvi")
+prop_name = "follow_camera"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="SpeedButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("7_vnqvi")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
+script = ExtResource("8_qmss2")
+popup_panel = ExtResource("9_26a3v")
+popup_side = 3
+
+[node name="CanvasSpeedHandler" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
+script = ExtResource("10_26a3v")
+
+[node name="MenuButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+disabled = true
+icon = ExtResource("5_qmss2")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MiddleBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftBar" type="VBoxContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Sep" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+layout_mode = 2
+
+[node name="PenButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("6_26a3v")
+icon_alignment = 1
+expand_icon = true
+
+[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+script = ExtResource("17_vnqvi")
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+script = ExtResource("8_qmss2")
+popup_panel = ExtResource("15_7ygsn")
+popup_side = 2
+panel_offset = Vector2(0, 100)
+
+[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+script = ExtResource("16_ydrdt")
+tool_name = "pencil"
+
+[node name="SelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("8_o71gb")
+icon_alignment = 1
+expand_icon = true
+
+[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+script = ExtResource("17_vnqvi")
+
+[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+script = ExtResource("16_ydrdt")
+tool_name = "selection_tool"
+
+[node name="TransformButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon = ExtResource("18_lkvmi")
+icon_alignment = 1
+expand_icon = true
+
+[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
+script = ExtResource("17_vnqvi")
+
+[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
+script = ExtResource("16_ydrdt")
+tool_name = "transform_tool"
+
+[node name="Button" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+disabled = true
+icon = ExtResource("16_272wc")
+icon_alignment = 1
+expand_icon = true
+
+[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/Button"]
+script = ExtResource("17_vnqvi")
+
+[node name="Control" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="RightBar" type="VBoxContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Sep" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
+layout_mode = 2
+
+[node name="LayerButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+disabled = true
+icon = ExtResource("13_vnqvi")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ColorSelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"btn_middle"
+icon_alignment = 1
+expand_icon = true
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+script = ExtResource("8_qmss2")
+popup_panel = ExtResource("15_oopc8")
+
+[node name="TextureRect2" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+modulate = Color(0.196078, 0.192157, 0.176471, 1)
+layout_mode = 2
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 83.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.06, 1.06)
+mouse_filter = 2
+texture = ExtResource("14_7ygsn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 80.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("14_7ygsn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ActiveColorApply" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/TextureRect"]
+script = ExtResource("20_fv78h")
+
+[node name="BottomBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="UndoRedoHandler" type="Node" parent="Control/MainPanel/VBoxContainer/BottomBar" node_paths=PackedStringArray("undo_button", "redo_button")]
+script = ExtResource("21_fv78h")
+undo_button = NodePath("../UndoButton")
+redo_button = NodePath("../RedoButton")
+
+[node name="UndoButton" type="Button" parent="Control/MainPanel/VBoxContainer/BottomBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_middle"
+theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
+disabled = true
+icon = ExtResource("17_o2sfg")
+icon_alignment = 2
+expand_icon = true
+
+[node name="RedoButton" type="Button" parent="Control/MainPanel/VBoxContainer/BottomBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"btn_middle"
+theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
+disabled = true
+icon = ExtResource("18_yy7ol")
+expand_icon = true
+
+[node name="HoverPanel" type="Control" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="CellPositionLabel" type="Label" parent="Control/HoverPanel"]
+modulate = Color(1, 1, 1, 0.94902)
+material = SubResource("ShaderMaterial_0xdx3")
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -176.0
+offset_right = 176.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme_type_variation = &"label_small"
+text = "(88, 88)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CanvasCellPosHandler" type="Node" parent="Control/HoverPanel/CellPositionLabel"]
+script = ExtResource("24_o71gb")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="Control/HoverPanel" node_paths=PackedStringArray("container_agent")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -188.0
+offset_bottom = 508.0
+grow_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 76
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 16
+script = ExtResource("26_yy7ol")
+container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="HistoryColorPalette" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("28_272wc")
+color_palette_generator = NodePath("..")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("29_lkvmi")
+container = NodePath("../HFlowContainer")
+metadata/_custom_type_script = "uid://200q1ddqwf1s"
+
+[node name="ColorSelectionHandler" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("29_yy7ol")
+color_palette_generator = NodePath("..")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Control/HoverPanel/ColorPaletteGenerator"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+alignment = 1
+
+[node name="ColorPanel" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
+script = ExtResource("30_67jad")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel2" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
+script = ExtResource("30_67jad")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel2"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel3" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
+script = ExtResource("30_67jad")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel3"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel4" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
+script = ExtResource("30_67jad")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel4"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel5" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
+script = ExtResource("30_67jad")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel5"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ProjectManagePanel" parent="Control" instance=ExtResource("27_en2kd")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="NewProjectPanel" parent="Control" instance=ExtResource("31_272wc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="PopupArrowPanelManager" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("27_khplb")
+
+[node name="PopupArrowPanel" parent="PopupArrowPanelManager" instance_placeholder="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn"]
+offset_left = 1175.0
+offset_top = 114.0
+offset_right = 1175.0
+offset_bottom = 114.0
+
+[node name="ActionButtonPanel" parent="." instance=ExtResource("26_en2kd")]
+visible = false
+layout_mode = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="MainCanvasArea2" type="ReferenceRect" parent="ReferenceRect"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_width = 2.0
+
+[node name="MainCanvasArea3" type="ReferenceRect" parent="ReferenceRect"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_width = 2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ReferenceRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 104
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 104
+
+[node name="MainCanvasArea" type="ReferenceRect" parent="ReferenceRect/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+border_color = Color(0.213806, 0.537856, 0.882813, 1)
+border_width = 2.0

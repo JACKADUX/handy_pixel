@@ -6,6 +6,18 @@ extends Control
 
 @onready var main_panel: PanelContainer = %MainPanel
 
+var free_panel_on_hide := false
+var _tri_start_pos : Vector2
+var _tri_2_start_pos : Vector2
+
+func _ready() -> void:
+	visibility_changed.connect(func():
+		if not visible and free_panel_on_hide:
+			queue_free()
+	)
+	_tri_start_pos = triangle.position
+	_tri_2_start_pos = triangle_2.position
+
 func add_panel(control:Control):
 	margin_container.add_child(control)
 
@@ -13,8 +25,8 @@ func set_popup_side(side:Side, panel_offset):
 	triangle.rotation_degrees = 90 *(1 + int(side))
 	triangle_2.rotation_degrees = triangle.rotation_degrees
 	#var ofs = Vector2.from_angle(PI*0.5*int(side))*24
-	triangle.position += panel_offset
-	triangle_2.position += panel_offset
+	triangle.position = _tri_start_pos + panel_offset
+	triangle_2.position = _tri_2_start_pos + panel_offset
 	
 	match side:
 		SIDE_LEFT:

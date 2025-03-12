@@ -11,7 +11,7 @@ var project_datas := []
 
 var project_cover_size := 256
 
-var _active_image_layers: ImageLayers
+var project_controller := ProjectController.new()
 
 func system_initialize():
 	DirAccess.make_dir_recursive_absolute(files_path)
@@ -20,7 +20,6 @@ func system_initialize():
 	db_system.load_data_requested.connect(func():
 		project_cover_size = db_system.get_project_setting("project_cover_size", 256)
 		load_data(db_system.get_data("ProjectSystem", {}))
-		
 		if not project_datas:
 			active_project_id = new_project("未命名")
 		elif not active_project_id:
@@ -30,7 +29,7 @@ func system_initialize():
 	)
 	db_system.save_data_requested.connect(func():
 		if active_project_id:
-			save_project_image_layers(active_project_id, get_active_image_layers())
+			save_project_image_layers(active_project_id, project_controller.get_image_layers())
 		db_system.set_project_setting("project_cover_size", project_cover_size)
 		db_system.set_data("ProjectSystem", save_data())
 	)
@@ -83,14 +82,12 @@ func new_project(name:="", p_canvas_size:=Vector2i(32, 32), color:=Color.TRANSPA
 	project_datas_changed.emit()
 	return id
 
-func get_active_image_layers() -> ImageLayers:
-	return _active_image_layers
-
 func set_active_project(id:String):
+	var _active_image_layers = project_controller.get_image_layers()
 	if active_project_id and _active_image_layers:
 		save_project_image_layers(active_project_id, _active_image_layers)
 	active_project_id = id
-	_active_image_layers = load_project_image_layers(active_project_id)
+	project_controller.action_init_with(load_project_image_layers(active_project_id))
 	active_project_changed.emit()
 		
 func load_project_image_layers(id:String) -> ImageLayers:

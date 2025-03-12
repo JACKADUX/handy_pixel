@@ -39,6 +39,7 @@ project/assembly_name="随手像素"
 
 folder_colors={
 "res://assets/": "yellow",
+"res://model/": "blue",
 "res://systems/": "purple",
 "res://test/": "red"
 }

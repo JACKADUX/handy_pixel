@@ -18,10 +18,9 @@ var _outline : PackedVector2Array
 
 var _pen_shape_cursor :PenShapeCursor
 
-var _draw_dirty := false
 var _color_image_color :Color
 var _color_image = Image.new()
-var _prev_action = ""
+var _cache_cell_pos := Vector2i(INF,INF)
 
 
 ## OVERRIDE ---------------------------------------------------------------------------------------- 
@@ -61,42 +60,47 @@ func _handle_value_changed(prop_name:String, value:Variant):
 		"pen_shape":
 			_color_image = get_alpha_image().duplicate()
 			_color_image.fill(active_color)
-		"cursor_position":
-			_draw_dirty = true
+		
 	super(prop_name, value)
 
+
+		
+func _on_action_just_pressed(action:String):
+	_cache_cell_pos = Vector2i(INF,INF)
+	SystemManager.project_system.project_controller.action_blit_image_start()
+	
+func _on_action_just_released(action:String):
+	SystemManager.project_system.project_controller.action_blit_image_end()
+	
 func _on_action_pressed(action:String):
-	if _prev_action != action:
-		_prev_action = action
-		_draw_dirty = true
 	var active_color = SystemManager.color_system.active_color
 	match action:
 		ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			draw_to_image(active_color)
+			action_draw(active_color)
 		ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			draw_to_image(Color.TRANSPARENT)
+			action_draw(Color.TRANSPARENT)
 		PencilTool.ACTION_DRAW_COLOR:
-			draw_to_image(active_color)
+			action_draw(active_color)
 		EraserTool.ACTION_ERASE_COLOR:
-			draw_to_image(Color.TRANSPARENT)
+			action_draw(Color.TRANSPARENT)
 		ToolSystem.ACTION_PICK_COLOR:
 			#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
 			pass
 		ToolSystem.ACTION_FILL_COLOR:
-			canvas_data.fill_color_alg(cell_pos_floor, active_color)
+			pass
+			#canvas_data.fill_color_alg(cell_pos_floor, active_color)
 
-## MAIN -------------------------------------------------------------------------------------------- 
-func draw_to_image(color:Color):
-	if not _draw_dirty:
-		return 
-	_draw_dirty = false
+
+func action_draw(color:Color):
 	var cell_pos = get_draw_cell_pos(cell_pos_round, cell_pos_floor)
+	if _cache_cell_pos == cell_pos:
+		return 
+	_cache_cell_pos = cell_pos
 	var alpha_image :Image = get_alpha_image()
 	if _color_image_color != color:
 		_color_image_color = color
 		_color_image.fill(color)
-		
-	canvas_data.bilt_image(_color_image, alpha_image, cell_pos)
+	SystemManager.project_system.project_controller.action_blit_image(_color_image, alpha_image, cell_pos)
 
 
 ## Utils -------------------------------------------------------------------------------------------- 

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://chqtvbgywsaq1" path="res://systems/tool_system/tool_system.gd" id="4_30wyy"]
 [ext_resource type="Script" uid="uid://b72l784w0wx8u" path="res://systems/canvas_system/canvas_system.gd" id="5_0e3a4"]
 [ext_resource type="Script" uid="uid://g1jhtmr7lrpv" path="res://systems/color_system/color_system.gd" id="7_r8ait"]
-[ext_resource type="Script" uid="uid://6i0srxwhddqa" path="res://systems/undo_redo_system.gd" id="9_r8ait"]
+[ext_resource type="Script" uid="uid://6i0srxwhddqa" path="res://systems/undoredo_system/undoredo_system.gd" id="9_r8ait"]
 [ext_resource type="Script" uid="uid://bg8os0pwxoqdg" path="res://systems/ui_system/ui_system.gd" id="10_hjs4p"]
 
 [node name="SystemManager" type="Node"]

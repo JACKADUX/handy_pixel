@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=46 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://bllt4mivxjyv6" path="res://scenes/ui/components/canvas_speed_selection.tscn" id="9_26a3v"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="9_y0kyo"]
 [ext_resource type="Script" uid="uid://cuxcltq10tp26" path="res://scenes/ui/components/canvas_speed_handler.gd" id="10_26a3v"]
-[ext_resource type="Texture2D" uid="uid://dwdlss7eew5ha" path="res://assets/icons/stacks_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="13_vnqvi"]
 [ext_resource type="Texture2D" uid="uid://b66sa50fjhg6n" path="res://assets/icons/palette_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="14_7ygsn"]
 [ext_resource type="PackedScene" uid="uid://bwlq377qokg4n" path="res://scenes/ui/components/pen_attribute_panel.tscn" id="15_7ygsn"]
 [ext_resource type="PackedScene" uid="uid://xwf3y70npyiy" path="res://scenes/ui/components/color_selection.tscn" id="15_oopc8"]
@@ -28,6 +27,8 @@
 [ext_resource type="Script" uid="uid://44t5s5ettca4" path="res://scenes/ui/components/active_color_apply.gd" id="20_fv78h"]
 [ext_resource type="Script" uid="uid://uiaimvrdcyin" path="res://scenes/ui/components/undo_redo_handler.gd" id="21_fv78h"]
 [ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="22_o71gb"]
+[ext_resource type="Texture2D" uid="uid://bowbyjxsiwwl1" path="res://assets/icons/stacks_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="22_pa3n2"]
+[ext_resource type="PackedScene" uid="uid://c6y6t0ckd1yaa" path="res://scenes/ui/image_layers_ui/image_layers_ui.tscn" id="23_pa3n2"]
 [ext_resource type="Script" uid="uid://bdwl1eq16j7h8" path="res://scenes/ui/components/canvas_cell_pos_handler.gd" id="24_o71gb"]
 [ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="26_en2kd"]
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="26_yy7ol"]
@@ -40,6 +41,7 @@
 [ext_resource type="Script" uid="uid://cmhg4lfb44m08" path="res://components/color_panel/color_panel.gd" id="30_67jad"]
 [ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/ui/new_project_panel/new_project_panel.tscn" id="31_272wc"]
+[ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atqe7"]
 content_margin_left = 16.0
@@ -191,7 +193,7 @@ expand_icon = true
 
 [node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
 script = ExtResource("8_qmss2")
-popup_panel = ExtResource("9_26a3v")
+popup_panel_scene = ExtResource("9_26a3v")
 popup_side = 3
 
 [node name="CanvasSpeedHandler" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
@@ -234,7 +236,7 @@ script = ExtResource("17_vnqvi")
 
 [node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 script = ExtResource("8_qmss2")
-popup_panel = ExtResource("15_7ygsn")
+popup_panel_scene = ExtResource("15_7ygsn")
 popup_side = 2
 panel_offset = Vector2(0, 100)
 
@@ -308,10 +310,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"btn_middle"
-disabled = true
-icon = ExtResource("13_vnqvi")
+icon = ExtResource("22_pa3n2")
 icon_alignment = 1
 expand_icon = true
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton"]
+script = ExtResource("8_qmss2")
+popup_panel_scene = ExtResource("23_pa3n2")
+panel_offset = Vector2(0, 200)
 
 [node name="ColorSelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
 custom_minimum_size = Vector2(96, 96)
@@ -324,7 +330,8 @@ expand_icon = true
 
 [node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
 script = ExtResource("8_qmss2")
-popup_panel = ExtResource("15_oopc8")
+popup_panel_scene = ExtResource("15_oopc8")
+panel_offset = Vector2(0, 90)
 
 [node name="TextureRect2" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
 modulate = Color(0.196078, 0.192157, 0.176471, 1)
@@ -543,11 +550,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("27_khplb")
 
-[node name="PopupArrowPanel" parent="PopupArrowPanelManager" instance_placeholder="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn"]
+[node name="PopupArrowPanel" parent="PopupArrowPanelManager" instance=ExtResource("41_lw3t2")]
 offset_left = 1175.0
 offset_top = 114.0
 offset_right = 1175.0
 offset_bottom = 114.0
+
+[node name="FPWS" type="Node" parent="PopupArrowPanelManager/PopupArrowPanel"]
+script = ExtResource("31_0xdx3")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
 [node name="ActionButtonPanel" parent="." instance=ExtResource("26_en2kd")]
 visible = false

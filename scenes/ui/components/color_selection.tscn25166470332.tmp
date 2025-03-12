@@ -1,0 +1,166 @@
+[gd_scene load_steps=10 format=3 uid="uid://xwf3y70npyiy"]
+
+[ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
+[ext_resource type="PackedScene" uid="uid://bvf3lqvt6ku83" path="res://components/simple_color_picker/simple_color_picker.tscn" id="2_o3am5"]
+[ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="3_p1kuo"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="4_jk00k"]
+[ext_resource type="ColorPalette" uid="uid://ehfk38ns2o4y" path="res://assets/color_palette/default_palette.tres" id="5_5nw6s"]
+[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="6_rb5g8"]
+[ext_resource type="Script" uid="uid://cmhg4lfb44m08" path="res://components/color_panel/color_panel.gd" id="7_2qx2g"]
+[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="8_x70kc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0iskg"]
+bg_color = Color(0.230469, 0.230469, 0.230469, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ColorSelection" type="VBoxContainer"]
+offset_right = 452.0
+offset_bottom = 400.0
+size_flags_vertical = 3
+
+[node name="ColorSelectionHandler" type="Node" parent="." node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("1_o3am5")
+color_palette_generator = NodePath("../HBoxContainer/ScrollContainer/ColorPaletteGenerator")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="SimpleColorPicker" parent="HBoxContainer" instance=ExtResource("2_o3am5")]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="HBoxContainer/ScrollContainer"]
+script = ExtResource("3_p1kuo")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="HBoxContainer/ScrollContainer" node_paths=PackedStringArray("container_agent")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 16
+script = ExtResource("4_jk00k")
+default_palette = ExtResource("5_5nw6s")
+container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("6_rb5g8")
+container = NodePath("../PanelContainer/HFlowContainer")
+metadata/_custom_type_script = "uid://200q1ddqwf1s"
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/ScrollContainer/ColorPaletteGenerator"]
+clip_children = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0iskg")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/ScrollContainer/ColorPaletteGenerator/PanelContainer"]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="ColorPanel" type="Panel" parent="HBoxContainer/ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/ScrollContainer/ColorPaletteGenerator/PanelContainer/HFlowContainer/ColorPanel"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer2"]
+layout_mode = 2
+text = "RGB"
+
+[node name="Button2" type="Button" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "R"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "R"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "R"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorPanel" type="Panel" parent="HBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer3/ColorPanel"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel2" type="Panel" parent="HBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_2qx2g")
+color = Color(0.206055, 0.476501, 0.824219, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer3/ColorPanel2"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"

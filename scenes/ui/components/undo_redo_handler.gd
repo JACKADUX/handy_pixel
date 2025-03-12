@@ -6,15 +6,15 @@ extends Node
 
 
 func _ready() -> void:
-	SystemManager.undo_redo_system.undoredo.version_changed.connect(update)
+	SystemManager.undoredo_system.undoredo_changed.connect(update)
 	undo_button.pressed.connect(func():
-		SystemManager.undo_redo_system.undo()
+		SystemManager.undoredo_system.undo()
 	)
 	redo_button.pressed.connect(func():
-		SystemManager.undo_redo_system.redo()
+		SystemManager.undoredo_system.redo()
 	)
 	update()
 	
 func update():
-	undo_button.disabled = not SystemManager.undo_redo_system.undoredo.has_undo()
-	redo_button.disabled = not SystemManager.undo_redo_system.undoredo.has_redo()
+	undo_button.disabled = not SystemManager.undoredo_system.undoredo.has_undo()
+	redo_button.disabled = not SystemManager.undoredo_system.undoredo.has_redo()

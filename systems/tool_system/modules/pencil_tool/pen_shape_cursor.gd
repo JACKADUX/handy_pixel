@@ -5,8 +5,6 @@ var tool :PencilTool
 
 const OUTLINE = preload("res://assets/shader/inline.gdshader")
 
-var image_texture := ImageTexture.new()
-
 func init_with_tool(p_tool:PencilTool):
 	tool = p_tool
 	tool.property_updated.connect(func(prop_name:String, value):
@@ -19,7 +17,7 @@ func init_with_tool(p_tool:PencilTool):
 				update_texture()
 				_align_center()
 			"pen_shape":
-				texture = ImageTexture.create_from_image(tool.get_alpha_image())
+				texture.set_image(tool.get_alpha_image())
 				update_texture()
 				_align_center()
 	)
@@ -32,7 +30,7 @@ func init_with_tool(p_tool:PencilTool):
 	
 	var cell_size = SystemManager.canvas_system.cell_size
 	scale = Vector2.ONE*cell_size
-	texture = image_texture
+	texture = ImageTexture.new()
 	var mat = ShaderMaterial.new()
 	mat.shader = OUTLINE
 	mat.set_shader_parameter("line_scale", 1.0/cell_size)
@@ -48,10 +46,10 @@ func init_with_tool(p_tool:PencilTool):
 
 func update_texture():
 	var image = tool.get_alpha_image()
-	if image.get_size() != Vector2i(image_texture.get_size()):
-		image_texture.set_image(image)
+	if image.get_size() != Vector2i(texture.get_size()):
+		texture.set_image(image)
 	else:
-		image_texture.update(image)
+		texture.update(image)
 	
 func _align_center():
 	if not tool:

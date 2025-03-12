@@ -73,6 +73,10 @@ func system_initialize():
 	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "cursor_speed_factor")
 	
+	SystemManager.project_system.project_controller.initialized.connect(func():
+		camera_tool.center_view()
+	)
+	
 	# 常驻工具
 	camera_tool = get_tool(CameraTool.get_tool_name())
 	camera_tool.activate()
@@ -158,6 +162,8 @@ func get_current_tool() -> BaseTool:
 
 # 切换工具
 func switch_tool(tool_name:String) -> void:
+	if _current_tool and _current_tool.get_tool_name() == tool_name:
+		return 
 	if _current_tool:
 		_current_tool.deactivate()  # 禁用当前工具
 		_disconnect_with_input_system(_current_tool)
@@ -174,9 +180,6 @@ func request_action_button(tool_name:String, value:bool):
 
 func get_canvas_manager() -> CanvasManager:
 	return SystemManager.canvas_system.canvas_manager
-
-func get_canvas_data() -> CanvasData:
-	return SystemManager.canvas_system.canvas_data
 
 func get_canvas_zoom() -> float:
 	return camera_tool.camera_zoom if camera_tool else 1.0

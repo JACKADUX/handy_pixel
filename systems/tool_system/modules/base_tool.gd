@@ -5,9 +5,6 @@ signal data_changed
 
 var _tool_system: ToolSystem
 
-
-var canvas_data : CanvasData:
-	get(): return _tool_system.get_canvas_data()
 var canvas_manager :CanvasManager:
 	get(): return _tool_system.get_canvas_manager()
 var zoom : float:

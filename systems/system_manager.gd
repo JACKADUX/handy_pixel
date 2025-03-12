@@ -10,7 +10,7 @@ signal system_initialized
 @onready var tool_system: ToolSystem = $ToolSystem
 @onready var canvas_system: CanvasSystem = $CanvasSystem
 @onready var color_system: ColorSystem = $ColorSystem
-@onready var undo_redo_system: UndoRedoSystem = $UndoRedoSystem
+@onready var undoredo_system: UndoRedoSystem = $UndoRedoSystem
 @onready var ui_system: UISystem = $UISystem
 
 

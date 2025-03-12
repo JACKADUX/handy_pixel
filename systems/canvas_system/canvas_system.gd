@@ -8,10 +8,8 @@ var cheker_size := 16
 var preset_canvas_size := Vector2i(32,32)
 var preset_canvas_bg_color := Color.TRANSPARENT
 
-
-var canvas_data := CanvasData.new()
-var canvas_manager : CanvasManager
-
+var canvas_manager := CanvasManager.new()
+var canvas_size:Vector2
 
 func system_initialize():
 	var db_system = SystemManager.db_system
@@ -28,14 +26,11 @@ func system_initialize():
 		db_system.set_data("CanvasSystem", save_data())
 	)
 	
-	SystemManager.project_system.active_project_changed.connect(func():
-		canvas_data.init_with(SystemManager.project_system.get_active_image_layers())
-	)
-	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "grid_visible")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "cheker_size")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_size")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_bg_color")
+	
 	
 func save_data():
 	return {
@@ -47,8 +42,11 @@ func load_data(data:Dictionary):
 	grid_visible = data.get("grid_visible", false)
 	cheker_size = data.get("cheker_size", 16)
 
+func get_canvas_size():
+	return SystemManager.project_system.project_controller.get_image_layers().get_size()*cell_size
+
 func get_cell_rect() -> Rect2:
-	return Rect2(Vector2.ZERO, canvas_data.get_size()*cell_size)
+	return Rect2(Vector2.ZERO, get_canvas_size())
 
 func convert_cell_position(pos:Vector2) -> Vector2i:
 	return Vector2i(floor(pos/cell_size))

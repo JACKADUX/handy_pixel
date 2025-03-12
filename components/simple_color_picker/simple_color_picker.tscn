@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://bvf3lqvt6ku83"]
 
-[ext_resource type="Script" path="res://components/simple_color_picker/simple_color_picker.gd" id="1_k5wib"]
-[ext_resource type="Shader" path="res://components/simple_color_picker/resource/color_rect.gdshader" id="1_suah3"]
-[ext_resource type="Shader" path="res://components/simple_color_picker/resource/simple_color_picker_huebar.gdshader" id="2_jvm6d"]
+[ext_resource type="Script" uid="uid://x51cy3qd6767" path="res://components/simple_color_picker/simple_color_picker.gd" id="1_k5wib"]
+[ext_resource type="Shader" uid="uid://bxo5hcfh1qb8" path="res://components/simple_color_picker/resource/color_rect.gdshader" id="1_suah3"]
+[ext_resource type="Shader" uid="uid://f18qlgu12rqe" path="res://components/simple_color_picker/resource/simple_color_picker_huebar.gdshader" id="2_jvm6d"]
 [ext_resource type="Texture2D" uid="uid://b5qx6rsvlx0lc" path="res://components/simple_color_picker/resource/CheckerboardMini.svg" id="3_2sfpe"]
-[ext_resource type="Script" path="res://components/simple_color_picker/handle_tracer.gd" id="3_ktg43"]
-[ext_resource type="Shader" path="res://components/simple_color_picker/resource/simple_color_picker_transparent.gdshader" id="3_pnl0p"]
+[ext_resource type="Script" uid="uid://evxjw4ua3tkh" path="res://components/simple_color_picker/handle_tracer.gd" id="3_ktg43"]
+[ext_resource type="Shader" uid="uid://bjosnd8ns26su" path="res://components/simple_color_picker/resource/simple_color_picker_transparent.gdshader" id="3_pnl0p"]
 [ext_resource type="Texture2D" uid="uid://lh8f6nmjwo8u" path="res://components/simple_color_picker/resource/goback.png" id="7_3ut6l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uj22r"]
@@ -48,12 +48,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="SimpleColorPicker" type="MarginContainer"]
-offset_right = 184.0
-offset_bottom = 168.0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+offset_right = 468.0
+offset_bottom = 468.0
 script = ExtResource("1_k5wib")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -86,7 +82,7 @@ script = ExtResource("3_ktg43")
 [node name="ColorHueBar" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_8sbdb")
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
@@ -132,7 +128,7 @@ grow_vertical = 2
 script = ExtResource("3_ktg43")
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 texture = ExtResource("3_2sfpe")
 
@@ -147,6 +143,7 @@ grow_vertical = 2
 size_flags_horizontal = 8
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -190,8 +187,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-theme_override_colors/icon_normal_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/icon_pressed_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/icon_hover_color = Color(0.59375, 0.59375, 0.59375, 1)
+theme_override_colors/icon_pressed_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/icon_normal_color = Color(0.4, 0.4, 0.4, 1)
 icon = ExtResource("7_3ut6l")
 flat = true

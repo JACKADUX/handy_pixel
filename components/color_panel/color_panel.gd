@@ -7,7 +7,7 @@ signal pressed
 
 var _stylebox = StyleBoxFlat.new()
 var _hold := false
-var _dt := 0
+var _dt :float= 0
 var _dpos := Vector2.ZERO
 
 var _active:= false
@@ -31,12 +31,12 @@ func _gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed() :
 		_hold = true
 		_dt = Time.get_ticks_msec()
-		_dpos = event.position  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差
+		_dpos = event.global_position  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差
 		
 	if _hold and (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_released() :
 		_hold = false
 		_dt = (Time.get_ticks_msec()- _dt)/1000.0
-		_dpos = event.position-_dpos
+		_dpos = event.global_position-_dpos
 		if _dpos.length() > 50 or _dt > 1:
 			return 
 		pressed.emit()

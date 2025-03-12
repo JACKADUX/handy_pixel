@@ -11,7 +11,7 @@ signal value_changed(value:Color)
 @onready var button_go_back = %ButtonGoBack
 
 
-@export var radius :float= 4.0
+@export var radius :float= 16.0
 @export var current_color := Color.WHITE
 @export var valid_h :float= 0
 @export var valid_s :float= 0
@@ -36,7 +36,7 @@ func _ready():
 	)
 	sv_tracer.draw.connect(func():
 		sv_tracer.draw_circle(color_sv_pos*sv_tracer.size, radius, Color(0.5,0.5,0.5), true, -1, true)
-		sv_tracer.draw_circle(color_sv_pos*sv_tracer.size, radius-1, Color(current_color,1), true, -1,  true)
+		sv_tracer.draw_circle(color_sv_pos*sv_tracer.size, radius-2, Color(current_color,1), true, -1,  true)
 	)
 	
 	var hue_tracer = color_hue_bar.get_child(0) as HandleTracer

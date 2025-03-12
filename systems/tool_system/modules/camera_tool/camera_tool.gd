@@ -38,9 +38,7 @@ func get_tool_data() -> Dictionary:
 func _on_action_just_pressed(action:String):
 	match action:
 		ACTION_CENTER_VIEW:
-			# FIXME: 需要更好的方式
-			var container :SubViewportContainer= SystemManager.canvas_system.canvas_manager.subviewport_container
-			center_view(container.size)
+			center_view()
 
 func _on_paned(relative:Vector2):
 	set_value("camera_offset",  camera_offset -relative/camera_zoom)
@@ -48,28 +46,27 @@ func _on_paned(relative:Vector2):
 func _on_zoomed(center:Vector2, factor:float):
 	handle_zoom(SystemManager.canvas_system.get_touch_local_position(center), factor)
 
-func center_view(viewport_size:Vector2):
-	var data = get_center_data(viewport_size)
-	if not _offset_zoom or not camera_offset.is_equal_approx(data[0]) or data[1] != camera_zoom:
+func center_view():
+	var viewport_size = SystemManager.canvas_system.canvas_manager.subviewport_container.size
+	var canvas_size = SystemManager.canvas_system.get_canvas_size()
+	_center_view(canvas_size, viewport_size)
+
+func _center_view(canvas_size:Vector2, viewport_size:Vector2):
+	var offset = canvas_size*0.5
+	var percent = 1
+	if viewport_size.aspect() > canvas_size.aspect():
+		percent = canvas_size.y/ viewport_size.y
+	else:
+		percent = canvas_size.x/ viewport_size.x
+	var zoom = 1/(percent*1.1)
+	
+	if not _offset_zoom or not camera_offset.is_equal_approx(offset) or zoom != camera_zoom:
 		_offset_zoom = [camera_offset, camera_zoom]
-		set_value("camera_offset", data[0])
-		set_value("camera_zoom", data[1])
+		set_value("camera_offset", offset)
+		set_value("camera_zoom", zoom)
 	else:
 		set_value("camera_offset", _offset_zoom[0])
 		set_value("camera_zoom", _offset_zoom[1])
-
-func get_center_data(viewport_size:Vector2):
-	var cell_size :int = SystemManager.canvas_system.cell_size
-	var canvas_size = canvas_data.get_size()
-	#var viewport_size = get_viewport_rect().size
-	var offset = canvas_size*0.5*cell_size
-	var percent = 1
-	if viewport_size.aspect() > canvas_size.aspect():
-		percent = (canvas_size.y*cell_size)/ viewport_size.y
-	else:
-		percent = (canvas_size.x*cell_size)/ viewport_size.x
-	var zoom = 1/(percent*1.1)
-	return [offset, zoom]
 
 func handle_zoom(center:Vector2, factor:float):
 	if follow_cursor:

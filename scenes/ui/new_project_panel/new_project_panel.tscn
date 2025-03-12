@@ -153,6 +153,22 @@ script = ExtResource("2_xrq2b")
 prop_name = "preset_canvas_size"
 metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
+[node name="Button7" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"btn_middle"
+text = "1024"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button7"]
+script = ExtResource("4_thngy")
+metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
+metadata/value = Vector2(1024, 1024)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button7/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+prop_name = "preset_canvas_size"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

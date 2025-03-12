@@ -27,8 +27,8 @@ func _on_action_just_pressed(action:String):
 	match action:
 		ToolSystem.ACTION_TOOL_MAIN_PRESSED:
 			_drag_start = true
-			_bg_image = Image.create_empty(canvas_data.get_width(), canvas_data.get_height(), false, Image.FORMAT_RGBA8)
-			_move_image = canvas_data.get_image()
+			#_bg_image = Image.create_empty(canvas_data.get_width(), canvas_data.get_height(), false, Image.FORMAT_RGBA8)
+			#_move_image = canvas_data.get_image()
 			_start_pos = cell_pos_floor
 			
 func _on_action_just_released(action:String):
@@ -49,4 +49,4 @@ func _handle_value_changed(prop_name:String, value:Variant):
 			var new_image :Image = _bg_image.duplicate()
 			new_image.get_size()
 			new_image.blit_rect_mask(_move_image, _move_image, rect, offset)
-			canvas_data.set_image(new_image)
+			#canvas_data.set_image(new_image)

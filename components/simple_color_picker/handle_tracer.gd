@@ -13,14 +13,14 @@ func _ready():
 	
 #---------------------------------------------------------------------------------------------------
 func _gui_input(event):
-	if Utils.mouse_pressed(event):
+	if mouse_pressed(event):
 		_pressed = true
 		drag_started.emit()
 		
-	elif Utils.mouse_press_and_move(event) and _pressed:
+	elif mouse_press_and_move(event) and _pressed:
 		update()
 		
-	elif Utils.mouse_released(event):
+	elif mouse_released(event):
 		if _pressed:
 			update()
 			drag_ended.emit()
@@ -31,3 +31,15 @@ func update():
 	var pos = Vector2(mp.x/size.x, mp.y/size.y)
 	pos = pos.clamp(Vector2.ZERO, Vector2.ONE)
 	beacon_located.emit(pos)
+
+static func mouse_motion(event:InputEvent):
+	return event is InputEventMouseMotion and event.button_mask == MOUSE_BUTTON_NONE
+	
+static func mouse_pressed(event:InputEvent, button:=MOUSE_BUTTON_LEFT):
+	return event is InputEventMouseButton and event.button_index == button and event.is_pressed()
+
+static func mouse_press_and_move(event:InputEvent, button:=MOUSE_BUTTON_MASK_LEFT):
+	return event is InputEventMouseMotion and event.button_mask == button
+
+static func mouse_released(event:InputEvent, button:=MOUSE_BUTTON_LEFT):
+	return event is InputEventMouseButton and event.button_index == button and event.is_released()

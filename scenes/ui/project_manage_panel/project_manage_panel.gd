@@ -22,7 +22,7 @@ func update():
 			continue
 		if card.get_meta("project_id") != SystemManager.project_system.active_project_id:
 			continue
-		var image = SystemManager.project_system.get_image_layers_cover(SystemManager.project_system.get_active_image_layers())
+		var image = SystemManager.project_system.get_image_layers_cover(SystemManager.project_system.project_controller.get_image_layers())
 		card.texture_rect.texture = ImageTexture.create_from_image(image)
 
 func _add_project_button():

@@ -9,10 +9,9 @@ signal action_called(action_name:String, data:Dictionary)
 var _image_layers: ImageLayers
 var _active_layer_index :int = -1
 
-var _action_name := ""
-
 const ACTION_ACTIVATE_LAYER := "ActivateLayer" # {"index":0}
 const ACTION_MOVE_LAYER := "MoveLayer" # {"index":0, "to_index":0}
+const ACTION_UPDATE_LAYER := "UpdateLayer" # {"index":0}
 
 # NOTE: action_ 开头的方法必须内部包含undo_redo的处理
 
@@ -40,38 +39,7 @@ func request_action(action_name:String, data:Dictionary):
 				undoredo.add_do_method(move_layer.bind(index, to_index))
 				undoredo.add_undo_method(move_layer.bind(to_index, index))
 			)
-			
-
-## Actions BiltImage -------------------------------------------------------------------------------
-func action_blit_image_start():
-	# NOTE:保证每次action名称不一样
-	_action_name = "BiltImage::"+str(Engine.get_process_frames())
-	SystemManager.undoredo_system.start_mergends_action(_action_name)
-
-func action_blit_image(image:Image, mask:Image, dst:Vector2i):
-	# FIXME: 这个undoredo merge的时机不稳定，
-	var layer_image = _image_layers.get_layer(_active_layer_index).image
-	var undo_image = layer_image.duplicate()
-	layer_image.blit_rect_mask(image, mask, Rect2(Vector2.ZERO, image.get_size()), dst)
-	update_layer_property(_active_layer_index, ImageLayer.PROP_IMAGE, layer_image, true)
-	
-	var do_image = layer_image.duplicate() 
-	var rect = Rect2(Vector2.ZERO, layer_image.get_size())
-	SystemManager.undoredo_system.add_mergends_action(_action_name, func(undoredo:UndoRedo):
-		undoredo.add_do_method(func():
-			layer_image.blit_rect(do_image, rect, Vector2.ZERO)
-			update_layer_property(_active_layer_index, ImageLayer.PROP_IMAGE, layer_image, true)
-		)
-		undoredo.add_undo_method(func():
-			layer_image.blit_rect(undo_image, rect, Vector2.ZERO)
-			update_layer_property(_active_layer_index, ImageLayer.PROP_IMAGE, layer_image, true)
-		)
-	)
-
-func action_blit_image_end():
-	SystemManager.undoredo_system.end_mergends_action()
-
-## Actions Create&Delete Layer ---------------------------------------------------------------------
+				
 func action_create_layer(index:int):
 	if not create_layer(index):
 		return 
@@ -81,14 +49,28 @@ func action_create_layer(index:int):
 	)
 
 func action_delete_layer(index:int):
+	var image_layer = _image_layers.get_layer(index)
+	if not image_layer:
+		return 
+	if _image_layers.is_init_state():
+		return 
+	var is_last = bool(_image_layers.get_layer_count() == 1)		
 	if not delete_layer(index):
 		return
-	SystemManager.undoredo_system.add_simple_undoredo("DeleteLayer", func(undoredo:UndoRedo):
-		undoredo.add_do_method(delete_layer.bind(index))
-		undoredo.add_undo_method(create_layer.bind(index))
-	)
-	
-## Actions Update Layer Property---------------------------------------------------------------------
+	if is_last:
+		create_layer(0)
+		var empty_layer = ImageLayer.create_with(_image_layers.get_size())
+		SystemManager.undoredo_system.add_simple_undoredo("DeleteLayer", func(undoredo:UndoRedo):
+			undoredo.add_do_method(set_layer.bind(index, empty_layer))
+			undoredo.add_undo_method(set_layer.bind(index, image_layer))
+		)
+	else:
+		SystemManager.undoredo_system.add_simple_undoredo("DeleteLayer", func(undoredo:UndoRedo):
+			undoredo.add_do_method(delete_layer.bind(index))
+			undoredo.add_undo_method(create_layer.bind(index))
+			undoredo.add_undo_method(set_layer.bind(index, image_layer))
+		)
+		
 func action_update_layer_property(index:int, property:String, value:Variant):
 	var undo_value = _image_layers.get_layer_property(index, property)
 	if not update_layer_property(index, property, value):
@@ -97,6 +79,19 @@ func action_update_layer_property(index:int, property:String, value:Variant):
 		undoredo.add_do_method(update_layer_property.bind(index, property, value))
 		undoredo.add_undo_method(update_layer_property.bind(index, property, undo_value))
 	)
+
+func action_blit_image_mask(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i, undo_image:Image):
+	if not blit_image_mask(index, src, mask, src_rect, dst):
+		return 
+	SystemManager.undoredo_system.add_simple_undoredo("BlitImage", func(undoredo:UndoRedo):
+		undoredo.add_do_method(func():
+			blit_image_mask(index, src, mask, src_rect, dst)
+		)
+		undoredo.add_undo_method(func():
+			blit_image(index, undo_image, src_rect, dst)
+		)
+	)
+	
 
 
 ## Method ------------------------------------------------------------------------------------------------
@@ -114,6 +109,10 @@ func delete_layer(index:int) -> bool:
 	_validate_active_index()
 	return true
 
+func set_layer(index:int, image_layer:ImageLayer):
+	_image_layers.set_layer(index, image_layer)
+	update_layer_property(index, ImageLayer.PROP_ALL, image_layer, true)
+	
 func get_image_layers() -> ImageLayers:
 	return _image_layers
 
@@ -129,9 +128,6 @@ func set_active_layer(index:int=0):
 func get_active_layer_index() -> int:
 	return _active_layer_index
 
-func get_active_image() -> Image:
-	return  _image_layers.get_layer_image(_active_layer_index)
-
 func move_layer(index:int, to_index:int) -> bool:
 	if not _image_layers.move_layer(index, to_index):
 		return false
@@ -145,6 +141,26 @@ func update_layer_property(index:int, property:String, value:Variant, force_upda
 	_image_layers.set_layer_property(index, property, value)
 	layer_property_updated.emit(index, property, value)
 	return true
+
+func blit_image(index:int, src:Image, src_rect: Rect2i, dst:Vector2i) -> bool:
+	if not _image_layers.is_valid_layer(index) or not src:
+		return false
+	var layer_image = _image_layers.get_layer(index).image
+	layer_image.blit_rect(src, src_rect, dst)
+	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image, true)
+	return true
+	
+func blit_image_mask(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i) -> bool:
+	if not _image_layers.is_valid_layer(index) or not src:
+		return false
+	var layer_image = _image_layers.get_layer(index).image
+	layer_image.blit_rect_mask(src, mask, src_rect, dst)
+	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image, true)
+	return true
+
+func get_active_color() -> Color:
+	return SystemManager.color_system.active_color
+
 ## Utils ------------------------------------------------------------------------------------------------
 func raise_action(action_name:String, data:Dictionary={}):
 	action_called.emit(action_name, data)

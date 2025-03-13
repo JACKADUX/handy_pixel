@@ -48,7 +48,10 @@ func update_projects():
 		_fns.append(func():
 			if not project_data.cover_path or not FileAccess.file_exists(project_data.cover_path):
 				return 
-			card.texture_rect.set_texture.call_deferred(ImageTexture.create_from_image(Image.load_from_file(project_data.cover_path)))
+			var image = Image.load_from_file(project_data.cover_path)
+			if not image:
+				return 
+			card.texture_rect.set_texture.call_deferred(ImageTexture.create_from_image(image))
 		)
 		card.pressed.connect(func():
 			SystemManager.project_system.set_active_project(project_data.id)

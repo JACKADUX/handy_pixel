@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxrt5rg73ibi2"]
+
+[ext_resource type="Script" uid="uid://crkri5xd8qiyg" path="res://test/test_undoredo/test_undo_redo.gd" id="1_w5mt8"]
+
+[node name="TestUndoRedo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w5mt8")

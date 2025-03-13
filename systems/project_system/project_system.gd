@@ -10,6 +10,8 @@ var active_project_id := ""
 var project_datas := []
 
 var project_cover_size := 256
+var preset_canvas_size := Vector2i(32,32)
+var preset_canvas_bg_color := Color.TRANSPARENT
 
 var project_controller := ProjectController.new()
 
@@ -19,6 +21,8 @@ func system_initialize():
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():
 		project_cover_size = db_system.get_project_setting("project_cover_size", 256)
+		preset_canvas_size = db_system.get_project_setting("preset_canvas_size", Vector2i(32,32))
+		preset_canvas_bg_color = db_system.get_project_setting("preset_canvas_bg_color", Color.TRANSPARENT)
 		load_data(db_system.get_data("ProjectSystem", {}))
 		if not project_datas:
 			active_project_id = new_project("未命名")
@@ -30,9 +34,15 @@ func system_initialize():
 	db_system.save_data_requested.connect(func():
 		if active_project_id:
 			save_project_image_layers(active_project_id, project_controller.get_image_layers())
+		
+		db_system.set_project_setting("preset_canvas_size", preset_canvas_size)
+		db_system.set_project_setting("preset_canvas_bg_color", preset_canvas_bg_color)
 		db_system.set_project_setting("project_cover_size", project_cover_size)
 		db_system.set_data("ProjectSystem", save_data())
 	)
+	
+	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_size")
+	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_bg_color")
 
 func get_data(id:String) -> Dictionary:
 	for data:Dictionary in project_datas:

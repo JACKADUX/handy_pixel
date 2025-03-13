@@ -5,8 +5,8 @@ signal tool_changed(tool_name:String)
 signal tool_property_updated(tool_name:String, prop_name:String, value:Variant)
 signal action_button_requested(action_button_datas:Array, value:bool)
 
-var cursor_speed_factor :float = 0.75 # 跟随倍率
 
+var cursor_speed_factor :float = 0.75 # 跟随倍率
 
 # 当前激活的工具
 var _current_tool: BaseTool = null
@@ -14,7 +14,6 @@ var _current_tool: BaseTool = null
 # 注册的工具列表
 var _tools: Dictionary[String, BaseTool] = {}
 var _tool_action_button_datas :Dictionary[String, Array] = {}
-
 
 const ERASER_TOOL := "eraser"
 const COLOR_PICKER_TOOL := "color_picker"
@@ -181,8 +180,11 @@ func request_action_button(tool_name:String, value:bool):
 func get_canvas_manager() -> CanvasManager:
 	return SystemManager.canvas_system.canvas_manager
 
-func get_canvas_zoom() -> float:
-	return camera_tool.camera_zoom if camera_tool else 1.0
+func get_project_controller() -> ProjectController:
+	return SystemManager.project_system.project_controller
 
-#func get_project_setting() -> ProjectSetting:
-	#return SystemManager.user_system.project_setting
+func get_undoredo_system() -> UndoRedoSystem:
+	return SystemManager.undoredo_system
+
+func get_camera_zoom() -> float:
+	return camera_tool.camera_zoom if camera_tool else 1.0

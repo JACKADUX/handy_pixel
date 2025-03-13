@@ -1,5 +1,8 @@
 class_name CameraTool extends BaseTool
 
+signal zoom_changed(value:float)
+
+
 const ACTION_CENTER_VIEW := "action_center_view"
 
 var follow_cursor := false
@@ -46,7 +49,14 @@ func _on_paned(relative:Vector2):
 func _on_zoomed(center:Vector2, factor:float):
 	handle_zoom(SystemManager.canvas_system.get_touch_local_position(center), factor)
 
+func _handle_value_changed(prop_name:String, value:Variant):
+	match prop_name:
+		"camera_zoom":
+			zoom_changed.emit(value)
+
 func center_view():
+	if not SystemManager.canvas_system.canvas_manager.subviewport_container:
+		return 
 	var viewport_size = SystemManager.canvas_system.canvas_manager.subviewport_container.size
 	var canvas_size = SystemManager.canvas_system.get_canvas_size()
 	_center_view(canvas_size, viewport_size)

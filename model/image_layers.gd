@@ -9,15 +9,18 @@ func initialize(p_canvas_size:Vector2i, color:=Color.TRANSPARENT) -> void:
 	create_layer(0)
 	get_layer(0).image.fill(color)
 
+func is_valid_layer(index:int) -> bool:
+	return 0 <= index and index < layers.size() 
+
 func create_layer(index:int) -> bool:
-	if index < 0 or layers.size() < index:
+	if index < 0 or layers.size() < index : # NOTE: 这里的判定和 is_valid_layer 不一样
 		return false
 	var layer = ImageLayer.create_with(canvas_size)
 	layers.insert(index, layer)
 	return true
 
 func delete_layer(index:int) -> bool:
-	if index < 0 or layers.size() <= index:
+	if not is_valid_layer(index):
 		return false
 	layers.remove_at(index)
 	return true
@@ -25,9 +28,7 @@ func delete_layer(index:int) -> bool:
 func move_layer(index:int, to_index:int) -> bool:
 	if index == to_index:
 		return false
-	if index < 0 or layers.size() <= index:
-		return false
-	if to_index < 0 or layers.size() <= to_index:
+	if not is_valid_layer(index) or not is_valid_layer(to_index):
 		return false
 	var layer = layers[to_index] 
 	layers[to_index] = layers[index] 
@@ -37,11 +38,19 @@ func move_layer(index:int, to_index:int) -> bool:
 func get_layers() -> Array[ImageLayer]:
 	return layers.duplicate()
 
-func get_layer(index:int=0) -> ImageLayer:
-	if index < 0 or layers.size() <= index:
+func get_layer(index:int) -> ImageLayer:
+	if not is_valid_layer(index):
 		return null
 	return layers[index]
-	
+
+func set_layer(index:int, image_layer:ImageLayer) -> bool:
+	if not is_valid_layer(index):
+		return false
+	if image_layer in layers:
+		return false
+	layers[index] = image_layer
+	return true
+
 func get_layer_count() -> int:
 	return layers.size()
 
@@ -67,7 +76,7 @@ func generate_final_image() -> Image:
 			image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
 	return image
 	
-func is_valid(pos: Vector2i) -> bool:
+func is_inside_canvas(pos: Vector2i) -> bool:
 	return pos.x >= 0 and pos.y >= 0 and pos.x < get_width() and pos.y < get_height()
 
 func get_pixel(pos: Vector2i) -> Color:
@@ -89,6 +98,12 @@ func get_width() -> int:
 func get_height() -> int:
 	return canvas_size.y
 
+func is_init_state() -> bool:
+	if get_layer_count() == 1:
+		var image = get_layer(0).image
+		return image.is_invisible() and image.get_size() == get_size()
+	return false
+	
 #func fill_color_alg(position: Vector2i, fill_color:Color):
 	## TODO & FIXME: 用compute_shader 
 	#if not is_valid(position):
@@ -98,3 +113,7 @@ func get_height() -> int:
 		#return
 	#var modified = FloodFillOptimized.fill(_canvas_image, position, fill_color)
 	#canvas_image_updated.emit()
+
+func new_empty_image() -> Image:
+	return Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
+	

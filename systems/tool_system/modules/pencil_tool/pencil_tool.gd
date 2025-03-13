@@ -8,36 +8,37 @@ enum PenShape { CIRCLE, SQUARE }
 var pen_shape := PenShape.CIRCLE 
 var pen_size :int = 1
 
-var _alpha_image_dirty := true
-var _alpha_image: Image
-var _alpha_map_dirty := true
-var _alpha_map:= BitMap.new()
-var _outline_dirty := true
-var _outline : PackedVector2Array
-
 
 var _pen_shape_cursor :PenShapeCursor
 
-var _color_image_color :Color
-var _color_image = Image.new()
-var _cache_cell_pos := Vector2i(INF,INF)
+var _pen_color :Color
+var _color_image : Image
+var _color_image_dirty := true
+var _mask_image : Image
+var _mask_image_dirty := true
 
+var _blit_color_image : Image
+var _blit_mask_image : Image
+var _prev_image : Image
+
+var _cache_pen_position := Vector2i(INF,INF)
+var _draw_started := false
 
 ## OVERRIDE ---------------------------------------------------------------------------------------- 
 static func get_tool_name() -> String:
 	return "pencil"
 
-# 工具激活时调用
+## 工具激活时调用
 func activate() -> void:
 	super()
 	_pen_shape_cursor = PenShapeCursor.new()
 	canvas_manager.add_child(_pen_shape_cursor)
 	_pen_shape_cursor.init_with_tool(self)
 	
-	_color_image = get_alpha_image().duplicate()
-	_color_image.fill(SystemManager.color_system.active_color)
+	_pen_color = project_controller.get_active_color()
+	set_mask_image_dirty()
 	
-# 工具禁用时调用
+## 工具禁用时调用
 func deactivate() -> void:
 	super()
 	canvas_manager.remove_child(_pen_shape_cursor)
@@ -51,38 +52,25 @@ func get_tool_data() -> Dictionary:
 
 func _handle_value_changed(prop_name:String, value:Variant):
 	if prop_name == "pen_shape" or prop_name == "pen_size":
-		_update_alpha_image()
-	var active_color = SystemManager.color_system.active_color
-	match prop_name:
-		"pen_size":
-			_color_image = get_alpha_image().duplicate()
-			_color_image.fill(active_color)
-		"pen_shape":
-			_color_image = get_alpha_image().duplicate()
-			_color_image.fill(active_color)
-		
+		set_mask_image_dirty()	
 	super(prop_name, value)
 
-
-		
 func _on_action_just_pressed(action:String):
-	_cache_cell_pos = Vector2i(INF,INF)
-	SystemManager.project_system.project_controller.action_blit_image_start()
-	
-func _on_action_just_released(action:String):
-	SystemManager.project_system.project_controller.action_blit_image_end()
+	_cache_pen_position = Vector2i(INF,INF)
+	match action:
+		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+			set_pen_color(project_controller.get_active_color())
+			begin_draw()
+		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			set_pen_color(Color.TRANSPARENT)
+			begin_draw()
 	
 func _on_action_pressed(action:String):
-	var active_color = SystemManager.color_system.active_color
 	match action:
-		ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			action_draw(active_color)
-		ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			action_draw(Color.TRANSPARENT)
-		PencilTool.ACTION_DRAW_COLOR:
-			action_draw(active_color)
-		EraserTool.ACTION_ERASE_COLOR:
-			action_draw(Color.TRANSPARENT)
+		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+			draw_list(get_color_image(), get_mask_image(), _generate_pen_pos_list())
+		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			draw_list(get_color_image(), get_mask_image(), _generate_pen_pos_list())
 		ToolSystem.ACTION_PICK_COLOR:
 			#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
 			pass
@@ -90,62 +78,97 @@ func _on_action_pressed(action:String):
 			pass
 			#canvas_data.fill_color_alg(cell_pos_floor, active_color)
 
+func _on_action_just_released(action:String):
+	match action:
+		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+			end_draw()
+		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			end_draw()
 
-func action_draw(color:Color):
-	var cell_pos = get_draw_cell_pos(cell_pos_round, cell_pos_floor)
-	if _cache_cell_pos == cell_pos:
+## Action -------------------------------------------------------------------------------------------- 
+func begin_draw():
+	_draw_started = true
+	var image_layers := project_controller.get_image_layers()
+	_blit_color_image = image_layers.new_empty_image()
+	_blit_mask_image = image_layers.new_empty_image()
+	_prev_image = image_layers.get_layer(project_controller.get_active_layer_index()).image.duplicate()
+
+func draw(src_image:Image, mask_image:Image, dst:Vector2i): 
+	_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
+	_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
+	var used_rect = _blit_mask_image.get_used_rect()
+	project_controller.blit_image_mask(project_controller.get_active_layer_index(), _blit_color_image, _blit_mask_image, used_rect, used_rect.position)
+
+func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
+	if not dst_list:
 		return 
-	_cache_cell_pos = cell_pos
-	var alpha_image :Image = get_alpha_image()
-	if _color_image_color != color:
-		_color_image_color = color
-		_color_image.fill(color)
-	SystemManager.project_system.project_controller.action_blit_image(_color_image, alpha_image, cell_pos)
+	for pen_pos in dst_list:
+		_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
+		_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
+	var used_rect = _blit_mask_image.get_used_rect()
+	project_controller.blit_image_mask(project_controller.get_active_layer_index(), _blit_color_image, _blit_mask_image, used_rect, used_rect.position)
 
+func end_draw():
+	if not _draw_started:
+		return 
+	_draw_started = false
+	var used_rect = _blit_mask_image.get_used_rect()
+	project_controller.action_blit_image_mask(project_controller.get_active_layer_index(),
+		_blit_color_image.get_region(used_rect),
+		_blit_mask_image.get_region(used_rect),
+		Rect2(Vector2.ZERO, used_rect.size),
+		used_rect.position,
+		_prev_image.get_region(used_rect)
+	)
 
 ## Utils -------------------------------------------------------------------------------------------- 
-
-func _update_alpha_image():
-	_alpha_image_dirty = true 
-	_alpha_map_dirty = true
-	_outline_dirty = true
+func _generate_pen_pos_list() -> Array[Vector2i]:
+	# NOTE: 可以保证线条是连续的
+	var pen_pos := get_pen_position()
+	var prev_pos = _cache_pen_position if _cache_pen_position != Vector2i(INF,INF) else pen_pos
+	if _cache_pen_position == pen_pos:
+		return []
+	_cache_pen_position = pen_pos
+	var pos_list := Geometry2D.bresenham_line(prev_pos, pen_pos)
+	if pos_list.size() > 2:
+		# 把重复的部分去除
+		pos_list.pop_front()
+	return pos_list
 	
-func get_alpha_image() -> Image:
-	if _alpha_image_dirty:
-		_alpha_image_dirty = false
-		_alpha_image = generate_alpha_image(pen_size, pen_shape)
-	return _alpha_image
+func set_mask_image_dirty():
+	_mask_image_dirty = true
+	_color_image_dirty = true
 	
-func get_alpha_map() -> BitMap:
-	if _alpha_map_dirty:
-		_alpha_map_dirty = false
-		_alpha_map.create_from_image_alpha(get_alpha_image(), 0.5)
-	return _alpha_map
+func set_pen_color(color:Color):
+	_pen_color = color
+	if _color_image_dirty:
+		get_color_image()
+	_color_image.fill(_pen_color)
+	
+func get_mask_image() -> Image:
+	if _mask_image_dirty:
+		_mask_image_dirty = false
+		_mask_image = generate_alpha_image(pen_size, pen_shape)
+	return _mask_image
 
-func get_outline() -> PackedVector2Array:
-	if _outline_dirty:
-		_outline_dirty = false
-		var temp_alpha_map = get_alpha_map()
-		_outline = temp_alpha_map.opaque_to_polygons(Rect2(Vector2(), temp_alpha_map.get_size()), 0.01)[0]
-		_outline.append(_outline[0])
-	return _outline
+func get_color_image() -> Image:
+	if _color_image_dirty:
+		_color_image_dirty = false
+		_color_image = get_mask_image().duplicate()
+		_color_image.fill(_pen_color)
+	return _color_image
 
+func get_pen_position() -> Vector2i:
+	return _get_draw_cell_pos(cell_pos_round, cell_pos_floor)
 
-func is_even() -> bool:
+func _is_even_pen_size() -> bool:
 	return pen_size % 2 == 0
 
-func get_draw_cell_pos(cell_pos_round:Vector2i, cell_pos_floor:Vector2i) -> Vector2i:
+func _get_draw_cell_pos(cell_pos_round:Vector2i, cell_pos_floor:Vector2i) -> Vector2i:
 	# NOTE: 根据像素的奇偶做一个偏移， 输入的参数是中心位置，返回的是左上角的位置
-	var cell_pos = cell_pos_round if is_even() else cell_pos_floor
+	var cell_pos = cell_pos_round if _is_even_pen_size() else cell_pos_floor
 	var ofs = Vector2.ONE*pen_size*0.5
 	return cell_pos-Vector2i(ofs)
-
-
-func _debug():
-	for y in _alpha_map.get_size().y:
-		for x in _alpha_map.get_size().x:
-			print(_alpha_map.get_bit(x, y))
-
 
 
 # 生成笔刷形状的坐标偏移
@@ -156,10 +179,10 @@ static func generate_alpha_image(size: int, shape: PenShape) -> Image:
 			image.fill(Color.WHITE)
 			return image
 		PenShape.CIRCLE:
-			return generate_circle_brush_image(size)
+			return generate_circle_pen_image(size)
 	return 
 
-static func generate_circle_brush_image(diameter: int, shrink:float= 1) -> Image:
+static func generate_circle_pen_image(diameter: int, shrink:float= 1) -> Image:
 	var image := Image.create_empty(diameter, diameter, false, Image.FORMAT_RGBA8)
 	var radius = diameter*0.5
 	if diameter < 10:
@@ -178,7 +201,7 @@ static func generate_circle_brush_image(diameter: int, shrink:float= 1) -> Image
 			image.set_pixel(x, y, color1 if dist_sq <= radius_sq else color2)
 	return image
 
-static func generate_circle_brush(diameter: int, shrink:float= 1) -> PackedVector2Array:
+static func generate_circle_pen(diameter: int, shrink:float= 1) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	var radius = diameter*0.5
 	if diameter < 10:
@@ -196,7 +219,7 @@ static func generate_circle_brush(diameter: int, shrink:float= 1) -> PackedVecto
 				points.append(Vector2i(x, y))
 	return points
 
-static func generate_circle_brush_outline(radius: int) -> PackedVector2Array:
+static func generate_circle_pen_outline(radius: int) -> PackedVector2Array:
 	var points := PackedVector2Array()
 	var x := radius
 	var y := 0

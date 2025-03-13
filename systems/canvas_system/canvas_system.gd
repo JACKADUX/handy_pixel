@@ -5,31 +5,40 @@ var cell_size :int= 10
 var grid_visible := false
 var cheker_size := 16
 
-var preset_canvas_size := Vector2i(32,32)
-var preset_canvas_bg_color := Color.TRANSPARENT
+
 
 var canvas_manager := CanvasManager.new()
-var canvas_size:Vector2
 
 func system_initialize():
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():
 		cell_size = db_system.get_project_setting("cell_size", 10)
-		preset_canvas_size = db_system.get_project_setting("preset_canvas_size", Vector2i(32,32))
-		preset_canvas_bg_color = db_system.get_project_setting("preset_canvas_bg_color", Color.TRANSPARENT)
 		load_data(db_system.get_data("CanvasSystem", {}))
 	)
 	db_system.save_data_requested.connect(func():
 		db_system.set_project_setting("cell_size", cell_size)
-		db_system.set_project_setting("preset_canvas_size", preset_canvas_size)
-		db_system.set_project_setting("preset_canvas_bg_color", preset_canvas_bg_color)
 		db_system.set_data("CanvasSystem", save_data())
+	)
+	
+	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, value):
+		match prop_name:
+			"grid_visible":
+				canvas_manager.grid.grid_enabled = value
+			"checker_size":
+				canvas_manager.checker_board.checker_size = value * cell_size
+	)
+	
+	SystemManager.project_system.project_controller.initialized.connect(func():
+		var canvas_size = get_canvas_size()
+		canvas_manager.set_cheker_board(canvas_size, cheker_size * cell_size)
+		canvas_manager.set_grid(grid_visible, canvas_size, cell_size)
+		canvas_manager.image_layers_canvas.scale = Vector2.ONE*cell_size
 	)
 	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "grid_visible")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "cheker_size")
-	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_size")
-	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_bg_color")
+	
+	
 	
 	
 func save_data():

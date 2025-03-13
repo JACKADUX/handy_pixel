@@ -34,10 +34,9 @@ func _ready() -> void:
 	move_down_button.pressed.connect(func():
 		move_layer_requested.emit(active_index, active_index-1)
 	)
-	_bind_with_controller()
+	bind_with_controller(SystemManager.project_system.project_controller)
 
-func _bind_with_controller():
-	var project_contorller :ProjectController = SystemManager.project_system.project_controller
+func bind_with_controller(project_contorller :ProjectController):
 	project_contorller.initialized.connect(func():
 		var layers := project_contorller.get_image_layers().get_layers()
 		init_with(layers, project_contorller.get_active_layer_index())
@@ -67,12 +66,13 @@ func _bind_with_controller():
 	
 	project_contorller.layer_property_updated.connect(func(index:int, property:String, value:Variant):
 		var layer = get_layer(index)
-		var image_layer = project_contorller.get_image_layers().get_layer(index)
 		match property:
 			ImageLayer.PROP_IMAGE:
-				update_layer_texture(layer, image_layer.image)
+				update_layer_texture(layer, value)
 			ImageLayer.PROP_VISIBLE:
-				set_layer_visible(layer, image_layer.visible)
+				set_layer_visible(layer, value)
+			ImageLayer.PROP_ALL:
+				update_layer_with(layer, value)
 	)
 	
 	## inner
@@ -98,7 +98,6 @@ func _bind_with_controller():
 	
 func init_with(layers:Array[ImageLayer], active_index:int=0):
 	clear()
-	layers.reverse()
 	for image_layer:ImageLayer in layers:
 		update_layer_with(create_layer(), image_layer)
 	update_layers_index()
@@ -123,12 +122,15 @@ func get_layers() -> Array:
 func create_layer() -> Layer:
 	var layer = LAYER.instantiate()
 	container_agent.add_item(layer)
+	container_agent.move_item(layer, 0)
 	layer.cover.texture = ImageTexture.new()
 	layer.visible_button.toggled.connect(_on_layer_visible_pressed.bind(layer))
 	layer.fake_button.pressed.connect(_on_layer_activate_pressed.bind(layer))
 	return layer
 
 func ensure_layer_control_visible(layer:Layer):
+	if not layer:
+		return 
 	await get_tree().process_frame
 	container_agent.get_parent().ensure_control_visible(layer)
 

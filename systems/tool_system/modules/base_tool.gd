@@ -7,8 +7,10 @@ var _tool_system: ToolSystem
 
 var canvas_manager :CanvasManager:
 	get(): return _tool_system.get_canvas_manager()
-var zoom : float:
-	get(): return _tool_system.get_canvas_zoom()
+var project_controller:ProjectController:
+	get(): return _tool_system.get_project_controller()
+var undoredo_system:UndoRedoSystem:
+	get(): return _tool_system.get_undoredo_system()
 
 static func get_tool_name() -> String:
 	return ""

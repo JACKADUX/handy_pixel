@@ -40,9 +40,8 @@ func _on_double_clicked(pos:Vector2):
 		set_value("cursor_position", tap_pos)
 			
 func _on_hovered(relative:Vector2):
-	var camera_tool = _tool_system.camera_tool
 	relative *= _tool_system.cursor_speed_factor
-	set_value("cursor_position", cursor_position+relative/camera_tool.camera_zoom)
+	set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())
 
 
 func _on_state_changed(state:InputRecognizer.State):

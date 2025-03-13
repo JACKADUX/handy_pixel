@@ -4,6 +4,7 @@ class_name ImageLayer extends Resource
 @export var visible := true
 @export var position := Vector2.ZERO
 
+const PROP_ALL := "__all__"
 const PROP_IMAGE := "image"
 const PROP_VISIBLE := "visible"
 const PROP_POSITION := "position"

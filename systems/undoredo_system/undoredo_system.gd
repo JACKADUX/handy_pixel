@@ -23,6 +23,8 @@ func redo():
 func clear():
 	undoredo.clear_history()
 	undoredo_changed.emit()
+
+	
 #---------------------------------------------------------------------------------------------------
 func add_undoredo(fn:Callable):
 	#SystemManager.undoredo_system.add_undoredo(func(undoredo:UndoRedo):
@@ -37,23 +39,14 @@ func add_undoredo(fn:Callable):
 	#)
 	fn.call(undoredo)
 
-func add_simple_undoredo(action_name:String, fn:Callable, backward_undo := true, execute:=false):
+func add_simple_undoredo(action_name:String, fn:Callable, backward_undo := false, execute:=false):
 	undoredo.create_action(action_name, UndoRedo.MergeMode.MERGE_DISABLE, backward_undo)
 	fn.call(undoredo)
 	undoredo.commit_action(execute)
 
-#---------------------------------------------------------------------------------------------------
-func start_mergends_action(action_name:String, backward_undo := true):
-	undoredo.create_action(action_name, UndoRedo.MergeMode.MERGE_ENDS, backward_undo)
-	undoredo.start_force_keep_in_merge_ends()
-
-func add_mergends_action(action_name:String, fn:Callable, backward_undo := true, execute:=false):
+func add_mergends_action(action_name:String, fn:Callable, backward_undo := false, execute:=false):
+	# WARNING: MERGE_ENDS 调用间隔超过1s就会被强制中断
 	undoredo.create_action(action_name, UndoRedo.MergeMode.MERGE_ENDS, backward_undo)
 	fn.call(undoredo)
 	undoredo.commit_action(execute)
 	
-func end_mergends_action(commit_action := false):
-	undoredo.end_force_keep_in_merge_ends()
-	undoredo.commit_action(commit_action)
-	
-#---------------------------------------------------------------------------------------------------

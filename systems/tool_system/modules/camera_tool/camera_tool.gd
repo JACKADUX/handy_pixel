@@ -1,6 +1,7 @@
 class_name CameraTool extends BaseTool
 
 signal zoom_changed(value:float)
+signal offset_changed(value:float)
 
 
 const ACTION_CENTER_VIEW := "action_center_view"
@@ -53,6 +54,8 @@ func _handle_value_changed(prop_name:String, value:Variant):
 	match prop_name:
 		"camera_zoom":
 			zoom_changed.emit(value)
+		"camera_offset":
+			offset_changed.emit(value)
 
 func center_view():
 	if not SystemManager.canvas_system.canvas_manager.subviewport_container:

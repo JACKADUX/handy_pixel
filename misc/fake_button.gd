@@ -19,15 +19,23 @@ func _ready() -> void:
 	agent.gui_input.connect(_gui_input)
 	
 func _gui_input(event: InputEvent) -> void:
-	if (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed() :
+	if event is InputEventMouseButton and event.is_pressed() :
 		_hold = true
 		_dt = Time.get_ticks_msec()
 		_dpos = event.global_position  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差
 		
-	if _hold and (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_released() :
+	if _hold and event is InputEventMouseButton and event.is_released() :
 		_hold = false
 		_dt = (Time.get_ticks_msec()- _dt)/1000.0
 		_dpos = event.global_position-_dpos
 		if _dpos.length() > drag_length or _dt > drag_duration:
 			return 
 		pressed.emit()
+
+func get_event_global_position(event: InputEvent):
+	var mp : Vector2
+	if event is InputEventMouseButton:
+		mp = event.global_position
+	elif event is InputEventScreenTouch:
+		mp = event.position
+	return mp

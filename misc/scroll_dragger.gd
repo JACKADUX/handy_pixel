@@ -40,5 +40,3 @@ func _ready() -> void:
 
 func is_hold() -> bool:
 	return _hold
-
-	

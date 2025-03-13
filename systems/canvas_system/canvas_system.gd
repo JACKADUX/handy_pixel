@@ -54,7 +54,7 @@ func load_data(data:Dictionary):
 func get_canvas_size():
 	return SystemManager.project_system.project_controller.get_image_layers().get_size()*cell_size
 
-func get_cell_rect() -> Rect2:
+func get_canvas_rect() -> Rect2:
 	return Rect2(Vector2.ZERO, get_canvas_size())
 
 func convert_cell_position(pos:Vector2) -> Vector2i:

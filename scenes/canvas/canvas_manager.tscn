@@ -8,6 +8,17 @@
 [node name="CanvasManager" type="Node2D"]
 script = ExtResource("1_osm6k")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BG" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.980392, 0.956863, 0.901961, 1)
+
 [node name="CheckerBoard" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_bym0j")

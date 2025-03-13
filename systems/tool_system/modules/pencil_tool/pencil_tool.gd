@@ -30,14 +30,18 @@ static func get_tool_name() -> String:
 
 ## 工具激活时调用
 func activate() -> void:
-	super()
+	super() # NOTE: cursor就会在上层
 	_pen_shape_cursor = PenShapeCursor.new()
 	canvas_manager.add_child(_pen_shape_cursor)
 	_pen_shape_cursor.init_with_tool(self)
+	_cursor.move_to_front()
 	
-	_pen_color = project_controller.get_active_color()
+	_pen_color = get_active_color()
 	set_mask_image_dirty()
-	
+
+func get_active_color():
+	return SystemManager.color_system.active_color
+
 ## 工具禁用时调用
 func deactivate() -> void:
 	super()
@@ -59,7 +63,7 @@ func _on_action_just_pressed(action:String):
 	_cache_pen_position = Vector2i(INF,INF)
 	match action:
 		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			set_pen_color(project_controller.get_active_color())
+			set_pen_color(get_active_color())
 			begin_draw()
 		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 			set_pen_color(Color.TRANSPARENT)

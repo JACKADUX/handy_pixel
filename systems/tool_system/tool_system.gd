@@ -76,6 +76,8 @@ func system_initialize():
 		camera_tool.center_view()
 	)
 	
+	#SystemManager.ui_system.model_data_mapper.register("cell_pos_floor",)
+	
 	# 常驻工具
 	camera_tool = get_tool(CameraTool.get_tool_name())
 	camera_tool.activate()

@@ -28,12 +28,14 @@ func get_color() -> Color:
 	return color
 
 func _gui_input(event: InputEvent) -> void:
-	if (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed() :
+
+		
+	if event is InputEventMouseButton and event.is_pressed() :
 		_hold = true
 		_dt = Time.get_ticks_msec()
 		_dpos = event.global_position  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差
 		
-	if _hold and (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_released() :
+	if _hold and event is InputEventMouseButton and event.is_released() :
 		_hold = false
 		_dt = (Time.get_ticks_msec()- _dt)/1000.0
 		_dpos = event.global_position-_dpos

@@ -158,8 +158,7 @@ func blit_image_mask(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vec
 	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image, true)
 	return true
 
-func get_active_color() -> Color:
-	return SystemManager.color_system.active_color
+
 
 ## Utils ------------------------------------------------------------------------------------------------
 func raise_action(action_name:String, data:Dictionary={}):

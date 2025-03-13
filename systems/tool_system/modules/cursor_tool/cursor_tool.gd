@@ -11,6 +11,9 @@ static func get_tool_name() -> String:
 
 # 工具激活时调用
 func activate() -> void:
+	cursor_position = _tool_system.cursor_position
+	cell_pos_floor = _tool_system.cell_pos_floor
+	cell_pos_round = _tool_system.cell_pos_round
 	_cursor = Cursor.new()
 	canvas_manager.add_child(_cursor)
 	_cursor.init_with_tool(self)
@@ -36,7 +39,7 @@ func _handle_value_changed(prop_name:String, value:Variant):
 
 func _on_double_clicked(pos:Vector2):
 	var tap_pos = SystemManager.canvas_system.get_touch_local_position(pos)
-	if SystemManager.canvas_system.get_cell_rect().has_point(tap_pos):
+	if SystemManager.canvas_system.get_canvas_rect().has_point(tap_pos):
 		set_value("cursor_position", tap_pos)
 			
 func _on_hovered(relative:Vector2):

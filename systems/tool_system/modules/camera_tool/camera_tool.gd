@@ -1,9 +1,5 @@
 class_name CameraTool extends BaseTool
 
-signal zoom_changed(value:float)
-signal offset_changed(value:float)
-
-
 const ACTION_CENTER_VIEW := "action_center_view"
 
 var follow_cursor := false
@@ -19,18 +15,13 @@ static func get_tool_name() -> String:
 
 # 工具激活时调用
 func activate() -> void:
-	if _camera:
-		return 
 	_camera = CanvasCamera.new()
-	canvas_manager.add_child(_camera)
-	_camera.init_with_tool(self)
+	add_indicator(_camera)
 
 # 工具禁用时调用
 func deactivate() -> void:
-	if not _camera:
-		return 
-	canvas_manager.remove_child(_camera)
-	_camera.queue_free()
+	remove_indicator(_camera)
+	
 
 func get_tool_data() -> Dictionary:
 	return {
@@ -50,17 +41,11 @@ func _on_paned(relative:Vector2):
 func _on_zoomed(center:Vector2, factor:float):
 	handle_zoom(SystemManager.canvas_system.get_touch_local_position(center), factor)
 
-func _handle_value_changed(prop_name:String, value:Variant):
-	match prop_name:
-		"camera_zoom":
-			zoom_changed.emit(value)
-		"camera_offset":
-			offset_changed.emit(value)
-
 func center_view():
-	if not SystemManager.canvas_system.canvas_manager.subviewport_container:
+	var canvas_manager = _tool_system.get_canvas_manager()
+	if not canvas_manager:
 		return 
-	var viewport_size = SystemManager.canvas_system.canvas_manager.subviewport_container.size
+	var viewport_size = canvas_manager.subviewport_container.size
 	var canvas_size = SystemManager.canvas_system.get_canvas_size()
 	_center_view(canvas_size, viewport_size)
 

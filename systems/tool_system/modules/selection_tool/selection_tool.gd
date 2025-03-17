@@ -1,4 +1,6 @@
-class_name SelectionTool extends CursorTool
+class_name SelectionTool extends BaseTool
+
+const ACTION_SELECT_ALL := "action_select_all"
 
 var _points := PackedVector2Array()
 var _started := false
@@ -8,21 +10,22 @@ var mode := Mode.RECTANGLE
 
 var _selection_area_indicator : SelectionAreaIndicator
 
+var cell_pos_floor : Vector2i:
+	get(): return _tool_system.cursor_tool.cell_pos_floor
+var cell_pos_round : Vector2i:
+	get(): return _tool_system.cursor_tool.cell_pos_round
+	
 static func get_tool_name() -> String:
 	return "selection_tool"
 
 # 工具激活时调用
 func activate() -> void:
-	super()
 	_selection_area_indicator = SelectionAreaIndicator.new()
-	canvas_manager.add_child(_selection_area_indicator)
-	_selection_area_indicator.init_with_tool(self)
+	add_indicator(_selection_area_indicator)
 	
 # 工具禁用时调用
 func deactivate() -> void:
-	super()
-	canvas_manager.remove_child(_selection_area_indicator)
-	_selection_area_indicator.queue_free()
+	remove_indicator(_selection_area_indicator)
 
 func _on_action_just_released(action:String):
 	match action:
@@ -52,7 +55,13 @@ func _on_action_just_released(action:String):
 			_started = false
 			_points.clear()
 			data_changed.emit()
-				
+
+func _on_state_changed(state:InputRecognizer.State):
+	if state == InputRecognizer.State.NONE:
+		request_action_button(false)
+	elif state == InputRecognizer.State.HOVER:
+		request_action_button(true)
+
 func get_outline() -> PackedVector2Array:
 	match mode:
 		Mode.POLY:

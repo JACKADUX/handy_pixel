@@ -17,9 +17,11 @@ func init_with_tool(p_tool:CursorTool):
 				queue_redraw()
 	)
 	
-	SystemManager.tool_system.camera_tool.zoom_changed.connect(func(value):
-		_zoom = value
-		queue_redraw()
+	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop_name:String, value):
+		match prop_name:
+			"camera_zoom":
+				_zoom = value
+				queue_redraw()
 	)
 	_zoom = SystemManager.tool_system.camera_tool.camera_zoom
 	global_position = tool.cursor_position

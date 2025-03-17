@@ -1,4 +1,6 @@
-class_name TransformTool extends CursorTool
+class_name TransformTool extends BaseTool
+
+const ACTION_TRANSFORM := "action_transform"
 
 var _transform_indicator : Node2D
 var _drag_start := false
@@ -7,19 +9,25 @@ var _bg_image := Image.new()
 var _move_image := Image.new()
 var _start_pos := Vector2i.ZERO
 
+var cell_pos_floor : Vector2i:
+	get(): return _tool_system.cursor_tool.cell_pos_floor
+var cell_pos_round : Vector2i:
+	get(): return _tool_system.cursor_tool.cell_pos_round
+	
+
 static func get_tool_name() -> String:
 	return "transform_tool"
 
 # 工具激活时调用
 func activate() -> void:
-	super()
+	pass
 	#_selection_area_indicator = SelectionAreaIndicator.new()
 	#canvas_manager.add_child(_selection_area_indicator)
 	#_selection_area_indicator.init_with_tool(self)
 	
 # 工具禁用时调用
 func deactivate() -> void:
-	super()
+	pass
 	#canvas_manager.remove_child(_selection_area_indicator)
 	#_selection_area_indicator.queue_free()
 

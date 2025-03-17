@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://6fqga0veffps"]
+
+[ext_resource type="Script" uid="uid://c2eyolmj85qhg" path="res://test/test_image_layers/test_image_layers.gd" id="1_28vg8"]
+[ext_resource type="Script" uid="uid://b257qy71ku835" path="res://scenes/canvas/image_layers_canvas.gd" id="2_isucq"]
+
+[node name="TestImageLayers" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28vg8")
+
+[node name="ImageLayersCanvas" type="Node2D" parent="."]
+texture_filter = 1
+position = Vector2(213, 142)
+scale = Vector2(10, 10)
+script = ExtResource("2_isucq")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="ImageLayersCanvas"]
+visible = false
+show_behind_parent = true
+custom_minimum_size = Vector2(32, 32)
+offset_right = 40.0
+offset_bottom = 40.0
+border_color = Color(0.046875, 1, 0.821289, 1)
+editor_only = false

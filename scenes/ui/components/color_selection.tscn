@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://xwf3y70npyiy"]
+[gd_scene load_steps=16 format=3 uid="uid://xwf3y70npyiy"]
 
 [ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
-[ext_resource type="PackedScene" uid="uid://bvf3lqvt6ku83" path="res://components/simple_color_picker/simple_color_picker.tscn" id="2_o3am5"]
+[ext_resource type="PackedScene" uid="uid://b15eef6fao6nk" path="res://components/simple_color_picker/simple_color_picker.tscn" id="2_o3am5"]
+[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="3_5nw6s"]
 [ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="3_p1kuo"]
+[ext_resource type="Script" uid="uid://xh36m7lqsdxt" path="res://scenes/ui/history_color_palette.gd" id="4_5nw6s"]
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="4_jk00k"]
 [ext_resource type="ColorPalette" uid="uid://ehfk38ns2o4y" path="res://assets/color_palette/default_palette.tres" id="5_5nw6s"]
 [ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="6_rb5g8"]
@@ -15,6 +17,17 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5nw6s"]
 shader = ExtResource("9_p1kuo")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rb5g8"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.105469, 0.105469, 0.105469, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="ColorSelection" type="VBoxContainer"]
 offset_right = 400.0
@@ -29,36 +42,12 @@ color_palette_generator = NodePath("../HBoxContainer/VBoxContainer2/PanelContain
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-layout_mode = 2
-
-[node name="SimpleColorPicker" parent="HBoxContainer/VBoxContainer" instance=ExtResource("2_o3am5")]
-custom_minimum_size = Vector2(400, 400)
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="ColorPanel" type="Panel" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-mouse_filter = 1
-script = ExtResource("7_2qx2g")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="ColorPanel2" type="Panel" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-mouse_filter = 1
-script = ExtResource("7_2qx2g")
-color = Color(0.206055, 0.476501, 0.824219, 1)
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_o3am5")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer2/PanelContainer"]
@@ -86,7 +75,7 @@ container = NodePath("../HFlowContainer")
 metadata/_custom_type_script = "uid://200q1ddqwf1s"
 
 [node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer/ColorPaletteGenerator"]
-custom_minimum_size = Vector2(384, 0)
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -147,3 +136,106 @@ selected = 0
 item_count = 1
 popup/item_0/text = "Test"
 popup/item_0/id = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="SimpleColorPicker" parent="HBoxContainer/VBoxContainer" instance=ExtResource("2_o3am5")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/SimpleColorPicker"]
+script = ExtResource("3_5nw6s")
+prop_name = "active_color"
+metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="HBoxContainer/VBoxContainer" node_paths=PackedStringArray("container_agent")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_jk00k")
+container_agent = NodePath("ColorPaletteContainerAgent")
+scale_factor = 1.0
+max_color_num = 5
+
+[node name="HistoryColorPalette" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("4_5nw6s")
+color_palette_generator = NodePath("..")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("6_rb5g8")
+container = NodePath("../HFlowContainer")
+metadata/_custom_type_script = "uid://200q1ddqwf1s"
+
+[node name="ColorSelectionHandler" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("1_o3am5")
+color_palette_generator = NodePath("..")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+alignment = 1
+
+[node name="ColorPanel" type="Panel" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_rb5g8")
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer/ColorPanel"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel2" type="Panel" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_rb5g8")
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer/ColorPanel2"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel3" type="Panel" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_rb5g8")
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer/ColorPanel3"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel4" type="Panel" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_rb5g8")
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer/ColorPanel4"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"
+
+[node name="ColorPanel5" type="Panel" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_rb5g8")
+script = ExtResource("7_2qx2g")
+color = Color(0.882813, 0.255188, 0.255188, 1)
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator/HFlowContainer/ColorPanel5"]
+script = ExtResource("8_x70kc")
+metadata/_custom_type_script = "uid://dhboqsinyusk7"

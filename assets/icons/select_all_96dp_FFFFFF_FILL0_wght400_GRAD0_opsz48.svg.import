@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5qx6rsvlx0lc"
-path="res://.godot/imported/CheckerboardMini.svg-11da6b88dd33c2b78f9bc77c2070672f.ctex"
+uid="uid://c78s7qshjndfc"
+path="res://.godot/imported/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg-3914f1fdf135474e1e1f774066a9a67a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://components/simple_color_picker/resource/CheckerboardMini.svg"
-dest_files=["res://.godot/imported/CheckerboardMini.svg-11da6b88dd33c2b78f9bc77c2070672f.ctex"]
+source_file="res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg"
+dest_files=["res://.godot/imported/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg-3914f1fdf135474e1e1f774066a9a67a.ctex"]
 
 [params]
 

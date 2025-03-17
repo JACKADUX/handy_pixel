@@ -41,8 +41,8 @@ func _ready() -> void:
 		project_manage_panel.hide()
 		new_project_panel.hide()
 		var id = SystemManager.project_system.new_project(Time.get_datetime_string_from_system(),
-				SystemManager.canvas_system.preset_canvas_size,
-				SystemManager.canvas_system.preset_canvas_bg_color
+				SystemManager.project_system.preset_canvas_size,
+				SystemManager.project_system.preset_canvas_bg_color
 		)
 		SystemManager.project_system.set_active_project(id)
 	)

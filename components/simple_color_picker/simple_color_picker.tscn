@@ -1,138 +1,107 @@
-[gd_scene load_steps=13 format=3 uid="uid://bvf3lqvt6ku83"]
+[gd_scene load_steps=10 format=3 uid="uid://b15eef6fao6nk"]
 
-[ext_resource type="Script" uid="uid://x51cy3qd6767" path="res://components/simple_color_picker/simple_color_picker.gd" id="1_k5wib"]
-[ext_resource type="Shader" uid="uid://bxo5hcfh1qb8" path="res://components/simple_color_picker/resource/color_rect.gdshader" id="1_suah3"]
-[ext_resource type="Shader" uid="uid://f18qlgu12rqe" path="res://components/simple_color_picker/resource/simple_color_picker_huebar.gdshader" id="2_jvm6d"]
-[ext_resource type="Texture2D" uid="uid://b5qx6rsvlx0lc" path="res://components/simple_color_picker/resource/CheckerboardMini.svg" id="3_2sfpe"]
-[ext_resource type="Script" uid="uid://evxjw4ua3tkh" path="res://components/simple_color_picker/handle_tracer.gd" id="3_ktg43"]
-[ext_resource type="Shader" uid="uid://bjosnd8ns26su" path="res://components/simple_color_picker/resource/simple_color_picker_transparent.gdshader" id="3_pnl0p"]
-[ext_resource type="Texture2D" uid="uid://lh8f6nmjwo8u" path="res://components/simple_color_picker/resource/goback.png" id="7_3ut6l"]
+[ext_resource type="Script" uid="uid://dinv8o6f1ludi" path="res://components/simple_color_picker/simple_color_picker.gd" id="1_miqdv"]
+[ext_resource type="Shader" uid="uid://cq4kby8epqdpm" path="res://components/simple_color_picker/sv_bar.gdshader" id="2_q4vep"]
+[ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://components/simple_color_picker/tracer.gd" id="3_ibwdk"]
+[ext_resource type="Shader" uid="uid://bg8wmqoixn0fu" path="res://components/simple_color_picker/hue_bar.gdshader" id="3_nyo1t"]
+[ext_resource type="Texture2D" uid="uid://daupm86rghb11" path="res://components/simple_color_picker/check_board.svg" id="4_8yrui"]
+[ext_resource type="Shader" uid="uid://c1gf6eu1kk2n7" path="res://components/simple_color_picker/transparent_bar.gdshader" id="4_a5ldj"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uj22r"]
-resource_local_to_scene = true
-shader = ExtResource("1_suah3")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ljmh"]
+shader = ExtResource("3_nyo1t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dhy6q"]
+shader = ExtResource("2_q4vep")
 shader_parameter/h = 1.0
 shader_parameter/s = 1.0
 shader_parameter/v = 1.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8sbdb"]
-shader = ExtResource("2_jvm6d")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y52tk"]
+shader = ExtResource("4_a5ldj")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nseh8"]
-shader = ExtResource("3_pnl0p")
+[node name="SimpleColorPicker" type="GridContainer"]
+offset_right = 232.0
+offset_bottom = 232.0
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 2
+script = ExtResource("1_miqdv")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nl764"]
-bg_color = Color(0.214844, 0.214844, 0.214844, 1)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.4, 0.4, 0.4, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp4yo"]
-bg_color = Color(0.214844, 0.214844, 0.214844, 1)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.952941, 0.94902, 0.960784, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[node name="SimpleColorPicker" type="MarginContainer"]
-offset_right = 468.0
-offset_bottom = 468.0
-script = ExtResource("1_k5wib")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 8
-
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_uj22r")
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0, 0.483333, 1, 1)
-
-[node name="handle_tracer" type="Control" parent="VBoxContainer/HBoxContainer/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 1
-script = ExtResource("3_ktg43")
-
-[node name="ColorHueBar" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_8sbdb")
-custom_minimum_size = Vector2(48, 0)
+[node name="HueRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7ljmh")
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="handle_tracer2" type="Control" parent="VBoxContainer/HBoxContainer/ColorHueBar"]
+[node name="HueTracer" type="Control" parent="HueRect"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_ktg43")
+script = ExtResource("3_ibwdk")
+shape = 3
+width = 16
+border = 4
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(0, 24)
+[node name="SVRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dhy6q")
+custom_minimum_size = Vector2(480, 480)
 layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource("3_2sfpe")
+size_flags_vertical = 3
+
+[node name="SVTracer" type="Control" parent="SVRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ibwdk")
+shape = 1
+width = 16
+border = 4
+
+[node name="FinalColor" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+color = Color(1, 1, 1, 0.67451)
+
+[node name="TextureRect2" type="TextureRect" parent="FinalColor"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_8yrui")
+expand_mode = 1
+
+[node name="AlphaRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_y52tk")
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="AlphaRect"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_8yrui")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="ColorTransparent" type="ColorRect" parent="VBoxContainer/HBoxContainer2/TextureRect"]
-unique_name_in_owner = true
-material = SubResource("ShaderMaterial_nseh8")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-
-[node name="handle_tracer3" type="Control" parent="VBoxContainer/HBoxContainer2/TextureRect/ColorTransparent"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_ktg43")
-
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-texture = ExtResource("3_2sfpe")
-
-[node name="ColorFinal" type="ColorRect" parent="VBoxContainer/HBoxContainer2/TextureRect2"]
+[node name="AlphaTracer" type="Control" parent="AlphaRect"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -140,55 +109,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 8
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer3"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/caret_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_styles/focus = SubResource("StyleBoxFlat_nl764")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rp4yo")
-placeholder_text = "# hex "
-alignment = 1
-max_length = 8
-context_menu_enabled = false
-
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer3"]
-visible = false
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("3_2sfpe")
-
-[node name="ColorPrev" type="ColorRect" parent="VBoxContainer/HBoxContainer3/TextureRect2"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 8
-
-[node name="ButtonGoBack" type="Button" parent="VBoxContainer/HBoxContainer3/TextureRect2"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_colors/icon_hover_color = Color(0.59375, 0.59375, 0.59375, 1)
-theme_override_colors/icon_pressed_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/icon_normal_color = Color(0.4, 0.4, 0.4, 1)
-icon = ExtResource("7_3ut6l")
-flat = true
+script = ExtResource("3_ibwdk")
+shape = 2
+width = 16
+border = 4

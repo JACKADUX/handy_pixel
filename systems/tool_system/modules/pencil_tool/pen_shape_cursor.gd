@@ -9,15 +9,12 @@ func init_with_tool(p_tool:PencilTool):
 	tool = p_tool
 	tool.property_updated.connect(func(prop_name:String, value):
 		match prop_name:
-			"cell_pos_floor":
-				_align_center()
-			"cell_pos_round":
-				_align_center()
+			
 			"pen_size":
 				update_texture()
 				_align_center()
 			"pen_shape":
-				texture.set_image(tool.get_alpha_image())
+				texture.set_image(tool.get_mask_image())
 				update_texture()
 				_align_center()
 	)
@@ -28,8 +25,18 @@ func init_with_tool(p_tool:PencilTool):
 				material.set_shader_parameter("line_color", value)
 	)
 	
-	SystemManager.tool_system.camera_tool.zoom_changed.connect(func(value):
-		material.set_shader_parameter("line_scale", 3.0/SystemManager.canvas_system.cell_size/value)
+	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, value):
+		match prop_name:
+			"cell_pos_floor":
+				_align_center()
+			"cell_pos_round":
+				_align_center()
+	)
+	
+	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop_name:String, value):
+			match prop_name:
+				"camera_zoom":
+					material.set_shader_parameter("line_scale", 3.0/SystemManager.canvas_system.cell_size/value)
 	)
 	var cell_size = SystemManager.canvas_system.cell_size
 	var zoom = SystemManager.tool_system.get_camera_zoom()

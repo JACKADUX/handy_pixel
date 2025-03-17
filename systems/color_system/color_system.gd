@@ -1,5 +1,7 @@
 class_name ColorSystem extends Node
 
+var max_history_color :int= 10
+
 var active_color = Color.BLACK
 var history_color := ColorPalette.new()
 
@@ -7,6 +9,7 @@ func system_initialize():
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():
 		load_data(db_system.get_data("ColorSystem", {}))
+		SystemManager.ui_system.model_data_mapper.set_value("history_color", history_color)
 	)
 	db_system.save_data_requested.connect(func():
 		db_system.set_data("ColorSystem", save_data())

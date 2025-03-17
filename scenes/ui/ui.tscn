@@ -262,6 +262,7 @@ script = ExtResource("16_ydrdt")
 tool_name = "selection_tool"
 
 [node name="TransformButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+visible = false
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -433,6 +434,7 @@ vertical_alignment = 1
 script = ExtResource("24_o71gb")
 
 [node name="ColorPaletteGenerator" type="MarginContainer" parent="Control/HoverPanel" node_paths=PackedStringArray("container_agent")]
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

@@ -9,7 +9,8 @@ func init_with_tool(p_tool:SelectionTool):
 	tool = p_tool
 	var cell_size = SystemManager.canvas_system.cell_size
 	var camera_tool = SystemManager.tool_system.camera_tool
-	tool.property_updated.connect(func(prop_name:String, value):
+	var cursor_tool = SystemManager.tool_system.cursor_tool
+	cursor_tool.property_updated.connect(func(prop_name:String, value):
 		match prop_name:
 			"cell_pos_round":
 				if tool._started:

@@ -5,9 +5,7 @@ var cell_size :int= 10
 var grid_visible := false
 var cheker_size := 16
 
-
-
-var canvas_manager := CanvasManager.new()
+var canvas_manager : CanvasManager
 
 func system_initialize():
 	var db_system = SystemManager.db_system
@@ -27,13 +25,9 @@ func system_initialize():
 			"checker_size":
 				canvas_manager.checker_board.checker_size = value * cell_size
 	)
-	
-	SystemManager.project_system.project_controller.initialized.connect(func():
-		var canvas_size = get_canvas_size()
-		canvas_manager.set_cheker_board(canvas_size, cheker_size * cell_size)
-		canvas_manager.set_grid(grid_visible, canvas_size, cell_size)
-		canvas_manager.image_layers_canvas.scale = Vector2.ONE*cell_size
-	)
+
+	if canvas_manager:
+		canvas_manager.image_layers_canvas.bind_with_controller()
 	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "grid_visible")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "cheker_size")

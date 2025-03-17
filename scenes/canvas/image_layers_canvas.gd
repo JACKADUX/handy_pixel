@@ -13,10 +13,11 @@ var _redraw_dirty := []
 
 var canvas_size = Vector2(32, 32)
 
+var _debug_mode := false
+
 func _ready() -> void:
 	init_viewport()
 	#_debug()
-	bind_with_controller(SystemManager.project_system.project_controller)
 	
 func _debug():
 	scale = Vector2.ONE*10
@@ -39,17 +40,12 @@ func _process(delta: float) -> void:
 		_redraw_dirty = []
 		queue_redraw()
 		
-func bind_with_controller(project_contorller:ProjectController):
+		
+
+func bind_with_controller():
+	var project_contorller:ProjectController = SystemManager.project_system.project_controller
 	project_contorller.initialized.connect(func():
-		clear()
-		var image_layers := project_contorller.get_image_layers()
-		canvas_size = image_layers.get_size()
-		set_viewport_size(canvas_size)
-		for index in image_layers.get_layer_count():
-			var image_layer = image_layers.get_layer(index)
-			create_layer(index, image_layer.image)
-			update_layer_with(index, image_layer)
-		queue_redraw_layer(-1)
+		init_with(project_contorller.get_image_layers())
 	)
 	
 	project_contorller.layer_created.connect(func(index:int):
@@ -65,27 +61,37 @@ func bind_with_controller(project_contorller:ProjectController):
 	project_contorller.action_called.connect(func(action_name:String, data:Dictionary):
 		match action_name:
 			ProjectController.ACTION_ACTIVATE_LAYER:
-				# TODO: 可以强化展示当前激活的图层
+				# TODO: 也许可以强化展示当前激活的图层
 				pass
 			ProjectController.ACTION_MOVE_LAYER:
 				var index = data.get("index", 0)
 				var to_index = data.get("to_index", 0)
 				var image_layers := project_contorller.get_image_layers()
-				update_layer_texture(index, image_layers.get_layer(index).image)
-				update_layer_texture(to_index, image_layers.get_layer(to_index).image)
+				update_layer_with(index, image_layers.get_layer(index))
+				update_layer_with(to_index, image_layers.get_layer(to_index))
 	)
 	project_contorller.layer_property_updated.connect(func(index:int, property:String, value:Variant):
 		var image_layer := project_contorller.get_image_layers().get_layer(index)
 		match property:
+			ImageLayer.PROP_ALL:
+				update_layer_with(index, value)
 			ImageLayer.PROP_IMAGE:
 				update_layer_texture(index, value)
 			ImageLayer.PROP_VISIBLE:
 				set_layer_visible(index, value)
 			ImageLayer.PROP_POSITION:
 				set_layer_position(index, value)
-			ImageLayer.PROP_ALL:
-				update_layer_with(index, value)
 	)
+	
+func init_with(image_layers:ImageLayers):
+	clear()
+	canvas_size = image_layers.get_size()
+	set_viewport_size(canvas_size)
+	for index in image_layers.get_layer_count():
+		var image_layer = image_layers.get_layer(index)
+		create_layer(index, image_layer.image)
+		update_layer_with(index, image_layer)
+	queue_redraw_layer(-1)
 	
 func update_layer_with(index:int, image_layer:ImageLayer):
 	update_layer_texture(index, image_layer.image)
@@ -101,7 +107,8 @@ func init_viewport():
 	
 	RenderingServer.viewport_attach_canvas(viewport_id, viewport_canvas_id)  # 添加 canvas_layer
 	RenderingServer.canvas_item_set_parent(canvas_id, viewport_canvas_id)
-
+	set_viewport_size(canvas_size)
+	
 func set_viewport_size(size:Vector2):
 	if _prev_size != size:
 		_prev_size = size
@@ -146,8 +153,6 @@ func set_layer_position(index:int, value:Vector2):
 func set_layer_visible(index:int, value:bool):
 	RenderingServer.canvas_item_set_visible(rids[index], value)
 
-
-
 func queue_redraw_layer(index:int):
 	if index == -1:
 		_redraw_dirty = range(textures.size())
@@ -158,9 +163,9 @@ func draw_layer(index:int):
 	var rid = rids[index]
 	var texture :ImageTexture= textures[index]
 	RenderingServer.canvas_item_clear(rid)
+	if _debug_mode:
+		RenderingServer.canvas_item_add_rect(rid, Rect2(Vector2.ZERO, texture.get_size()), Color.RED)
 	texture.draw(rid, Vector2.ZERO)
 
-
-	
 func _draw() -> void:
 	RenderingServer.canvas_item_add_texture_rect(get_canvas_item(), Rect2(0,0,canvas_size.x, canvas_size.y), get_texture_rid())

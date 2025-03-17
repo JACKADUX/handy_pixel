@@ -1,4 +1,4 @@
-extends Node
+class_name FakeButton extends Node
 
 signal pressed
 

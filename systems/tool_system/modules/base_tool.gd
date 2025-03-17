@@ -5,8 +5,6 @@ signal data_changed
 
 var _tool_system: ToolSystem
 
-var canvas_manager :CanvasManager:
-	get(): return _tool_system.get_canvas_manager()
 var project_controller:ProjectController:
 	get(): return _tool_system.get_project_controller()
 var undoredo_system:UndoRedoSystem:
@@ -15,6 +13,7 @@ var undoredo_system:UndoRedoSystem:
 static func get_tool_name() -> String:
 	return ""
 
+	
 ## 工具激活时调用
 func activate() -> void:
 	pass
@@ -40,6 +39,22 @@ func set_value(prop_name:String, value:Variant):
 
 func get_value(prop_name:String) -> Variant:
 	return get(prop_name)
+
+func add_indicator(indocator:Node):
+	var canvas_manager :CanvasManager = _tool_system.get_canvas_manager()
+	if not canvas_manager:
+		return 
+	canvas_manager.add_child(indocator)
+	indocator.init_with_tool(self)
+	
+func remove_indicator(indocator:Node):
+	if not indocator:
+		return 
+	var canvas_manager :CanvasManager = _tool_system.get_canvas_manager()
+	if not canvas_manager:
+		return 
+	canvas_manager.remove_child(indocator)
+	indocator.queue_free()
 
 ## 针对特定属性修改的效果可以发生在这里
 func _handle_value_changed(prop_name:String, value:Variant):

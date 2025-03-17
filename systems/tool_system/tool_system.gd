@@ -6,8 +6,6 @@ signal tool_property_updated(tool_name:String, prop_name:String, value:Variant)
 signal action_button_requested(action_button_datas:Array, value:bool)
 
 
-var cursor_speed_factor :float = 0.75 # 跟随倍率
-
 # 当前激活的工具
 var _current_tool: BaseTool = null
 
@@ -15,9 +13,6 @@ var _current_tool: BaseTool = null
 var _tools: Dictionary[String, BaseTool] = {}
 var _tool_action_button_datas :Dictionary[String, Array] = {}
 
-const ERASER_TOOL := "eraser"
-const COLOR_PICKER_TOOL := "color_picker"
-const FILL_COLOR_TOOL := "fill_color"
 
 const ACTION_PICK_COLOR := "action_pick_color"
 const ACTION_FILL_COLOR := "action_fill_color"
@@ -27,7 +22,7 @@ const ACTION_TOOL_CANCEL_PRESSED := "action_tool_cancel_pressed"
 
 
 var camera_tool : CameraTool
-
+var cursor_tool : CursorTool
 
 func _register_tools() -> void:
 	const main_pressed_icon = preload("res://assets/icons/point_scan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
@@ -38,9 +33,10 @@ func _register_tools() -> void:
 	const cancel_pressed_icon = preload("res://assets/icons/close_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
 	
 	const move_icon = preload("res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	
+	const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
 
 	register_tool(CameraTool.new(), [])
+	register_tool(CursorTool.new(), [])
 		
 	register_tool(PencilTool.new(), [
 		ActionButtonPanel.create_action_button_data(0, PencilTool.ACTION_DRAW_COLOR, pencil_icon),
@@ -51,12 +47,14 @@ func _register_tools() -> void:
 	register_tool(EraserTool.new())
 	register_tool(SelectionTool.new(),[
 		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, main_pressed_icon),
-		ActionButtonPanel.create_action_button_data(2, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
+		ActionButtonPanel.create_action_button_data(1, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
+		ActionButtonPanel.create_action_button_data(3, SelectionTool.ACTION_SELECT_ALL, select_all),
+		ActionButtonPanel.create_action_button_data(4, TransformTool.ACTION_TRANSFORM, move_icon),
 	])
-	register_tool(TransformTool.new(),[
-		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, move_icon),
+	#register_tool(TransformTool.new(),[
+	#	ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, move_icon),
 		#ActionButtonPanel.create_action_button_data(2, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
-	])
+	#])
 	
 func system_initialize():
 	_register_tools()
@@ -70,21 +68,24 @@ func system_initialize():
 		load_data(SystemManager.db_system.get_data("ToolSystem", {}))
 	)
 	
-	SystemManager.ui_system.model_data_mapper.register_with(self, "cursor_speed_factor")
+	#SystemManager.ui_system.model_data_mapper.register_with(self, "cursor_speed_factor")
 	
 	SystemManager.project_system.project_controller.initialized.connect(func():
 		camera_tool.center_view()
 	)
-	
-	#SystemManager.ui_system.model_data_mapper.register("cell_pos_floor",)
-	
+
 	# 常驻工具
+	cursor_tool = get_tool(CursorTool.get_tool_name())
 	camera_tool = get_tool(CameraTool.get_tool_name())
+	
+	cursor_tool.activate()
+	_connect_with_input_system(cursor_tool)
+
 	camera_tool.activate()
 	_connect_with_input_system(camera_tool)
 	
 	# 可替换工具
-	var tool_name = TransformTool.get_tool_name()
+	var tool_name = SelectionTool.get_tool_name()
 	var tool = get_tool(tool_name)
 	switch_tool(tool_name)
 
@@ -133,14 +134,15 @@ func save_data() -> Dictionary:
 		tool_datas[tool_name] = _tools[tool_name].get_tool_data()
 	data["tool_datas"] = tool_datas
 	data["current_tool"] = _current_tool.get_tool_name() 
-	data["cursor_speed_factor"] = cursor_speed_factor
 	return data
 	
 func load_data(data:Dictionary):
-	cursor_speed_factor = data.get("cursor_speed_factor", 0.75)
 	var tool_datas = data.get("tool_datas", {})
 	for tool_name in tool_datas:
-		_tools[tool_name].set_tool_data(tool_datas[tool_name])
+		var tool  = _tools.get(tool_name)
+		if not tool:
+			continue
+		tool.set_tool_data(tool_datas.get(tool_name, {}))
 	switch_tool(data.get("current_tool", PencilTool.get_tool_name()))
 
 # 注册工具

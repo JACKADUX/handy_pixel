@@ -3,19 +3,24 @@ class_name ImageLayers extends Resource
 @export var canvas_size := Vector2i(32,32)
 @export var layers :Array[ImageLayer] = []
 
+enum BlitMode {BLIT, BLEND}
+
 func initialize(p_canvas_size:Vector2i, color:=Color.TRANSPARENT) -> void:
 	canvas_size = p_canvas_size
 	layers.clear()
-	create_layer(0)
-	get_layer(0).image.fill(color)
+	if color.a != 0:
+		create_layer(0, p_canvas_size)
+		get_layer(0).image.fill(color)
+	else:
+		create_layer(0)
 
 func is_valid_layer(index:int) -> bool:
 	return 0 <= index and index < layers.size() 
 
-func create_layer(index:int) -> bool:
+func create_layer(index:int, image_size:=Vector2.ONE, visible:=true, position:=Vector2.ZERO) -> bool:
 	if index < 0 or layers.size() < index : # NOTE: 这里的判定和 is_valid_layer 不一样
 		return false
-	var layer = ImageLayer.create_with(canvas_size)
+	var layer = ImageLayer.create_with(image_size, visible, position)
 	layers.insert(index, layer)
 	return true
 
@@ -116,4 +121,44 @@ func is_init_state() -> bool:
 
 func new_empty_image() -> Image:
 	return Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
-	
+
+func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i, mode:=BlitMode.BLIT) -> bool:
+	# NOTE: 此方法会去除外围空白像素，保持图像最小化 （extend_blit_image 方法会保留外围的空白像素）
+	if not is_valid_layer(index) or not src:
+		return false
+	var valid_src_rect := src_rect
+	var rel_canvas_rect := Rect2(src_rect.position-dst, canvas_size)
+	if not rel_canvas_rect.encloses(src_rect):
+		valid_src_rect = src_rect.intersection(rel_canvas_rect)
+	if not valid_src_rect.has_area():
+		return false
+	var image_layer = get_layer(index)
+	var new_dst = dst + (valid_src_rect.position-src_rect.position) -image_layer.position
+	var data = extend_blit_image(image_layer.image, src, mask, valid_src_rect, new_dst, mode)
+	if not data:
+		return false
+	var used_rect = data.image.get_used_rect()
+	image_layer.image = data.image.get_region(used_rect)
+	image_layer.position += data.offset + used_rect.position
+	return true
+
+static func extend_blit_image(base:Image, src:Image, mask:Image, src_rect:Rect2i, dst:Vector2i, mode:=BlitMode.BLIT) -> Dictionary:
+	# NOTE: mask 可以为 null, 为 null 时会调用 blit_rect 方法
+	var base_rect = Rect2i(Vector2i.ZERO, base.get_size())
+	var rect = Rect2i(dst, src_rect.size) .merge(base_rect)
+	if not rect.has_area():
+		return {}
+	var image = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
+	image.blit_rect(base, base_rect, -rect.position)
+	match mode:
+		BlitMode.BLIT:
+			if mask == null:
+				image.blit_rect(src, src_rect, dst-rect.position)
+			else:
+				image.blit_rect_mask(src, mask, src_rect, dst-rect.position)
+		BlitMode.BLEND:
+			if mask == null:
+				image.blend_rect(src, src_rect, dst-rect.position)
+			else:
+				image.blend_rect_mask(src, mask, src_rect, dst-rect.position)
+	return {"offset": rect.position, "image":image}

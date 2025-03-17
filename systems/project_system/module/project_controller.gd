@@ -80,19 +80,19 @@ func action_update_layer_property(index:int, property:String, value:Variant):
 		undoredo.add_undo_method(update_layer_property.bind(index, property, undo_value))
 	)
 
-func action_blit_image_mask(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i, undo_image:Image):
-	if not blit_image_mask(index, src, mask, src_rect, dst):
+func action_blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i, undo_image_layer:ImageLayer, mode:=ImageLayers.BlitMode.BLIT):
+	if not blit_image(index, src, mask, src_rect, dst, mode):
 		return 
+	var do_image_layer = _image_layers.get_layer(index).duplicate(true)
 	SystemManager.undoredo_system.add_simple_undoredo("BlitImage", func(undoredo:UndoRedo):
 		undoredo.add_do_method(func():
-			blit_image_mask(index, src, mask, src_rect, dst)
+			set_layer(index, do_image_layer)
 		)
 		undoredo.add_undo_method(func():
-			blit_image(index, undo_image, src_rect, dst)
+			set_layer(index, undo_image_layer)
 		)
 	)
 	
-
 
 ## Method ------------------------------------------------------------------------------------------------
 func create_layer(index:int) -> bool:
@@ -141,21 +141,13 @@ func update_layer_property(index:int, property:String, value:Variant, force_upda
 	_image_layers.set_layer_property(index, property, value)
 	layer_property_updated.emit(index, property, value)
 	return true
-
-func blit_image(index:int, src:Image, src_rect: Rect2i, dst:Vector2i) -> bool:
-	if not _image_layers.is_valid_layer(index) or not src:
-		return false
-	var layer_image = _image_layers.get_layer(index).image
-	layer_image.blit_rect(src, src_rect, dst)
-	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image, true)
-	return true
 	
-func blit_image_mask(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i) -> bool:
-	if not _image_layers.is_valid_layer(index) or not src:
+func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i, mode:=ImageLayers.BlitMode.BLIT) -> bool:
+	if not _image_layers.blit_image(index, src, mask, src_rect, dst, mode):
 		return false
-	var layer_image = _image_layers.get_layer(index).image
-	layer_image.blit_rect_mask(src, mask, src_rect, dst)
-	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image, true)
+	var layer_image = _image_layers.get_layer(index)
+	update_layer_property(index, ImageLayer.PROP_IMAGE, layer_image.image, true)
+	update_layer_property(index, ImageLayer.PROP_POSITION, layer_image.position, true)
 	return true
 
 

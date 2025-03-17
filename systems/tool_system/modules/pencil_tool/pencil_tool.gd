@@ -1,4 +1,4 @@
-class_name PencilTool extends CursorTool
+class_name PencilTool extends BaseTool
 
 const ACTION_DRAW_COLOR := "action_draw_color"
 
@@ -19,10 +19,11 @@ var _mask_image_dirty := true
 
 var _blit_color_image : Image
 var _blit_mask_image : Image
-var _prev_image : Image
+var _prev_image_layer : ImageLayer
 
 var _cache_pen_position := Vector2i(INF,INF)
 var _draw_started := false
+var _draw_mode : ImageLayers.BlitMode
 
 ## OVERRIDE ---------------------------------------------------------------------------------------- 
 static func get_tool_name() -> String:
@@ -30,23 +31,14 @@ static func get_tool_name() -> String:
 
 ## 工具激活时调用
 func activate() -> void:
-	super() # NOTE: cursor就会在上层
 	_pen_shape_cursor = PenShapeCursor.new()
-	canvas_manager.add_child(_pen_shape_cursor)
-	_pen_shape_cursor.init_with_tool(self)
-	_cursor.move_to_front()
-	
+	add_indicator(_pen_shape_cursor)
 	_pen_color = get_active_color()
 	set_mask_image_dirty()
 
-func get_active_color():
-	return SystemManager.color_system.active_color
-
 ## 工具禁用时调用
 func deactivate() -> void:
-	super()
-	canvas_manager.remove_child(_pen_shape_cursor)
-	_pen_shape_cursor.queue_free()
+	remove_indicator(_pen_shape_cursor)
 
 func get_tool_data() -> Dictionary:
 	return {
@@ -64,17 +56,19 @@ func _on_action_just_pressed(action:String):
 	match action:
 		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
 			set_pen_color(get_active_color())
+			set_draw_mode(ImageLayers.BlitMode.BLEND)
 			begin_draw()
 		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 			set_pen_color(Color.TRANSPARENT)
+			set_draw_mode(ImageLayers.BlitMode.BLIT)
 			begin_draw()
 	
 func _on_action_pressed(action:String):
 	match action:
 		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			draw_list(get_color_image(), get_mask_image(), _generate_pen_pos_list())
+			_auto_fluent_draw()
 		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			draw_list(get_color_image(), get_mask_image(), _generate_pen_pos_list())
+			_auto_fluent_draw()
 		ToolSystem.ACTION_PICK_COLOR:
 			#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
 			pass
@@ -89,19 +83,35 @@ func _on_action_just_released(action:String):
 		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 			end_draw()
 
+func _on_state_changed(state:InputRecognizer.State):
+	if state == InputRecognizer.State.NONE:
+		request_action_button(false)
+	elif state == InputRecognizer.State.HOVER:
+		request_action_button(true)
+		
+func get_active_color():
+	return SystemManager.color_system.active_color
+
 ## Action -------------------------------------------------------------------------------------------- 
 func begin_draw():
 	_draw_started = true
 	var image_layers := project_controller.get_image_layers()
 	_blit_color_image = image_layers.new_empty_image()
 	_blit_mask_image = image_layers.new_empty_image()
-	_prev_image = image_layers.get_layer(project_controller.get_active_layer_index()).image.duplicate()
+	_prev_image_layer = image_layers.get_layer(project_controller.get_active_layer_index()).duplicate(true)
 
 func draw(src_image:Image, mask_image:Image, dst:Vector2i): 
 	_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
 	_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
 	var used_rect = _blit_mask_image.get_used_rect()
-	project_controller.blit_image_mask(project_controller.get_active_layer_index(), _blit_color_image, _blit_mask_image, used_rect, used_rect.position)
+	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
+	project_controller.blit_image(project_controller.get_active_layer_index(), 
+								_blit_color_image, 
+								_blit_mask_image,
+								used_rect, 
+								used_rect.position, 
+								_draw_mode
+	)
 
 func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 	if not dst_list:
@@ -110,22 +120,47 @@ func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 		_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
 		_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
 	var used_rect = _blit_mask_image.get_used_rect()
-	project_controller.blit_image_mask(project_controller.get_active_layer_index(), _blit_color_image, _blit_mask_image, used_rect, used_rect.position)
-
+	# NOTE: set_layer 是为了半透明效果，必须要这么做
+	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
+	project_controller.blit_image(project_controller.get_active_layer_index(), 
+								_blit_color_image, 
+								_blit_mask_image, 
+								used_rect, 
+								used_rect.position, 
+								_draw_mode
+	)
+	
 func end_draw():
 	if not _draw_started:
 		return 
 	_draw_started = false
 	var used_rect = _blit_mask_image.get_used_rect()
-	project_controller.action_blit_image_mask(project_controller.get_active_layer_index(),
-		_blit_color_image.get_region(used_rect),
-		_blit_mask_image.get_region(used_rect),
-		Rect2(Vector2.ZERO, used_rect.size),
-		used_rect.position,
-		_prev_image.get_region(used_rect)
+	# NOTE: set_layer 是为了半透明效果，必须要这么做
+	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
+	project_controller.action_blit_image(project_controller.get_active_layer_index(),
+										_blit_color_image.get_region(used_rect),
+										_blit_mask_image.get_region(used_rect),
+										Rect2(Vector2.ZERO, used_rect.size),
+										used_rect.position,
+										_prev_image_layer,
+										_draw_mode
 	)
 
 ## Utils -------------------------------------------------------------------------------------------- 
+func _auto_fluent_draw():
+	# NOTE: 在大尺度上绘制时 _generate_pen_pos_list 生成的数量可能会过多并且大部分区域是重叠的
+	#		可以根据画笔的半径来自动把中间重叠的步骤跳过
+	# NOTE: 此方法在会带来很大的性能提升
+	var pos_list = _generate_pen_pos_list()
+	if not pos_list:
+		return 
+	var mask_image = get_mask_image()
+	var size = mask_image.get_size()*0.5
+	var count = pos_list.size()
+	var step = ceil((size.x+size.y)*0.5)
+	pos_list = pos_list.slice(0, count, step)
+	draw_list(get_color_image(), mask_image, pos_list)
+
 func _generate_pen_pos_list() -> Array[Vector2i]:
 	# NOTE: 可以保证线条是连续的
 	var pen_pos := get_pen_position()
@@ -148,7 +183,10 @@ func set_pen_color(color:Color):
 	if _color_image_dirty:
 		get_color_image()
 	_color_image.fill(_pen_color)
-	
+
+func set_draw_mode(mode:ImageLayers.BlitMode):
+	_draw_mode = mode
+
 func get_mask_image() -> Image:
 	if _mask_image_dirty:
 		_mask_image_dirty = false
@@ -163,7 +201,7 @@ func get_color_image() -> Image:
 	return _color_image
 
 func get_pen_position() -> Vector2i:
-	return _get_draw_cell_pos(cell_pos_round, cell_pos_floor)
+	return _get_draw_cell_pos(_tool_system.cursor_tool.cell_pos_round, _tool_system.cursor_tool.cell_pos_floor)
 
 func _is_even_pen_size() -> bool:
 	return pen_size % 2 == 0

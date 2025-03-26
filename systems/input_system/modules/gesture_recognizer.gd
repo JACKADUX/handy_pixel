@@ -34,7 +34,6 @@ func handle_input(event: InputEvent) -> void:
 		if not get_touch_count():
 			state = State.NONE
 			_initial_distance = 0
-			
 	_handle_drag(event)
 
 func _handle_finger_touch(event:InputEventScreenTouch):

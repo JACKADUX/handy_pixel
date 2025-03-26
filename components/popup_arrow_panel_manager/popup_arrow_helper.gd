@@ -11,6 +11,7 @@ func _ready() -> void:
 	if parent is not Button:
 		return 
 	parent.pressed.connect(func():
+		print(parent.has_focus())
 		var arrow_panel = SystemManager.ui_system.popup_arrow_panel_manager.show_popup_panel(popup_panel_scene, free_panel_on_hide)
 		arrow_panel.set_popup_side(popup_side, -panel_offset)
 		var offset = Vector2.from_angle(PI*0.5*int(popup_side)) * offset

@@ -55,4 +55,6 @@ func convert_cell_position(pos:Vector2) -> Vector2i:
 	return Vector2i(floor(pos/cell_size))
 	
 func get_touch_local_position(screen_pos:Vector2) -> Vector2:
+	if not canvas_manager:
+		return screen_pos
 	return canvas_manager.get_global_transform_with_canvas().affine_inverse()* screen_pos

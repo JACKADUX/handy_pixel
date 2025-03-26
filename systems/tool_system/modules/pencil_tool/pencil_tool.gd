@@ -100,25 +100,22 @@ func begin_draw():
 	_blit_mask_image = image_layers.new_empty_image()
 	_prev_image_layer = image_layers.get_layer(project_controller.get_active_layer_index()).duplicate(true)
 
-func draw(src_image:Image, mask_image:Image, dst:Vector2i): 
-	_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
-	_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), dst)
-	var used_rect = _blit_mask_image.get_used_rect()
-	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
-	project_controller.blit_image(project_controller.get_active_layer_index(), 
-								_blit_color_image, 
-								_blit_mask_image,
-								used_rect, 
-								used_rect.position, 
-								_draw_mode
-	)
-
 func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 	if not dst_list:
 		return 
+	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
+	var inter_mask :Image= mask_image
+	var rect = Rect2(Vector2.ZERO, mask_image.get_size())
+	
 	for pen_pos in dst_list:
-		_blit_color_image.blit_rect_mask(src_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
-		_blit_mask_image.blit_rect_mask(mask_image, mask_image, Rect2(Vector2.ZERO, mask_image.get_size()), pen_pos)
+		# TODO: 选区绘画需要更好的方式？
+		if select_tool.selection_mask_image and not select_tool.selection_mask_image.is_invisible():
+			var selection_mask_image = select_tool.selection_mask_image.get_region(Rect2(pen_pos, rect.size))
+			inter_mask = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
+			inter_mask.blit_rect_mask(mask_image, selection_mask_image, rect, Vector2.ZERO)
+		
+		_blit_color_image.blit_rect_mask(src_image, inter_mask, rect, pen_pos)
+		_blit_mask_image.blit_rect_mask(mask_image, inter_mask, rect, pen_pos)
 	var used_rect = _blit_mask_image.get_used_rect()
 	# NOTE: set_layer 是为了半透明效果，必须要这么做
 	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
@@ -136,6 +133,7 @@ func end_draw():
 	_draw_started = false
 	var used_rect = _blit_mask_image.get_used_rect()
 	# NOTE: set_layer 是为了半透明效果，必须要这么做
+	# WARNING: 这部分方法涉及到的参数非常敏感，除非出现bug或者需要新增功能否则不要轻易改动。
 	project_controller.set_layer(project_controller.get_active_layer_index(), _prev_image_layer.duplicate(true))
 	project_controller.action_blit_image(project_controller.get_active_layer_index(),
 										_blit_color_image.get_region(used_rect),
@@ -170,7 +168,7 @@ func _generate_pen_pos_list() -> Array[Vector2i]:
 	_cache_pen_position = pen_pos
 	var pos_list := Geometry2D.bresenham_line(prev_pos, pen_pos)
 	if pos_list.size() > 2:
-		# 把重复的部分去除
+		# 把与上一步重复的部分去除
 		pos_list.pop_front()
 	return pos_list
 	

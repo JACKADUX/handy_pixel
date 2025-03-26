@@ -30,7 +30,6 @@ script = ExtResource("2_r06tu")
 
 [node name="Grid" type="Node2D" parent="."]
 unique_name_in_owner = true
-z_index = 1
 script = ExtResource("3_88g7m")
 grid_enabled = false
 grid_color = Color(0.550781, 0.550781, 0.550781, 1)

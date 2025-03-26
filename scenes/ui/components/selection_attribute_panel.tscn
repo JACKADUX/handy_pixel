@@ -1,0 +1,92 @@
+[gd_scene load_steps=9 format=3 uid="uid://drhwvq1d8binf"]
+
+[ext_resource type="Script" uid="uid://dwnuqna7iwuwe" path="res://scenes/ui/components/toggle_button_widget.gd" id="1_mas42"]
+[ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_2nh30"]
+[ext_resource type="Texture2D" uid="uid://50xve4lqg4yk" path="res://assets/icons/Frame 1.png" id="3_xgo10"]
+[ext_resource type="Texture2D" uid="uid://b1xst7j7e5arj" path="res://assets/icons/Frame 5.png" id="4_mas42"]
+[ext_resource type="Texture2D" uid="uid://bohx2ii4c81ql" path="res://assets/icons/Frame 6.png" id="5_2nh30"]
+[ext_resource type="Texture2D" uid="uid://nm374gowkb0f" path="res://assets/icons/Frame 7.png" id="6_4e1cw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_et7d6"]
+bg_color = Color(0.196078, 0.192157, 0.176471, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
+
+[node name="SelectionAttributePanel" type="VBoxContainer"]
+offset_right = 243.0
+offset_bottom = 239.0
+theme_override_constants/separation = 48
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_type_variation = &"base_panel"
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+clip_children = 2
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_et7d6")
+
+[node name="HBoxContainer" type="GridContainer" parent="PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="ToggleButtonView" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer" node_paths=PackedStringArray("button_datas")]
+script = ExtResource("1_mas42")
+button_datas = {
+NodePath("../Button"): 0,
+NodePath("../Button2"): 1,
+NodePath("../Button3"): 2,
+NodePath("../Button4"): 3
+}
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/ToggleButtonView"]
+script = ExtResource("2_2nh30")
+tool_name = "selection_tool"
+prop_name = "selection_type"
+
+[node name="Button" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"btn_tab"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_je0kj")
+icon = ExtResource("3_xgo10")
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"btn_tab"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_je0kj")
+icon = ExtResource("4_mas42")
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"btn_tab"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_je0kj")
+icon = ExtResource("5_2nh30")
+icon_alignment = 1
+
+[node name="Button4" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"btn_tab"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_je0kj")
+icon = ExtResource("6_4e1cw")
+icon_alignment = 1

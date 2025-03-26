@@ -57,6 +57,9 @@ class InputData:
 		
 	func is_seconed() -> bool:
 		return index == 1
+		
+	func is_pressed() -> bool:
+		return pressed
 	
 	func duplicate() -> InputData:
 		var fd = InputData.new(index)

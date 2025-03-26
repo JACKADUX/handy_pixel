@@ -8,19 +8,30 @@ var input_data_1 : InputData = InputData.new(0)
 
 var _mouse_pos : Vector2
 
+var _just_pressed = false
+
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.key_label == KEY_Q:
 			_is_hover = event.is_pressed()
 			if _is_hover:
+				if _just_pressed:
+					return 
+				_just_pressed = true
 				input_data_1.clear()
 				input_data_1.start_position = _mouse_pos
 				input_data_1.end_position = _mouse_pos
 				input_data_1.pressed = true
 				state = State.HOVER
+				pressed.emit(input_data_1.duplicate())
 			else:
+				if not _just_pressed:
+					return 
+				_just_pressed = false
 				input_data_1.pressed = false
 				state = State.NONE
+				pressed.emit(input_data_1.duplicate())
+				
 		if event.key_label == KEY_I:
 			_send_action(ToolSystem.ACTION_PICK_COLOR, event.is_pressed())
 		if event.key_label == KEY_F:
@@ -54,6 +65,7 @@ func handle_input(event: InputEvent) -> void:
 			input_data_1.end_position = event.position
 			input_data_1.relative = event.relative
 			input_data_1.draged = true
+			draged.emit(input_data_1.duplicate())
 			hovered.emit(event.relative)
 		
 func _send_action(action:String, pressed:bool):

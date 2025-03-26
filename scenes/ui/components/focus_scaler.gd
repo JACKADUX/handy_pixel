@@ -3,6 +3,7 @@ extends Node
 @export var scale_factor :float = 1.2
 
 func _ready() -> void:
+	return
 	var parent :Control = get_parent()
 	parent.focus_entered.connect(func():
 		if parent.disabled:

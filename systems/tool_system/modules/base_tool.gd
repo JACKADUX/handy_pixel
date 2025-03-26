@@ -1,7 +1,6 @@
 class_name BaseTool
 
 signal property_updated(prop_name:String, value:Variant)
-signal data_changed
 
 var _tool_system: ToolSystem
 

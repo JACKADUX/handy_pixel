@@ -48,13 +48,13 @@ func _register_tools() -> void:
 	register_tool(SelectionTool.new(),[
 		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, main_pressed_icon),
 		ActionButtonPanel.create_action_button_data(1, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
-		ActionButtonPanel.create_action_button_data(3, SelectionTool.ACTION_SELECT_ALL, select_all),
-		ActionButtonPanel.create_action_button_data(4, TransformTool.ACTION_TRANSFORM, move_icon),
+		ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all),
+		#ActionButtonPanel.create_action_button_data(4, TransformTool.ACTION_TRANSFORM, move_icon),
 	])
-	#register_tool(TransformTool.new(),[
-	#	ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, move_icon),
+	register_tool(TransformTool.new(),[
+		#ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, move_icon),
 		#ActionButtonPanel.create_action_button_data(2, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
-	#])
+	])
 	
 func system_initialize():
 	_register_tools()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=49 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -23,8 +23,10 @@
 [ext_resource type="Texture2D" uid="uid://de4mcswg5yniu" path="res://assets/icons/undo_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="17_o2sfg"]
 [ext_resource type="Script" uid="uid://c0npy70wkohae" path="res://scenes/ui/components/focus_scaler.gd" id="17_vnqvi"]
 [ext_resource type="Texture2D" uid="uid://dptt5y5o5csbh" path="res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="18_lkvmi"]
+[ext_resource type="Script" uid="uid://c2inktxra3qgu" path="res://scenes/ui/components/on_active_button.gd" id="18_puycq"]
 [ext_resource type="Texture2D" uid="uid://ctlleuv8rr23x" path="res://assets/icons/redo_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="18_yy7ol"]
 [ext_resource type="Script" uid="uid://44t5s5ettca4" path="res://scenes/ui/components/active_color_apply.gd" id="20_fv78h"]
+[ext_resource type="PackedScene" uid="uid://drhwvq1d8binf" path="res://scenes/ui/components/selection_attribute_panel.tscn" id="20_odea8"]
 [ext_resource type="Script" uid="uid://uiaimvrdcyin" path="res://scenes/ui/components/undo_redo_handler.gd" id="21_fv78h"]
 [ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="22_o71gb"]
 [ext_resource type="Texture2D" uid="uid://bowbyjxsiwwl1" path="res://assets/icons/stacks_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="22_pa3n2"]
@@ -42,6 +44,8 @@
 [ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/ui/new_project_panel/new_project_panel.tscn" id="31_272wc"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_puycq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atqe7"]
 content_margin_left = 16.0
@@ -227,6 +231,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("6_26a3v")
 icon_alignment = 1
 expand_icon = true
@@ -234,15 +240,26 @@ expand_icon = true
 [node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 script = ExtResource("17_vnqvi")
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+script = ExtResource("16_ydrdt")
+tool_name = "pencil"
+
+[node name="OnActiveButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+flat = true
+script = ExtResource("18_puycq")
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton/OnActiveButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("15_7ygsn")
 popup_side = 2
 panel_offset = Vector2(0, 100)
-
-[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
-script = ExtResource("16_ydrdt")
-tool_name = "pencil"
 
 [node name="SelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
@@ -250,6 +267,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("8_o71gb")
 icon_alignment = 1
 expand_icon = true
@@ -261,13 +280,30 @@ script = ExtResource("17_vnqvi")
 script = ExtResource("16_ydrdt")
 tool_name = "selection_tool"
 
+[node name="OnActiveButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+flat = true
+script = ExtResource("18_puycq")
+
+[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton/OnActiveButton"]
+script = ExtResource("8_qmss2")
+popup_panel_scene = ExtResource("20_odea8")
+popup_side = 2
+
 [node name="TransformButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
-visible = false
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"btn_middle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("18_lkvmi")
 icon_alignment = 1
 expand_icon = true

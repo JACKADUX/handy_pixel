@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://jomb0iu5a6oq"]
+
+[ext_resource type="Script" uid="uid://bryimf6s7cbxw" path="res://test/test_transform/test_transform.gd" id="1_orhjo"]
+
+[node name="TestTransform" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_orhjo")

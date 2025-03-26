@@ -2,45 +2,49 @@ class_name SelectionTool extends BaseTool
 
 const ACTION_SELECT_ALL := "action_select_all"
 
-var _points := PackedVector2Array()
-var _started := false
-
 enum Mode {NONE, RECTANGLE, POLY}	
 var mode := Mode.RECTANGLE
 
-var _selection_area_indicator : SelectionAreaIndicator
+enum SelectionType {NEW, ADD, SUBTRACT, INTERSECT}
+var selection_type := SelectionType.NEW
 
 var cell_pos_floor : Vector2i:
 	get(): return _tool_system.cursor_tool.cell_pos_floor
 var cell_pos_round : Vector2i:
 	get(): return _tool_system.cursor_tool.cell_pos_round
-	
+
+var _selection_area_indicator : SelectionAreaIndicator
+
+var _started := false
+var _points := PackedVector2Array()
+
+var selection_mask_image : Image
+
 static func get_tool_name() -> String:
 	return "selection_tool"
 
 # 工具激活时调用
 func activate() -> void:
-	_selection_area_indicator = SelectionAreaIndicator.new()
-	add_indicator(_selection_area_indicator)
+	if not _selection_area_indicator:
+		_selection_area_indicator = SelectionAreaIndicator.new()
+		add_indicator(_selection_area_indicator)
 	
+		
 # 工具禁用时调用
 func deactivate() -> void:
-	remove_indicator(_selection_area_indicator)
+	#remove_indicator(_selection_area_indicator)
+	pass
+
+func get_data() -> Dictionary:
+	return {
+		"mode":mode,
+		"selection_type":selection_type,
+	}
 
 func _on_action_just_released(action:String):
 	match action:
 		ToolSystem.ACTION_TOOL_MAIN_PRESSED:
 			match mode:
-				Mode.POLY:
-					if not _started:
-						_started = true
-						_points.clear()
-						_points.append(cell_pos_floor)
-					else:
-						if Vector2i(_points[0]) == cell_pos_round:
-							_started = false
-						_points.append(cell_pos_round)
-						
 				Mode.RECTANGLE:
 					if not _started:
 						_started = true
@@ -49,12 +53,62 @@ func _on_action_just_released(action:String):
 					else:
 						_started = false
 						_points.append(cell_pos_round)
-			data_changed.emit()
+					
+					if _points.size() != 2:
+						return 
+					
+					var rect = RectUtils.get_rect_from(_points[0], _points[1])
+					var undo_image = selection_mask_image.duplicate() if selection_mask_image else null
+					if not selection_mask_image:
+						selection_mask_image = project_controller.get_image_layers().new_empty_image()
+					match selection_type:
+						SelectionType.NEW:
+							selection_mask_image.fill(Color.TRANSPARENT)
+							selection_mask_image.fill_rect(rect, Color.WHITE)
+						SelectionType.ADD:
+							selection_mask_image.fill_rect(rect, Color.WHITE)
+						SelectionType.SUBTRACT:
+							selection_mask_image.fill_rect(rect, Color.TRANSPARENT)
+						SelectionType.INTERSECT:
+							var region_image = selection_mask_image.get_region(rect)
+							selection_mask_image.fill(Color.TRANSPARENT)
+							selection_mask_image.blit_rect(region_image, Rect2(Vector2.ZERO, region_image.get_size()), rect.position)
+							
+					var do_image = selection_mask_image.duplicate()
+					SystemManager.undoredo_system.add_simple_undoredo("Selection", 
+						func(undoredo:UndoRedo):
+							undoredo.add_do_method(func():
+								selection_mask_image = do_image
+								raise_selection_updated()
+							)
+							undoredo.add_undo_method(func():
+								selection_mask_image = undo_image
+								raise_selection_updated()
+							)
+					)
+					
+			raise_selection_updated()
 				
 		ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 			_started = false
 			_points.clear()
-			data_changed.emit()
+			var undo_image = selection_mask_image.duplicate() if selection_mask_image else null
+			selection_mask_image = null
+			var do_image = null
+			raise_selection_updated()
+			
+			SystemManager.undoredo_system.add_simple_undoredo("Selection", 
+				func(undoredo:UndoRedo):
+					undoredo.add_do_method(func():
+						selection_mask_image = do_image
+						raise_selection_updated()
+					)
+					undoredo.add_undo_method(func():
+						selection_mask_image = undo_image
+						raise_selection_updated()
+					)
+			)
+			
 
 func _on_state_changed(state:InputRecognizer.State):
 	if state == InputRecognizer.State.NONE:
@@ -64,8 +118,6 @@ func _on_state_changed(state:InputRecognizer.State):
 
 func get_outline() -> PackedVector2Array:
 	match mode:
-		Mode.POLY:
-			return _points
 		Mode.RECTANGLE:
 			var outline_points := PackedVector2Array()
 			var pc = _points.size()
@@ -80,3 +132,5 @@ func get_outline() -> PackedVector2Array:
 			return outline_points
 	return []
 			
+func raise_selection_updated():
+	property_updated.emit("selection_mask_image", selection_mask_image)

@@ -10,6 +10,9 @@ signal state_changed
 signal pressed(input_data:InputRecognizer.InputData)
 signal draged(input_data:InputRecognizer.InputData)
 
+
+signal input_event()
+
 # TODO: 把当前的状态用图标表示在用户界面
 var state := InputRecognizer.State.NONE :
 	set(value):

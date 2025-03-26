@@ -1,20 +1,55 @@
 shader_type canvas_item;
 
-uniform vec4 ant_color_1: source_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform vec4 ant_color_2: source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform float ant_width = 2.0;
-uniform float ant_length = 10.0;
-uniform float ant_speed = 30.0;
+//uniform vec4 ant_color_1: source_color = vec4(1.0, 1.0, 1.0, 1.0);
+//uniform vec4 ant_color_2: source_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float ant_length = 1.0;
+uniform float ant_speed = 1.0;
+
+uniform vec4 line_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float line_scale : hint_range(0, 20) = 1.2;
+uniform float use_line = 1.0;
+
+bool is_outside(vec2 p) {
+	return (0. > p.x || p.x > 1.) || (0. > p.y || p.y > 1.);
+}
+
+bool is_any_outside(vec2 uv, vec2 size) {
+	return is_outside(uv + vec2(-size.x, 0)) ||
+			is_outside(uv + vec2(0, size.y)) ||
+			is_outside(uv + vec2(size.x, 0)) ||
+			is_outside(uv + vec2(0, -size.y)) ||
+			is_outside(uv + vec2(-size.x, size.y)) ||
+			is_outside(uv + vec2(size.x, size.y)) ||
+			is_outside(uv + vec2(-size.x, -size.y)) ||
+			is_outside(uv + vec2(size.x, -size.y)) ;
+}
 
 void fragment() {
-    vec2 uv = UV;
-    vec2 fw = fwidth(uv);
-    float adjusted_ant_width = min(ant_width, min(0.5 / fw.x, 0.5 / fw.y));
-    vec2 aw = fw * adjusted_ant_width;
+	COLOR.rgb = line_color.rgb;
 
-    vec2 cond = (sign(abs(uv - 0.5) - 0.5 + aw) + 1.0) * 0.5 * ceil(((sign(uv.yx - aw.yx) + 1.0) * 0.5 * (sign(uv - 0.5) * vec2(0.5, -0.5) + 0.5) * 0.5 + (sign(1.0 - aw.yx - uv.yx) + 1.0) * 0.5 * (sign(uv - 0.5) * vec2(-0.5, 0.5)+ 0.5) * 0.5));
-    float dir = dot(vec2(cond.y, -cond.x), sign(uv.yx - 0.5) * uv / aw);
-    float ant_type = round(fract((dir * adjusted_ant_width + TIME * ant_speed) * 0.5 / ant_length));
-    vec4 ant_color = mix(ant_color_1, ant_color_2, ant_type);
-    COLOR = (cond.x + cond.y) * ant_color;
+	vec2 size = TEXTURE_PIXEL_SIZE * line_scale;
+	vec4 color = texture(TEXTURE, UV);
+
+	float outline = 1.;
+	if (is_any_outside(UV, size))  // 必须要这样 否则边缘的像素会丢失
+	{
+		outline = 0.;
+	} else {
+		outline *= texture(TEXTURE, UV + vec2(-size.x, 0)).a;
+		outline *= texture(TEXTURE, UV + vec2(0, size.y)).a;
+		outline *= texture(TEXTURE, UV + vec2(size.x, 0)).a;
+		outline *= texture(TEXTURE, UV + vec2(0, -size.y)).a;
+		outline *= texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
+		outline *= texture(TEXTURE, UV + vec2(size.x, size.y)).a;
+		outline *= texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
+		outline *= texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
+		outline = min(outline, 1.0);
+	}
+	
+	vec2 dir = normalize(vec2(1.,1.));
+	float r = dot(dir, UV);
+	float a = fract(r*length(1./SCREEN_PIXEL_SIZE)/ant_length-TIME*ant_speed);
+	COLOR.rgb = vec3(step(0.5, a));
+	COLOR.a *= color.a -outline*use_line;
+
 }

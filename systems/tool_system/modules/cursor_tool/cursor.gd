@@ -23,6 +23,7 @@ func init_with_tool(p_tool:CursorTool):
 				_zoom = value
 				queue_redraw()
 	)
+	z_index = 1
 	_zoom = SystemManager.tool_system.camera_tool.camera_zoom
 	global_position = tool.cursor_position
 	var mat = ShaderMaterial.new()

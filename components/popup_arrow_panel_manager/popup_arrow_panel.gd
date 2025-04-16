@@ -21,6 +21,9 @@ func _ready() -> void:
 func add_panel(control:Control):
 	margin_container.add_child(control)
 
+func get_panel() -> Control:
+	return margin_container.get_child(0)
+
 func set_popup_side(side:Side, panel_offset):
 	triangle.rotation_degrees = 90 *(1 + int(side))
 	triangle_2.rotation_degrees = triangle.rotation_degrees

@@ -35,7 +35,7 @@ radius = 280
 start_angle = 290
 end_angle = 160
 center_offset = Vector2(140, 140)
-metadata/_custom_type_script = ExtResource("5_qi656")
+metadata/_custom_type_script = "uid://cohsm4kdgnn5y"
 
 [node name="TouchActionButton1" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
 layout_mode = 2

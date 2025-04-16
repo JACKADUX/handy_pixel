@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cyibwt5gr336g"]
 
-[ext_resource type="PackedScene" uid="uid://hjp2wug037f7" path="res://scenes/canvas/canvas_manager.tscn" id="1_id6a3"]
+[ext_resource type="PackedScene" uid="uid://hjp2wug037f7" path="res://systems/canvas_system/module/canvas_manager.tscn" id="1_id6a3"]
 [ext_resource type="Script" uid="uid://ef2w4fuml1yx" path="res://app.gd" id="1_qbwvd"]
 [ext_resource type="PackedScene" uid="uid://ohii5c0hg52f" path="res://scenes/ui/ui.tscn" id="3_i4801"]
 

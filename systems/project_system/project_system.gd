@@ -120,7 +120,7 @@ func save_project_image_layers(id:String, image_layers:ImageLayers):
 
 func get_image_layers_cover(image_layers:ImageLayers):
 	var cover :Image = image_layers.generate_final_image()
-	return ImageUtils.resize_image(cover, project_cover_size)
+	return ImageUtils.shrink_image(cover, project_cover_size)
 
 func get_project_datas() -> Array:
 	return project_datas.duplicate(true)

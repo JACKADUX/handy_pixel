@@ -5,7 +5,6 @@ signal tool_changed(tool_name:String)
 signal tool_property_updated(tool_name:String, prop_name:String, value:Variant)
 signal action_button_requested(action_button_datas:Array, value:bool)
 
-
 # 当前激活的工具
 var _current_tool: BaseTool = null
 
@@ -24,6 +23,39 @@ const ACTION_TOOL_CANCEL_PRESSED := "action_tool_cancel_pressed"
 var camera_tool : CameraTool
 var cursor_tool : CursorTool
 
+	
+func system_initialize():
+	_register_tools()
+	_register_input_actions()
+
+	SystemManager.db_system.save_data_requested.connect(func():
+		SystemManager.db_system.set_data("ToolSystem", save_data())
+	)
+	
+	SystemManager.db_system.load_data_requested.connect(func():
+		load_data(SystemManager.db_system.get_data("ToolSystem", {}))
+	
+	)
+		
+	SystemManager.project_system.project_controller.initialized.connect(func():
+		camera_tool.center_view()
+	)
+	# 常驻工具
+	cursor_tool = get_tool(CursorTool.get_tool_name())
+	camera_tool = get_tool(CameraTool.get_tool_name())
+	
+	cursor_tool.activate()
+	_connect_with_input_system(cursor_tool)
+
+	camera_tool.activate()
+	_connect_with_input_system(camera_tool)
+	# 可替换工具
+	var tool_name = SelectionTool.get_tool_name()
+	var tool = get_tool(tool_name)
+	switch_tool(tool_name)
+	
+	
+
 func _register_tools() -> void:
 	const main_pressed_icon = preload("res://assets/icons/point_scan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
 	const pencil_icon = preload("res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
@@ -31,6 +63,7 @@ func _register_tools() -> void:
 	const pick_color_icon = preload("res://assets/icons/colorize_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
 	const fill_color_icon = preload("res://assets/icons/colors_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
 	const cancel_pressed_icon = preload("res://assets/icons/close_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
+	const confirm_pressed_icon = preload("res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
 	
 	const move_icon = preload("res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
 	const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
@@ -52,43 +85,11 @@ func _register_tools() -> void:
 		#ActionButtonPanel.create_action_button_data(4, TransformTool.ACTION_TRANSFORM, move_icon),
 	])
 	register_tool(TransformTool.new(),[
-		#ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, move_icon),
-		#ActionButtonPanel.create_action_button_data(2, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
+		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, confirm_pressed_icon),
+		ActionButtonPanel.create_action_button_data(1, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
 	])
 	
-func system_initialize():
-	_register_tools()
-	_register_input_actions()
-
-	SystemManager.db_system.save_data_requested.connect(func():
-		SystemManager.db_system.set_data("ToolSystem", save_data())
-	)
 	
-	SystemManager.db_system.load_data_requested.connect(func():
-		load_data(SystemManager.db_system.get_data("ToolSystem", {}))
-	)
-	
-	#SystemManager.ui_system.model_data_mapper.register_with(self, "cursor_speed_factor")
-	
-	SystemManager.project_system.project_controller.initialized.connect(func():
-		camera_tool.center_view()
-	)
-
-	# 常驻工具
-	cursor_tool = get_tool(CursorTool.get_tool_name())
-	camera_tool = get_tool(CameraTool.get_tool_name())
-	
-	cursor_tool.activate()
-	_connect_with_input_system(cursor_tool)
-
-	camera_tool.activate()
-	_connect_with_input_system(camera_tool)
-	
-	# 可替换工具
-	var tool_name = SelectionTool.get_tool_name()
-	var tool = get_tool(tool_name)
-	switch_tool(tool_name)
-
 func _register_input_actions():
 	var action_handler = SystemManager.input_system.action_handler
 	action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
@@ -103,29 +104,13 @@ func _register_input_actions():
 
 func _connect_with_input_system(tool:BaseTool):
 	var input_system :InputSystem = SystemManager.input_system	
-	input_system.double_clicked.connect(tool._on_double_clicked)
-	input_system.hovered.connect(tool._on_hovered)
-	input_system.paned.connect(tool._on_paned)
-	input_system.zoomed.connect(tool._on_zoomed)
-	input_system.state_changed.connect(tool._on_state_changed)
-	input_system.pressed.connect(tool._on_pressed)
-	input_system.draged.connect(tool._on_draged)
-	input_system.action_handler.action_just_pressed.connect(tool._on_action_just_pressed)
-	input_system.action_handler.action_pressed.connect(tool._on_action_pressed)
-	input_system.action_handler.action_just_released.connect(tool._on_action_just_released)
+	input_system.event_occurred.connect(tool._on_event_occurred)
+	input_system.action_handler.action_called.connect(tool._on_action_called)
 
 func _disconnect_with_input_system(tool:BaseTool):
 	var input_system :InputSystem = SystemManager.input_system	
-	input_system.double_clicked.disconnect(tool._on_double_clicked)
-	input_system.hovered.disconnect(tool._on_hovered)
-	input_system.paned.disconnect(tool._on_paned)
-	input_system.zoomed.disconnect(tool._on_zoomed)
-	input_system.state_changed.disconnect(tool._on_state_changed)
-	input_system.pressed.disconnect(tool._on_pressed)
-	input_system.draged.disconnect(tool._on_draged)
-	input_system.action_handler.action_just_pressed.disconnect(tool._on_action_just_pressed)
-	input_system.action_handler.action_pressed.disconnect(tool._on_action_pressed)
-	input_system.action_handler.action_just_released.disconnect(tool._on_action_just_released)
+	input_system.event_occurred.disconnect(tool._on_event_occurred)
+	input_system.action_handler.action_called.disconnect(tool._on_action_called)
 
 func save_data() -> Dictionary:
 	var data = {}
@@ -139,10 +124,12 @@ func save_data() -> Dictionary:
 func load_data(data:Dictionary):
 	var tool_datas = data.get("tool_datas", {})
 	for tool_name in tool_datas:
-		var tool  = _tools.get(tool_name)
+		var tool :BaseTool = _tools.get(tool_name)
 		if not tool:
 			continue
 		tool.set_tool_data(tool_datas.get(tool_name, {}))
+		tool.update_all()
+		
 	switch_tool(data.get("current_tool", PencilTool.get_tool_name()))
 
 # 注册工具
@@ -192,3 +179,6 @@ func get_undoredo_system() -> UndoRedoSystem:
 
 func get_camera_zoom() -> float:
 	return camera_tool.camera_zoom if camera_tool else 1.0
+
+func get_input_datas() -> InputDatas:
+	return SystemManager.input_system.input_recognizer.input_datas

@@ -1,16 +1,16 @@
 [gd_scene load_steps=17 format=3 uid="uid://c6y6t0ckd1yaa"]
 
-[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="1_5hgw5"]
+[ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="1_5hgw5"]
 [ext_resource type="Script" uid="uid://bynnlg6cyqokh" path="res://scenes/ui/image_layers_ui/image_layers_ui.gd" id="1_temu2"]
 [ext_resource type="Texture2D" uid="uid://c6vpbof8q2dyu" path="res://assets/icons/library_add_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_e1gak"]
 [ext_resource type="Texture2D" uid="uid://cs11aqx2xidq3" path="res://assets/icons/delete_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_kriey"]
 [ext_resource type="PackedScene" uid="uid://flmr31hfks82" path="res://scenes/ui/image_layers_ui/layer.tscn" id="2_temu2"]
-[ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="5_e1gak"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="5_e1gak"]
 [ext_resource type="Texture2D" uid="uid://mh2qrrgff6ak" path="res://assets/icons/keyboard_arrow_up_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="6_kriey"]
 [ext_resource type="Texture2D" uid="uid://cohqac8xvo007" path="res://assets/icons/keyboard_arrow_down_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="7_b6ovq"]
 [ext_resource type="Shader" uid="uid://dsrhe3ayjhwqn" path="res://assets/shader/quad_map.gdshader" id="7_kriey"]
-[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="7_w53l4"]
-[ext_resource type="Script" uid="uid://wriq81yrtyar" path="res://misc/scroll_border_indicator.gd" id="9_w53l4"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="7_w53l4"]
+[ext_resource type="Script" uid="uid://c6ob21ox68x3t" path="res://addons/handy_nodes/nodes/scroll_border_indicator.gd" id="9_w53l4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_temu2"]
 
@@ -183,7 +183,6 @@ focus_mode = 0
 icon = ExtResource("6_kriey")
 flat = true
 icon_alignment = 1
-expand_icon = true
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer2/HBoxContainer"]
 visible = false
@@ -201,4 +200,3 @@ focus_mode = 0
 icon = ExtResource("7_b6ovq")
 flat = true
 icon_alignment = 1
-expand_icon = true

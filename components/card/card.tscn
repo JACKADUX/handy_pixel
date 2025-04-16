@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo4ekf0ypdo1f"]
+[gd_scene load_steps=9 format=3 uid="uid://bo4ekf0ypdo1f"]
 
 [ext_resource type="Script" uid="uid://oofrgxwggij1" path="res://components/card/card.gd" id="1_5577b"]
-[ext_resource type="Texture2D" uid="uid://bigvirwet4qta" path="res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_0nrb3"]
-[ext_resource type="Script" uid="uid://bmw0ca3ottv5s" path="res://components/card/button_animation_reactor.gd" id="2_hk754"]
-[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="4_in8cv"]
+[ext_resource type="Shader" uid="uid://cthsbvhawucuo" path="res://assets/shader/scale.gdshader" id="2_f3yfe"]
+[ext_resource type="Texture2D" uid="uid://0mnifv41s14o" path="res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz128.svg" id="3_in8cv"]
+[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="3_paafk"]
+[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="4_bvlio"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="4_in8cv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_in8cv"]
 bg_color = Color(0.203125, 0.203125, 0.203125, 1)
@@ -12,11 +14,14 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_paafk"]
+shader = ExtResource("2_f3yfe")
+
 [node name="Card" type="Button"]
 custom_minimum_size = Vector2(288, 288)
 offset_right = 288.0
 offset_bottom = 288.0
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 script = ExtResource("1_5577b")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -40,6 +45,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_in8cv")
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel"]
 unique_name_in_owner = true
 texture_filter = 1
+material = SubResource("ShaderMaterial_paafk")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,9 +56,18 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="ButtonAnimationReactor" type="Node" parent="MarginContainer/Panel/TextureRect" node_paths=PackedStringArray("button")]
-script = ExtResource("2_hk754")
-button = NodePath("../../../..")
+[node name="Trigger" type="Node" parent="MarginContainer/Panel/TextureRect" node_paths=PackedStringArray("trigger_control")]
+script = ExtResource("3_paafk")
+trigger_control = NodePath("../../../..")
+trigger_type = 3
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="MarginContainer/Panel/TextureRect/Trigger" node_paths=PackedStringArray("react_control")]
+script = ExtResource("4_bvlio")
+react_control = NodePath("../..")
+fn_name = "mouse_in_out_shader"
+fn_args = [0.2, 1.2]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
 
 [node name="Temp" type="TextureRect" parent="."]
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
@@ -68,9 +83,8 @@ offset_bottom = -80.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_0nrb3")
-stretch_mode = 5
+texture = ExtResource("3_in8cv")
+stretch_mode = 3
 
 [node name="FPWS" type="Node" parent="Temp"]
 script = ExtResource("4_in8cv")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"

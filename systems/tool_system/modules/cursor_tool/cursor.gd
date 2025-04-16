@@ -30,7 +30,7 @@ func init_with_tool(p_tool:CursorTool):
 	mat.shader = INVERT_COLOR
 	material = mat
 	queue_redraw()
-	
+
 func _draw() -> void:
 	var color = Color.BLACK
 	var length = cursor_length / _zoom

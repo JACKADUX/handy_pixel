@@ -7,6 +7,8 @@ var cheker_size := 16
 
 var canvas_manager : CanvasManager
 
+const NOTIFICATION_ZOOM_CHANGED :=  10000
+
 func system_initialize():
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():
@@ -19,6 +21,8 @@ func system_initialize():
 	)
 	
 	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, value):
+		if not canvas_manager:
+			return 
 		match prop_name:
 			"grid_visible":
 				canvas_manager.grid.grid_enabled = value
@@ -31,8 +35,6 @@ func system_initialize():
 	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "grid_visible")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "cheker_size")
-	
-	
 	
 	
 func save_data():
@@ -58,3 +60,12 @@ func get_touch_local_position(screen_pos:Vector2) -> Vector2:
 	if not canvas_manager:
 		return screen_pos
 	return canvas_manager.get_global_transform_with_canvas().affine_inverse()* screen_pos
+
+func get_canvas_pos_floor(screen_pos:Vector2) -> Vector2:
+	return get_canvas_pos(screen_pos).floor()
+
+func get_canvas_pos_round(screen_pos:Vector2) -> Vector2:
+	return get_canvas_pos(screen_pos).round()
+
+func get_canvas_pos(screen_pos:Vector2) -> Vector2:
+	return get_touch_local_position(screen_pos)/cell_size

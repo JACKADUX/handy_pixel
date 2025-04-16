@@ -51,43 +51,48 @@ func _handle_value_changed(prop_name:String, value:Variant):
 		set_mask_image_dirty()	
 	super(prop_name, value)
 
-func _on_action_just_pressed(action:String):
-	_cache_pen_position = Vector2i(INF,INF)
-	match action:
-		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			set_pen_color(get_active_color())
-			set_draw_mode(ImageLayers.BlitMode.BLEND)
-			begin_draw()
-		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			set_pen_color(Color.TRANSPARENT)
-			set_draw_mode(ImageLayers.BlitMode.BLIT)
-			begin_draw()
-	
-func _on_action_pressed(action:String):
-	match action:
-		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			_auto_fluent_draw()
-		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			_auto_fluent_draw()
-		ToolSystem.ACTION_PICK_COLOR:
-			#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
-			pass
-		ToolSystem.ACTION_FILL_COLOR:
-			pass
-			#canvas_data.fill_color_alg(cell_pos_floor, active_color)
 
-func _on_action_just_released(action:String):
-	match action:
-		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-			end_draw()
-		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-			end_draw()
+func _on_action_called(action:String, state:ActionHandler.State):
+	match state:
+		ActionHandler.State.JUST_PRESSED:
+			_cache_pen_position = Vector2i(INF,INF)
+			match action:
+				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+					set_pen_color(get_active_color())
+					set_draw_mode(ImageLayers.BlitMode.BLEND)
+					begin_draw()
+				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+					set_pen_color(Color.TRANSPARENT)
+					set_draw_mode(ImageLayers.BlitMode.BLIT)
+					begin_draw()
+		ActionHandler.State.PRESSED:	
+			match action:
+				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+					_auto_fluent_draw()
+				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+					_auto_fluent_draw()
+				ToolSystem.ACTION_PICK_COLOR:
+					#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
+					pass
+				ToolSystem.ACTION_FILL_COLOR:
+					pass
+					#canvas_data.fill_color_alg(cell_pos_floor, active_color)
+		ActionHandler.State.JUST_RELEASED:	
+			match action:
+				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+					end_draw()
+				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+					end_draw()
 
-func _on_state_changed(state:InputRecognizer.State):
-	if state == InputRecognizer.State.NONE:
-		request_action_button(false)
-	elif state == InputRecognizer.State.HOVER:
-		request_action_button(true)
+
+func _on_event_occurred(event:String, data:Dictionary):
+	match event:
+		InputRecognizer.EVENT_STATE_CHANGED:
+			if data.state == InputRecognizer.State.NONE:
+				request_action_button(false)
+			elif data.state == InputRecognizer.State.HOVER:
+				request_action_button(true)
+
 		
 func get_active_color():
 	return SystemManager.color_system.active_color

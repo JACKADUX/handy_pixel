@@ -6,4 +6,3 @@ void fragment() {
 	float a = abs(v-UV.y);
 	COLOR.a *= a*a;
 }
-

@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqv0brlwb1ysd"]
+
+[ext_resource type="Script" uid="uid://rg0iyc7w3nkm" path="res://components/color_panel/advanced_color_panel.gd" id="1_b4eju"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="1_lalam"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4eju"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[node name="AdvancedColorPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(96, 96)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("1_b4eju")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+texture = ExtResource("1_lalam")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.210938, 0.210938, 0.210938, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.210938, 0.210938, 0.210938, 1)
+
+[node name="Active" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b4eju")

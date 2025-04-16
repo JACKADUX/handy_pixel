@@ -71,8 +71,9 @@ func action_delete_layer(index:int):
 			undoredo.add_undo_method(set_layer.bind(index, image_layer))
 		)
 		
-func action_update_layer_property(index:int, property:String, value:Variant):
-	var undo_value = _image_layers.get_layer_property(index, property)
+func action_update_layer_property(index:int, property:String, value:Variant, undo_value:Variant=null):
+	if undo_value == null:
+		undo_value = _image_layers.get_layer_property(index, property)
 	if not update_layer_property(index, property, value):
 		return 
 	SystemManager.undoredo_system.add_simple_undoredo("LayerPropertyUpdated", func(undoredo:UndoRedo):

@@ -58,36 +58,17 @@ func remove_indicator(indocator:Node):
 ## 针对特定属性修改的效果可以发生在这里
 func _handle_value_changed(prop_name:String, value:Variant):
 	pass
-	
-func _on_double_clicked(pos:Vector2):
-	pass
-			
-func _on_hovered(relative:Vector2):
+
+func _on_event_occurred(event:String, data:Dictionary):
 	pass
 
-func _on_paned(relative:Vector2):
-	pass
-
-func _on_zoomed(center:Vector2, factor:float):
-	pass
-
-func _on_pressed(input_data:InputRecognizer.InputData):
-	pass
-	
-func _on_draged(input_data:InputRecognizer.InputData):
-	pass
-	
-func _on_action_just_pressed(action:String):
-	pass
-	
-func _on_action_pressed(action:String):
-	pass
-	
-func _on_action_just_released(action:String):
-	pass
-
-func _on_state_changed(state:InputRecognizer.State):
+func _on_action_called(action:String, state:ActionHandler.State):
 	pass
 
 func request_action_button(value:bool):
 	_tool_system.request_action_button(get_tool_name(), value)
+
+func update_all():
+	var data = get_tool_data()
+	for prop_name in data:
+		property_updated.emit(prop_name, data[prop_name]) 

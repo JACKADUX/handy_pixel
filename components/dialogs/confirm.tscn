@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbq0ll30n1k6s"]
+
+[ext_resource type="Script" uid="uid://dqwrfyfosxocp" path="res://components/dialogs/confirm_dialog.gd" id="1_iqo4y"]
+[ext_resource type="Texture2D" uid="uid://bt4w0tmgvyl5w" path="res://assets/icons/done.svg" id="2_xkvg8"]
+[ext_resource type="Texture2D" uid="uid://1oha3drjwem0" path="res://assets/icons/cancel.svg" id="3_yob8t"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_c1308"]
+color = Color(0.859375, 0.859375, 0.859375, 1)
+thickness = 4
+vertical = true
+
+[node name="ConfirmDialog" type="PanelContainer"]
+offset_right = 404.0
+offset_bottom = 73.0
+theme_type_variation = &"popup_panel"
+script = ExtResource("1_iqo4y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("2_xkvg8")
+flat = true
+icon_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+theme_override_styles/separator = SubResource("StyleBoxLine_c1308")
+
+[node name="CancelButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("3_yob8t")
+flat = true
+icon_alignment = 1

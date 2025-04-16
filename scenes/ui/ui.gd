@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	SystemManager.tool_system.action_button_requested.connect(func(action_button_datas:Array, value:bool):
 		if value:
-			var input_data = SystemManager.input_system.get_input_data()
+			var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
 			var pos = input_data.start_position
 			main_panel.hide()
 			hover_panel.show()

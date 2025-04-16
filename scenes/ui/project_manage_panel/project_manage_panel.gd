@@ -6,9 +6,13 @@ signal return_canvas_requested
 @onready var cancel_button: Button = %CancelButton
 
 @onready var container_agent: ContainerAgent = %ContainerAgent
-const ADD_PROJECT_ICON = preload("res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
+const ADD_PROJECT_ICON = preload("res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz128.svg")
+
+var thread := ThreadHelper.new()
+var _break := false
 
 func _ready() -> void:
+	thread.bind_with(self)
 	cancel_button.pressed.connect(func():
 		return_canvas_requested.emit()
 	)
@@ -40,12 +44,12 @@ func update_projects():
 	_add_project_button()
 	var project_datas = SystemManager.project_system.get_project_datas()
 	project_datas.reverse()
-	var _fns = []
+	var fns = thread.new_fns()
 	for project_data in project_datas:
 		var card = Card.new_card()
 		card.set_meta("project_id", project_data.id)
 		container_agent.add_item(card)
-		_fns.append(func():
+		fns.append(func():
 			if not project_data.cover_path or not FileAccess.file_exists(project_data.cover_path):
 				return 
 			var image = Image.load_from_file(project_data.cover_path)
@@ -57,4 +61,6 @@ func update_projects():
 			SystemManager.project_system.set_active_project(project_data.id)
 			return_canvas_requested.emit()
 		)
-	Utils.thread_call_tasks(_fns)
+	thread.call_fns(fns)
+
+	

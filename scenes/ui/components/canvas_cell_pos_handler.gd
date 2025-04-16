@@ -2,7 +2,8 @@ extends Node
 
 func _ready() -> void:
 	get_parent().text = ""
-	await SystemManager.system_initialized
+	if not SystemManager.is_initialized():
+		await SystemManager.system_initialized
 	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, value):
 		match prop_name:
 			"cell_pos_floor":

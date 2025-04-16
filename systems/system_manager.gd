@@ -13,12 +13,14 @@ signal system_initialized
 @onready var undoredo_system: UndoRedoSystem = $UndoRedoSystem
 @onready var ui_system: UISystem = $UISystem
 
+var _initialized := false
 
 func _ready() -> void:
 	await get_tree().root.ready
 	for system in get_children():
 		if system.has_method("system_initialize"):
 			system.system_initialize()
+	_initialized = true
 	system_initialized.emit()
 	db_system.load_data()
 	
@@ -27,7 +29,10 @@ func _notification(what):
 		quit_request()
 	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_request()
-		
+
+func is_initialized() -> bool:
+	return _initialized
+
 func quit_request():
 	db_system.save_data()
 	get_tree().quit()

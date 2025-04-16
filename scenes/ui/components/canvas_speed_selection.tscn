@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bllt4mivxjyv6"]
 
-[ext_resource type="Script" uid="uid://cmm0rnfj5mvhw" path="res://systems/ui_system/modules/adapter/button_view_adapter.gd" id="1_y2jh3"]
+[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="1_y2jh3"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_y2jh3"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_fildv"]
@@ -10,45 +10,51 @@ offset_right = 600.0
 offset_bottom = 108.0
 theme_type_variation = &"base_panel"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"clip_panel"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SpeedButton" type="Button" parent="HBoxContainer"]
+[node name="SpeedButton" type="Button" parent="PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_tab_left"
+theme_type_variation = &"tab_button"
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
+button_pressed = true
 button_group = SubResource("ButtonGroup_fildv")
 text = ".25"
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton"]
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton"]
 script = ExtResource("1_y2jh3")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
-metadata/value = 0.25
+type = 2
+metadata/value_on = 0.25
 
-[node name="ToolDataController" type="Node" parent="HBoxContainer/SpeedButton/ButtonViewAdapter"]
+[node name="ToolDataController" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton/ButtonViewAdapter"]
 script = ExtResource("2_y2jh3")
 tool_name = "cursor"
 prop_name = "cursor_speed_factor"
 
-[node name="VSeparator3" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
 
-[node name="SpeedButton2" type="Button" parent="HBoxContainer"]
+[node name="SpeedButton2" type="Button" parent="PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_tab"
+theme_type_variation = &"tab_button"
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
@@ -56,27 +62,27 @@ text = ".5"
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton2"]
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton2"]
 script = ExtResource("1_y2jh3")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
-metadata/value = 0.5
+type = 2
+metadata/value_on = 0.5
 
-[node name="ToolDataController" type="Node" parent="HBoxContainer/SpeedButton2/ButtonViewAdapter"]
+[node name="ToolDataController" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton2/ButtonViewAdapter"]
 script = ExtResource("2_y2jh3")
 tool_name = "cursor"
 prop_name = "cursor_speed_factor"
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
 
-[node name="SpeedButton3" type="Button" parent="HBoxContainer"]
+[node name="SpeedButton3" type="Button" parent="PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_tab"
+theme_type_variation = &"tab_button"
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
@@ -84,27 +90,27 @@ text = ".75"
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton3"]
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton3"]
 script = ExtResource("1_y2jh3")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
-metadata/value = 0.75
+type = 2
+metadata/value_on = 0.75
 
-[node name="ToolDataController" type="Node" parent="HBoxContainer/SpeedButton3/ButtonViewAdapter"]
+[node name="ToolDataController" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton3/ButtonViewAdapter"]
 script = ExtResource("2_y2jh3")
 tool_name = "cursor"
 prop_name = "cursor_speed_factor"
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
 
-[node name="SpeedButton4" type="Button" parent="HBoxContainer"]
+[node name="SpeedButton4" type="Button" parent="PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_tab_right"
+theme_type_variation = &"tab_button"
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
@@ -112,12 +118,12 @@ text = "1x"
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer/SpeedButton4"]
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton4"]
 script = ExtResource("1_y2jh3")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
-metadata/value = 1.0
+type = 2
+metadata/value_on = 1.0
 
-[node name="ToolDataController" type="Node" parent="HBoxContainer/SpeedButton4/ButtonViewAdapter"]
+[node name="ToolDataController" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton4/ButtonViewAdapter"]
 script = ExtResource("2_y2jh3")
 tool_name = "cursor"
 prop_name = "cursor_speed_factor"

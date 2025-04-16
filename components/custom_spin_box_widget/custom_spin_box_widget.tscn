@@ -32,7 +32,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 texture_normal = ExtResource("4_gfhhi")
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="Panel" type="HSeparator" parent="HBoxContainer/LVBoxContainer"]
 layout_mode = 2
@@ -46,7 +46,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 texture_normal = ExtResource("5_mpmek")
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="LeftButton" type="TextureButton" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -55,7 +55,7 @@ custom_minimum_size = Vector2(76, 76)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("4_mpmek")
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="VSeparatorL" type="VSeparator" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -85,7 +85,7 @@ custom_minimum_size = Vector2(76, 76)
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("5_u0e6o")
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="RVBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -101,7 +101,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 texture_normal = ExtResource("4_gfhhi")
-stretch_mode = 5
+stretch_mode = 3
 
 [node name="Panel2" type="HSeparator" parent="HBoxContainer/RVBoxContainer"]
 layout_mode = 2
@@ -115,4 +115,4 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 texture_normal = ExtResource("5_mpmek")
-stretch_mode = 5
+stretch_mode = 3

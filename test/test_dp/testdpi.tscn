@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://2sayh8jhycyp"]
+
+[ext_resource type="Script" uid="uid://bkbadkywqt852" path="res://test/test_dp/testdpi.gd" id="1_oaatn"]
+
+[node name="Testdpi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oaatn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 712.0
+offset_top = 188.0
+offset_right = 922.0
+offset_bottom = 373.0
+stretch_mode = 2

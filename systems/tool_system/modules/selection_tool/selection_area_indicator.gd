@@ -37,6 +37,7 @@ func init_with_tool(p_tool:SelectionTool):
 		match prop_name:
 			"camera_zoom":
 				_sprite.material.set_shader_parameter("line_scale", 0.1/ value)
+				_sprite.material.set_shader_parameter("ant_length", 1. *cell_size/ value)
 	)
 	
 	tool.property_updated.connect(func(prop_name:String, value):
@@ -53,8 +54,8 @@ func init_with_tool(p_tool:SelectionTool):
 	
 	scale = Vector2.ONE*cell_size
 	_sprite.material.set_shader_parameter("line_scale", 0.1/camera_tool.camera_zoom)
-	_sprite.material.set_shader_parameter("ant_length", 10.*cell_size)
+	_sprite.material.set_shader_parameter("ant_length", 1.*cell_size/camera_tool.camera_zoom)
 				
 func _draw() -> void:
 	if _points.size() >= 2:
-		draw_polyline(_points, Color.GREEN, 0.1)
+		draw_polyline(_points, Color.GREEN, 0.1/SystemManager.tool_system.camera_tool.camera_zoom)

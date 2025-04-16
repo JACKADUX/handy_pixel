@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dht4v2n614maw" path="res://scenes/ui/image_layers_ui/layer.gd" id="1_w1lpd"]
 [ext_resource type="Script" uid="uid://d3r6ekoyuc1pq" path="res://misc/fake_button.gd" id="2_7308c"]
 [ext_resource type="Texture2D" uid="uid://cxox3xrb3a3gb" path="res://assets/icons/visibility_off_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_n0aaf"]
-[ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/icons/CheckerboardMini.svg" id="5_7308c"]
+[ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/images/Checkerboard_16.svg" id="5_7308c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7308c"]
 

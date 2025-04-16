@@ -1,13 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://dlcwld5qjara0"]
+[gd_scene load_steps=11 format=3 uid="uid://dlcwld5qjara0"]
 
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="1_1yl1e"]
 [ext_resource type="Script" uid="uid://bi4cr2xrsjxhg" path="res://scenes/ui/new_project_panel/new_project_panel.gd" id="1_hklw0"]
 [ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_wxudy"]
-[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="2_xrq2b"]
-[ext_resource type="Script" uid="uid://bhpvvy2ijc6fr" path="res://scenes/ui/components/widget_value_combiner.gd" id="3_wxudy"]
-[ext_resource type="Script" uid="uid://cmm0rnfj5mvhw" path="res://systems/ui_system/modules/adapter/button_view_adapter.gd" id="4_thngy"]
-[ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/icons/CheckerboardMini.svg" id="4_wxudy"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="2_xrq2b"]
+[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="4_thngy"]
+[ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/images/Checkerboard_16.svg" id="4_wxudy"]
+[ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_t1ats"]
 [ext_resource type="Texture2D" uid="uid://ehh751hrv2c0" path="res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="5_thngy"]
+[ext_resource type="Script" uid="uid://b0ddeg4g3xfmg" path="res://addons/handy_nodes/mvc/view_adapter/value_combine_adapter.gd" id="5_wxudy"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_xrq2b"]
 
@@ -41,10 +42,9 @@ custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("2_wxudy")
 icon_alignment = 1
-expand_icon = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -60,128 +60,120 @@ alignment = 1
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "8x8"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(8, 8)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="Button6" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "16"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(16, 16)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "32"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(32, 32)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "64"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(64, 64)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "128"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(128, 128)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="Button5" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 text = "256"
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Vector2(256, 256)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
-[node name="Button7" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Button8" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
-text = "1024"
+theme_type_variation = &"base_button"
+text = "512"
 
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button7"]
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button8"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
-metadata/value = Vector2(1024, 1024)
+metadata/value = Vector2(512, 512)
 
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button7/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button8/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="WidgetValueCombiner" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("widgets")]
-script = ExtResource("3_wxudy")
-value_type = "Vector2"
+script = ExtResource("5_wxudy")
 widgets = [NodePath("../CustomSpinBoxWidget"), NodePath("../CustomSpinBoxWidget2")]
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3/WidgetValueCombiner"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="CustomSpinBoxWidget" parent="MarginContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_1yl1e")]
 custom_minimum_size = Vector2(400, 140)
@@ -235,19 +227,18 @@ theme_override_constants/separation = 65
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Color(1, 1, 1, 0)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
 layout_mode = 1
@@ -271,19 +262,18 @@ texture = ExtResource("4_wxudy")
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Color(1, 1, 1, 1)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
 layout_mode = 1
@@ -305,19 +295,18 @@ mouse_filter = 2
 [node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
 [node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
 script = ExtResource("4_thngy")
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 metadata/value = Color(0, 0, 0, 1)
 
 [node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
 layout_mode = 1
@@ -343,7 +332,7 @@ custom_minimum_size = Vector2(400, 140)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 8
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("5_thngy")
 icon_alignment = 1
 expand_icon = true

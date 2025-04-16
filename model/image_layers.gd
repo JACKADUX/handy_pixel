@@ -80,6 +80,15 @@ func generate_final_image() -> Image:
 		if layer.visible:
 			image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
 	return image
+
+func get_canvas_image(index:int) -> Image:
+	var layer = get_layer(index)
+	if not layer:
+		return 
+	var image = Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
+	image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
+	return image
+	
 	
 func is_inside_canvas(pos: Vector2i) -> bool:
 	return pos.x >= 0 and pos.y >= 0 and pos.x < get_width() and pos.y < get_height()

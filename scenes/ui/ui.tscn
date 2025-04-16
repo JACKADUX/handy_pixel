@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=45 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://cgivrten675yv" path="res://assets/icons/grid_on_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="3_ygedu"]
 [ext_resource type="Texture2D" uid="uid://coh824dck7bo5" path="res://assets/icons/tamper_detection_on_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="4_oopc8"]
 [ext_resource type="Texture2D" uid="uid://6iiofphia8k0" path="res://assets/icons/menu_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_qmss2"]
-[ext_resource type="Script" uid="uid://cmm0rnfj5mvhw" path="res://systems/ui_system/modules/adapter/button_view_adapter.gd" id="6_0xdx3"]
+[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="6_0xdx3"]
 [ext_resource type="Texture2D" uid="uid://edhlck68enk2" path="res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="6_26a3v"]
-[ext_resource type="Script" uid="uid://da3cd2x1p8n5x" path="res://systems/ui_system/modules/general_controller.gd" id="6_vnqvi"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="6_vnqvi"]
 [ext_resource type="Texture2D" uid="uid://b0mh7sckahgcr" path="res://assets/icons/speed_1x_mobiledata_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="7_vnqvi"]
 [ext_resource type="Texture2D" uid="uid://jee4sb51g5mu" path="res://assets/icons/lasso_select_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="8_o71gb"]
 [ext_resource type="Script" uid="uid://cfpokx3k1uwdc" path="res://components/popup_arrow_panel_manager/popup_arrow_helper.gd" id="8_qmss2"]
@@ -33,16 +33,13 @@
 [ext_resource type="PackedScene" uid="uid://c6y6t0ckd1yaa" path="res://scenes/ui/image_layers_ui/image_layers_ui.tscn" id="23_pa3n2"]
 [ext_resource type="Script" uid="uid://bdwl1eq16j7h8" path="res://scenes/ui/components/canvas_cell_pos_handler.gd" id="24_o71gb"]
 [ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="26_en2kd"]
-[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://scenes/ui/components/color_palette_generator.gd" id="26_yy7ol"]
 [ext_resource type="Shader" uid="uid://cr25vi0osd8os" path="res://assets/shader/invert_color.gdshader" id="27_67jad"]
 [ext_resource type="PackedScene" uid="uid://slkcdtbcptrs" path="res://scenes/ui/project_manage_panel/project_manage_panel.tscn" id="27_en2kd"]
 [ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
-[ext_resource type="Script" uid="uid://xh36m7lqsdxt" path="res://scenes/ui/history_color_palette.gd" id="28_272wc"]
-[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="29_lkvmi"]
-[ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="29_yy7ol"]
-[ext_resource type="Script" uid="uid://cmhg4lfb44m08" path="res://components/color_panel/color_panel.gd" id="30_67jad"]
-[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="31_0xdx3"]
+[ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/ui/new_project_panel/new_project_panel.tscn" id="31_272wc"]
+[ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="38_h7igw"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_puycq"]
@@ -64,17 +61,6 @@ expand_margin_bottom = 4.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0xdx3"]
 shader = ExtResource("27_67jad")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0kyo"]
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.105469, 0.105469, 0.105469, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -124,17 +110,16 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("1_4w2x3")
 icon_alignment = 1
-expand_icon = true
 
 [node name="CenterViewButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("2_svq4k")
 icon_alignment = 1
 expand_icon = true
@@ -148,7 +133,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 icon = ExtResource("3_ygedu")
 icon_alignment = 1
@@ -157,19 +142,18 @@ expand_icon = true
 [node name="ButtonViewAdapter" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/GridVisibleButton"]
 script = ExtResource("6_0xdx3")
 type = 1
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 
 [node name="GeneralController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/GridVisibleButton/ButtonViewAdapter"]
 script = ExtResource("6_vnqvi")
+model = ExtResource("38_h7igw")
 prop_name = "grid_visible"
-metadata/_custom_type_script = "uid://da3cd2x1p8n5x"
 
 [node name="FollowCameraButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 icon = ExtResource("4_oopc8")
 icon_alignment = 1
@@ -178,7 +162,6 @@ expand_icon = true
 [node name="ButtonViewAdapter" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/FollowCameraButton"]
 script = ExtResource("6_0xdx3")
 type = 1
-metadata/_custom_type_script = "uid://cmm0rnfj5mvhw"
 
 [node name="ToolDataController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/FollowCameraButton/ButtonViewAdapter"]
 script = ExtResource("9_y0kyo")
@@ -190,7 +173,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("7_vnqvi")
 icon_alignment = 1
 expand_icon = true
@@ -208,7 +191,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 disabled = true
 icon = ExtResource("5_qmss2")
 icon_alignment = 1
@@ -230,7 +213,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("6_26a3v")
@@ -252,6 +235,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_type_variation = &"base_button"
 flat = true
 script = ExtResource("18_puycq")
 
@@ -266,7 +250,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("8_o71gb")
@@ -301,7 +285,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_puycq")
 icon = ExtResource("18_lkvmi")
@@ -320,7 +304,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 disabled = true
 icon = ExtResource("16_272wc")
 icon_alignment = 1
@@ -346,7 +330,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("22_pa3n2")
 icon_alignment = 1
 expand_icon = true
@@ -361,7 +345,7 @@ custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon_alignment = 1
 expand_icon = true
 
@@ -370,36 +354,40 @@ script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("15_oopc8")
 panel_offset = Vector2(0, 90)
 
-[node name="TextureRect2" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
-modulate = Color(0.196078, 0.192157, 0.176471, 1)
-layout_mode = 2
-offset_left = 19.0
-offset_top = 19.0
-offset_right = 83.0
-offset_bottom = 83.0
+[node name="MarginContainer" type="MarginContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.06, 1.06)
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect2" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer"]
+clip_children = 1
+layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("14_7ygsn")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
-layout_mode = 2
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 80.0
-offset_bottom = 80.0
+[node name="AdvancedColorPanel" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2" instance=ExtResource("29_dxwg8")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("14_7ygsn")
-expand_mode = 1
-stretch_mode = 5
 
-[node name="ActiveColorApply" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/TextureRect"]
+[node name="ActiveColorApply" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2/AdvancedColorPanel"]
 script = ExtResource("20_fv78h")
+color_palet = true
 
 [node name="BottomBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
 layout_mode = 2
@@ -418,7 +406,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
 disabled = true
 icon = ExtResource("17_o2sfg")
@@ -432,7 +420,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
 disabled = true
 icon = ExtResource("18_yy7ol")
@@ -469,105 +457,6 @@ vertical_alignment = 1
 [node name="CanvasCellPosHandler" type="Node" parent="Control/HoverPanel/CellPositionLabel"]
 script = ExtResource("24_o71gb")
 
-[node name="ColorPaletteGenerator" type="MarginContainer" parent="Control/HoverPanel" node_paths=PackedStringArray("container_agent")]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -188.0
-offset_bottom = 508.0
-grow_horizontal = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 76
-theme_override_constants/margin_right = 96
-theme_override_constants/margin_bottom = 16
-script = ExtResource("26_yy7ol")
-container_agent = NodePath("ColorPaletteContainerAgent")
-
-[node name="HistoryColorPalette" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
-script = ExtResource("28_272wc")
-color_palette_generator = NodePath("..")
-
-[node name="ColorPaletteContainerAgent" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
-script = ExtResource("29_lkvmi")
-container = NodePath("../HFlowContainer")
-metadata/_custom_type_script = "uid://200q1ddqwf1s"
-
-[node name="ColorSelectionHandler" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
-script = ExtResource("29_yy7ol")
-color_palette_generator = NodePath("..")
-
-[node name="HFlowContainer" type="HFlowContainer" parent="Control/HoverPanel/ColorPaletteGenerator"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 24
-alignment = 1
-
-[node name="ColorPanel" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
-custom_minimum_size = Vector2(76, 76)
-layout_mode = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
-script = ExtResource("30_67jad")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel"]
-script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
-
-[node name="ColorPanel2" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
-custom_minimum_size = Vector2(76, 76)
-layout_mode = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
-script = ExtResource("30_67jad")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel2"]
-script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
-
-[node name="ColorPanel3" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
-custom_minimum_size = Vector2(76, 76)
-layout_mode = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
-script = ExtResource("30_67jad")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel3"]
-script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
-
-[node name="ColorPanel4" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
-custom_minimum_size = Vector2(76, 76)
-layout_mode = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
-script = ExtResource("30_67jad")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel4"]
-script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
-
-[node name="ColorPanel5" type="Panel" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer"]
-custom_minimum_size = Vector2(76, 76)
-layout_mode = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0kyo")
-script = ExtResource("30_67jad")
-color = Color(0.882813, 0.255188, 0.255188, 1)
-
-[node name="FPWS" type="Node" parent="Control/HoverPanel/ColorPaletteGenerator/HFlowContainer/ColorPanel5"]
-script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
-
 [node name="ProjectManagePanel" parent="Control" instance=ExtResource("27_en2kd")]
 unique_name_in_owner = true
 visible = false
@@ -596,7 +485,6 @@ offset_bottom = 114.0
 
 [node name="FPWS" type="Node" parent="PopupArrowPanelManager/PopupArrowPanel"]
 script = ExtResource("31_0xdx3")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
 [node name="ActionButtonPanel" parent="." instance=ExtResource("26_en2kd")]
 visible = false

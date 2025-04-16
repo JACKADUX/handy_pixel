@@ -1,8 +1,8 @@
 class_name ActionHandler
 
-signal action_just_pressed(action:String)
-signal action_pressed(action:String)
-signal action_just_released(action:String)
+signal action_called(action:String, state:State)
+
+enum State {JUST_PRESSED, PRESSED, JUST_RELEASED}
 
 var _actions :Array[String] = []
 
@@ -22,12 +22,12 @@ func unregister_action(action:String):
 func process():
 	for action in get_actions():
 		if Input.is_action_just_pressed(action):
-			action_just_pressed.emit(action)
+			action_called.emit(action, State.JUST_PRESSED)
 		elif Input.is_action_pressed(action):
-			action_pressed.emit(action)	
+			action_called.emit(action, State.PRESSED)
 		elif Input.is_action_just_released(action):
-			action_just_released.emit(action)	
-
+			action_called.emit(action, State.JUST_RELEASED)
+			
 func send_press(action:String):
 	# NOTE: 不在这里直接发送信号的原因是多次触发的action可以在空闲帧只发送一次
 	Input.action_press(action)

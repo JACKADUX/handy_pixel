@@ -38,12 +38,16 @@ func _handle_value_changed(prop_name:String, value:Variant):
 			if r_pos != cell_pos_round:
 				cell_pos_round = r_pos
 				property_updated.emit("cell_pos_round", cell_pos_round)
-				
-func _on_double_clicked(pos:Vector2):
-	var tap_pos = SystemManager.canvas_system.get_touch_local_position(pos)
-	if SystemManager.canvas_system.get_canvas_rect().has_point(tap_pos):
-		set_value("cursor_position", tap_pos)
+
+func _on_event_occurred(event:String, data:Dictionary):
+	match event:
+		InputRecognizer.EVENT_INPUT_HANDLED:
+			var input_data = data.input_datas.get_input_data(0) as InputData
+			if input_data and input_data.double_clicked:
+				var tap_pos = SystemManager.canvas_system.get_touch_local_position(input_data.end_position)
+				if SystemManager.canvas_system.get_canvas_rect().has_point(tap_pos):
+					set_value("cursor_position", tap_pos)
+		InputRecognizer.EVENT_HOVERED:
+			var relative = data.relative*cursor_speed_factor
+			set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())
 			
-func _on_hovered(relative:Vector2):
-	relative *= cursor_speed_factor
-	set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())

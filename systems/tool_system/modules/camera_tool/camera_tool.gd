@@ -29,17 +29,20 @@ func get_tool_data() -> Dictionary:
 		"camera_offset":camera_offset,
 		"camera_zoom":camera_zoom,
 	}
-	
-func _on_action_just_pressed(action:String):
+
+func _on_action_called(action:String, state:ActionHandler.State):
 	match action:
 		ACTION_CENTER_VIEW:
-			center_view()
+			if state == ActionHandler.State.JUST_PRESSED:
+				center_view()
 
-func _on_paned(relative:Vector2):
-	set_value("camera_offset",  camera_offset -relative/camera_zoom)
-
-func _on_zoomed(center:Vector2, factor:float):
-	handle_zoom(SystemManager.canvas_system.get_touch_local_position(center), factor)
+func _on_event_occurred(event:String, data:Dictionary):
+	match event:
+		InputRecognizer.EVENT_PANED:
+			var pan = data.relative
+			set_value("camera_offset",  camera_offset -pan/camera_zoom)
+		InputRecognizer.EVENT_ZOOMED:
+			handle_zoom(SystemManager.canvas_system.get_touch_local_position(data.center), data.factor)
 
 func center_view():
 	var canvas_manager = _tool_system.get_canvas_manager()

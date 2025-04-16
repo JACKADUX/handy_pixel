@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://slkcdtbcptrs"]
 
 [ext_resource type="Script" uid="uid://cftgg2refn6j6" path="res://scenes/ui/project_manage_panel/project_manage_panel.gd" id="1_fg41p"]
-[ext_resource type="Script" uid="uid://b5o7eles6yvcv" path="res://misc/scroll_dragger.gd" id="1_mv0x6"]
-[ext_resource type="Script" uid="uid://200q1ddqwf1s" path="res://misc/container_agent.gd" id="2_fg41p"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="1_mv0x6"]
+[ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="2_fg41p"]
 [ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_ktu8b"]
-[ext_resource type="Script" uid="uid://dhboqsinyusk7" path="res://misc/free_parent_when_start.gd" id="6_3a5jn"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="6_3a5jn"]
 [ext_resource type="PackedScene" uid="uid://bo4ekf0ypdo1f" path="res://components/card/card.tscn" id="6_ktu8b"]
 
 [node name="ProjectManagePanel" type="PanelContainer"]
@@ -37,10 +37,9 @@ custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_type_variation = &"btn_middle"
+theme_type_variation = &"base_button"
 icon = ExtResource("2_ktu8b")
 icon_alignment = 1
-expand_icon = true
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -68,7 +67,6 @@ theme_override_constants/margin_bottom = 16
 unique_name_in_owner = true
 script = ExtResource("2_fg41p")
 container = NodePath("../HFlowContainer")
-metadata/_custom_type_script = "uid://200q1ddqwf1s"
 
 [node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
@@ -80,4 +78,3 @@ layout_mode = 2
 
 [node name="FPWS" type="Node" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/HFlowContainer/Card"]
 script = ExtResource("6_3a5jn")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"

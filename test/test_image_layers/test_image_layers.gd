@@ -2,16 +2,16 @@ extends Control
 
 @onready var image_layers_canvas: ImageLayersCanvas = $ImageLayersCanvas
 
-const testxx = preload("res://assets/test.png")
-var test_image :Image:
-	get():
-		var image = testxx.get_image()
-		image.convert(Image.FORMAT_RGBA8) 
-		return image
+var test_image :Image#
+	#get():
+		#var image = testxx.get_image()
+		#image.convert(Image.FORMAT_RGBA8) 
+		#return image
 
 func _ready() -> void:
+	pass
 	#test1()
-	test2()
+	#test2()
 
 func test2():
 	#image_layers_canvas._debug_mode = true

@@ -19,8 +19,8 @@ class_name ActionButtonPanel extends MarginContainer
 @onready var _buttons = [touch_action_button_0, touch_action_button_1, touch_action_button_2, touch_action_button_3, touch_action_button_4]
 
 func _ready() -> void:
-	SystemManager.ui_system.action_button_panel = self
-	hide()
+	if not Engine.is_editor_hint():
+		hide()
 	set_mode(mode)
 
 func setup_action_buttons(action_button_datas:Array):
@@ -30,6 +30,7 @@ func setup_action_buttons(action_button_datas:Array):
 		var btton:TouchActionButton = _buttons[data.index]
 		btton.input_action_requester.action_name = data.action 
 		btton.texture_rect.texture = data.icon 
+		btton.button_index = data.button_index
 		btton.show()
 
 func set_mode(value:=0):
@@ -47,9 +48,10 @@ func set_mode(value:=0):
 			radio_container.end_angle = 160
 			radio_container.center_offset = Vector2(140,140)
 	
-static func create_action_button_data(index:int, action:String, icon:Texture2D) -> Dictionary:
+static func create_action_button_data(index:int, action:String, icon:Texture2D, button_index:int=1) -> Dictionary:
 	return {
 		"index":index,
 		"action":action,
 		"icon":icon,
+		"button_index":button_index,
 	}

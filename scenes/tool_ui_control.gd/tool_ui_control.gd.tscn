@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://ybxugb3nobbe"]
+
+[ext_resource type="Script" uid="uid://bfi11ulkjisx2" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd" id="1_k2kaw"]
+[ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="1_qwrpp"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="2_0oq2m"]
+
+[node name="ToolUIControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_k2kaw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 16
+
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer"]
+layout_mode = 2
+border_width = 4.0
+
+[node name="FPWS" type="Node" parent="MarginContainer/ReferenceRect"]
+script = ExtResource("2_0oq2m")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="ActionButtonPanel" parent="." instance=ExtResource("1_qwrpp")]
+unique_name_in_owner = true
+layout_mode = 1

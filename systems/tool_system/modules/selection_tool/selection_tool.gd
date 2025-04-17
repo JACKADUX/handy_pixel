@@ -20,9 +20,18 @@ var _points := PackedVector2Array()
 
 var selection_mask_image : Image
 
+
+const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
+
 static func get_tool_name() -> String:
 	return "selection_tool"
 
+func initialize():
+	_started = false
+	_points.clear()
+	selection_mask_image = null
+	raise_selection_updated()
+	
 # 工具激活时调用
 func activate() -> void:
 	if not _selection_area_indicator:
@@ -41,7 +50,13 @@ func get_data() -> Dictionary:
 		"selection_type":selection_type,
 	}
 
-
+func _get_action_button_datas() -> Array:
+	return [
+		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.main_pressed_icon),
+		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon),
+		ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all)
+	]
+	
 func _on_action_called(action:String, state:ActionHandler.State):
 	match state:
 		ActionHandler.State.JUST_RELEASED:
@@ -116,10 +131,10 @@ func _on_event_occurred(event:String, data:Dictionary):
 	match event:
 		InputRecognizer.EVENT_STATE_CHANGED:
 			if data.state == InputRecognizer.State.NONE:
-				request_action_button(false)
+				show_action_button_panel(false)
 			elif data.state == InputRecognizer.State.HOVER:
-				request_action_button(true)
-				
+				show_action_button_panel(true)
+
 
 func get_outline() -> PackedVector2Array:
 	match mode:

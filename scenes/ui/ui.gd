@@ -1,59 +1,29 @@
 extends Control
 
-@onready var action_button_panel :ActionButtonPanel = SystemManager.ui_system.action_button_panel
 @onready var main_panel: MarginContainer = %MainPanel
-@onready var hover_panel: Control = %HoverPanel
+@onready var layers: Control = %Layers
+@onready var tool_ui_control: ToolUIControl = %ToolUIControl
+@onready var popup_arrow_panel_manager: PopupArrowPanelManager = %PopupArrowPanelManager
 
-@onready var project_manage_panel: ProjectManagePanel = %ProjectManagePanel
-@onready var new_project_panel: PanelContainer = %NewProjectPanel
+@onready var top_bar: HBoxContainer = %TopBar
+@onready var top_center_bar: HBoxContainer = %TopCenterBar
+@onready var middle_bar: HBoxContainer = %MiddleBar
+@onready var left_bar: VBoxContainer = %LeftBar
+@onready var center_area_control: Control = %CenterControl
+@onready var right_bar: VBoxContainer = %RightBar
+@onready var bottom_bar: HBoxContainer = %BottomBar
 
-@onready var home_button: Button = %HomeButton
 
 func _ready() -> void:
-	
-	SystemManager.tool_system.action_button_requested.connect(func(action_button_datas:Array, value:bool):
-		if value:
-			var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
-			var pos = input_data.start_position
-			main_panel.hide()
-			hover_panel.show()
-			var area_type = LayoutHelper.get_point_type_lr(pos, get_viewport_rect())
-			if area_type == LayoutHelper.AreaTypeLR.LEFT:
-				action_button_panel.set_mode(2)
-			elif area_type == LayoutHelper.AreaTypeLR.RIGHT:
-				action_button_panel.set_mode(1)
-			action_button_panel.setup_action_buttons(action_button_datas)
-			action_button_panel.show()
-		else:
-			main_panel.show()
-			hover_panel.hide()
-			action_button_panel.hide()
-	)
-	
-	project_manage_panel.new_project_requested.connect(func():
-		new_project_panel.show()
-	)
-	project_manage_panel.return_canvas_requested.connect(func():
-		project_manage_panel.hide()
-	)
-	
-	new_project_panel.ok_pressed.connect(func():
-		project_manage_panel.hide()
-		new_project_panel.hide()
-		var id = SystemManager.project_system.new_project(Time.get_datetime_string_from_system(),
-				SystemManager.project_system.preset_canvas_size,
-				SystemManager.project_system.preset_canvas_bg_color
-		)
-		SystemManager.project_system.set_active_project(id)
-	)
-	new_project_panel.cancel_pressed.connect(func():
-		new_project_panel.hide()
-	)
-	
-	home_button.pressed.connect(func():
-		SystemManager.db_system.save_data()
-		project_manage_panel.show()
-		project_manage_panel.update()
-	)
+	SystemManager.ui_system.ui = self
+	%HomeButton.pressed.connect(open_projects_panel)
 	
 	
+func open_projects_panel():
+	const ProjectManagePanel = preload("res://scenes/project_manage_panel/project_manage_panel.gd")
+	const PROJECT_MANAGE_PANEL = preload("res://scenes/project_manage_panel/project_manage_panel.tscn")
+	SystemManager.save_data()
+	var project_manage_panel = PROJECT_MANAGE_PANEL.instantiate() as ProjectManagePanel
+	layers.add_child(project_manage_panel)
+	project_manage_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE)
+	project_manage_panel.update_projects()

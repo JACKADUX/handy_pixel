@@ -12,6 +12,9 @@ var cursor_speed_factor :float = 0.75 # 跟随倍率
 static func get_tool_name() -> String:
 	return "cursor"
 
+func initialize():
+	set_value("cursor_position", Vector2.ZERO)
+	
 # 工具激活时调用
 func activate() -> void:
 	_cursor = Cursor.new()

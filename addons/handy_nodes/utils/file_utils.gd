@@ -1,11 +1,11 @@
 class_name FileUtils
 
-static func delet_folder(source_folder:String) -> bool:
+static func delete_folder(source_folder:String) -> bool:
 	assert(DirAccess.dir_exists_absolute(source_folder))
 	for file in DirAccess.get_files_at(source_folder):
 		DirAccess.remove_absolute(source_folder.path_join(file))
 	for folder in DirAccess.get_directories_at(source_folder):
-		delet_folder(source_folder.path_join(folder))
+		delete_folder(source_folder.path_join(folder))
 	DirAccess.remove_absolute(source_folder)
 	return true
 	

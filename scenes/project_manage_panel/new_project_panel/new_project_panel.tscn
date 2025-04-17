@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dlcwld5qjara0"]
+[gd_scene load_steps=13 format=3 uid="uid://dlcwld5qjara0"]
 
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="1_1yl1e"]
-[ext_resource type="Script" uid="uid://bi4cr2xrsjxhg" path="res://scenes/ui/new_project_panel/new_project_panel.gd" id="1_hklw0"]
+[ext_resource type="Script" uid="uid://bi4cr2xrsjxhg" path="res://scenes/project_manage_panel/new_project_panel/new_project_panel.gd" id="1_hklw0"]
+[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="2_o77qf"]
 [ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_wxudy"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="2_xrq2b"]
+[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="3_hx706"]
 [ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="4_thngy"]
 [ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/images/Checkerboard_16.svg" id="4_wxudy"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_t1ats"]
@@ -28,6 +30,17 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 96
 theme_override_constants/margin_bottom = 96
 
+[node name="Trigger" type="Node" parent="MarginContainer"]
+script = ExtResource("2_o77qf")
+trigger_type = 9
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="MarginContainer/Trigger"]
+script = ExtResource("3_hx706")
+fn_name = "move_from"
+fn_args = [0.2, Vector2(0, 200), Vector2(0, 0)]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 96
@@ -40,8 +53,8 @@ theme_override_constants/separation = 48
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_type_variation = &"base_button"
 icon = ExtResource("2_wxudy")
 icon_alignment = 1
@@ -328,7 +341,7 @@ color = Color(0.0507813, 0.0507813, 0.0507813, 1)
 
 [node name="OkButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 140)
+custom_minimum_size = Vector2(400, 144)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 8

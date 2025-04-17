@@ -17,7 +17,10 @@ enum TriggerType {
 func _ready() -> void:
 	if not trigger_control:
 		trigger_control = get_parent()
-	
+	trigger_control.tree_exiting.connect(func():
+		for cnt in triggered.get_connections():
+			triggered.disconnect(cnt.callable)
+	)
 	connect_trigger()
 	if not get_tree().root.is_node_ready():
 		await get_tree().root.ready

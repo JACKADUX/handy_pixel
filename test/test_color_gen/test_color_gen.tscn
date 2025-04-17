@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqu1vb4e5tqx4"]
+
+[ext_resource type="Script" uid="uid://bvm51edc8ji77" path="res://test/test_color_gen/test_color_gen.gd" id="1_rjb70"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="1_rohfp"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="2_rjb70"]
+[ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="3_beh6v"]
+[ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="4_l5cak"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="5_bsunh"]
+
+[node name="TestColorGen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rjb70")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(0, 400)
+offset_right = 1892.0
+offset_bottom = 1055.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="ScrollContainer"]
+script = ExtResource("1_rohfp")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="ScrollContainer" node_paths=PackedStringArray("container_agent")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_rjb70")
+container_agent = NodePath("ColorPaletteContainerAgent")
+max_color_num = 20
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("3_beh6v")
+container = NodePath("../HFlowContainer")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="ScrollContainer/ColorPaletteGenerator"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="AdvancedColorPanel" parent="ScrollContainer/ColorPaletteGenerator/HFlowContainer" instance=ExtResource("4_l5cak")]
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="ScrollContainer/ColorPaletteGenerator/HFlowContainer/AdvancedColorPanel"]
+script = ExtResource("5_bsunh")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 849.0
+offset_top = 962.0
+offset_right = 1257.0
+offset_bottom = 1071.0
+text = "test"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

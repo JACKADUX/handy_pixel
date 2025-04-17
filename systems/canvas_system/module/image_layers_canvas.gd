@@ -40,8 +40,6 @@ func _process(delta: float) -> void:
 		_redraw_dirty = []
 		queue_redraw()
 		
-		
-
 func bind_with_controller():
 	var project_contorller:ProjectController = SystemManager.project_system.project_controller
 	project_contorller.initialized.connect(func():

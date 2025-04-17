@@ -38,13 +38,17 @@ center_offset = Vector2(140, 140)
 metadata/_custom_type_script = "uid://cohsm4kdgnn5y"
 
 [node name="TouchActionButton1" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
 
 [node name="TouchActionButton2" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
 
 [node name="TouchActionButton3" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
 
 [node name="TouchActionButton4" parent="RadioContainer" instance=ExtResource("2_nvoxd")]
+custom_minimum_size = Vector2(144, 144)
 layout_mode = 2

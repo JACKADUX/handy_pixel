@@ -13,7 +13,7 @@ static func image_from_64(value:String) -> Image:
 	var image = Image.new()
 	image.load_png_from_buffer(Marshalls.base64_to_raw(value))
 	return image
-	
+
 static func shrink_image(image:Image, max_size:=1024) -> Image:
 	# NOTE: 该方法只会缩小 不会放大
 	# 让所有图片的最长边等于max_size，并等比缩放
@@ -129,9 +129,8 @@ static func file_dialog(title:String="Files", filter=[], mode=DisplayServer.FILE
 	var files = []
 	var blocker = AwaitBloker.new()
 	var _on_folder_selected = func(status:bool, selected_paths:PackedStringArray, selected_filter_index:int):
-		if not status:
-			return
-		files.append_array(selected_paths)
+		if status:
+			files.append_array(selected_paths)
 		blocker.go_on_deferred()
 	
 	DisplayServer.file_dialog_show(title, current_directory, filename,false,

@@ -7,8 +7,6 @@ var cheker_size := 16
 
 var canvas_manager : CanvasManager
 
-const NOTIFICATION_ZOOM_CHANGED :=  10000
-
 func system_initialize():
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():

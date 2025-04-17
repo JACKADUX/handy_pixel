@@ -45,7 +45,7 @@ void fragment() {
 
 	vec2 dir = normalize(vec2(1.,1.));
 	float r = dot(dir, UV);
-	float a = fract(r*length(1./TEXTURE_PIXEL_SIZE)/ant_length-TIME*ant_speed); 
+	float a = fract(r*length(1./TEXTURE_PIXEL_SIZE)/ant_length-TIME*ant_speed);
 	COLOR.rgb = vec3(step(0.5, a));
 	COLOR.a = ceil(color.a) - outline;
 }

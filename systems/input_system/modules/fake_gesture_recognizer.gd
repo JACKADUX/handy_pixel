@@ -10,9 +10,9 @@ func handle_input(event: InputEvent) -> void:
 		if event.key_label == KEY_W:	
 			_send_action(ToolSystem.ACTION_TOOL_CANCEL_PRESSED, event.is_pressed())	
 		if event.key_label == KEY_I:
-			_send_action(ToolSystem.ACTION_PICK_COLOR, event.is_pressed())
+			_send_action(ColorPickerTool.ACTION_PICK_COLOR, event.is_pressed())
 		if event.key_label == KEY_F:
-			_send_action(ToolSystem.ACTION_FILL_COLOR, event.is_pressed())
+			_send_action(FillColorTool.ACTION_FILL_COLOR, event.is_pressed())
 				
 	if event is InputEventMouseButton:
 		if event.button_index in [MOUSE_BUTTON_WHEEL_DOWN,MOUSE_BUTTON_WHEEL_UP] :

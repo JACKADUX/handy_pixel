@@ -11,7 +11,7 @@ func _ready() -> void:
 	if parent is not Button:
 		return 
 	parent.pressed.connect(func():
-		var arrow_panel = SystemManager.ui_system.popup_arrow_panel_manager.show_popup_panel(popup_panel_scene, free_panel_on_hide)
+		var arrow_panel = PopupArrowPanelManager.get_from_ui_system().show_popup_panel(popup_panel_scene, free_panel_on_hide)
 		arrow_panel.set_popup_side(popup_side, -panel_offset)
 		var offset = Vector2.from_angle(PI*0.5*int(popup_side)) * offset
 		arrow_panel.global_position = parent.get_global_rect().get_center() - offset + panel_offset
@@ -25,9 +25,9 @@ func _ready() -> void:
 	if not SystemManager.is_initialized():
 		await SystemManager.system_initialized
 	if not free_panel_on_hide:
-		SystemManager.ui_system.popup_arrow_panel_manager.get_or_create_popup_panel(popup_panel_scene, free_panel_on_hide)
+		PopupArrowPanelManager.get_from_ui_system().get_or_create_popup_panel(popup_panel_scene, free_panel_on_hide)
 
 func get_popup_arrow_panel() -> PopupArrowPanelManager.PopupArrowPanel:
-	return SystemManager.ui_system.popup_arrow_panel_manager.get_popup_panel(popup_panel_scene)
+	return PopupArrowPanelManager.get_from_ui_system().get_popup_panel(popup_panel_scene)
 
 	

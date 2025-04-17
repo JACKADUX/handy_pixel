@@ -10,15 +10,14 @@ var _current_tool: BaseTool = null
 
 # 注册的工具列表
 var _tools: Dictionary[String, BaseTool] = {}
-var _tool_action_button_datas :Dictionary[String, Array] = {}
 
-
-const ACTION_PICK_COLOR := "action_pick_color"
-const ACTION_FILL_COLOR := "action_fill_color"
 const ACTION_TOOL_MAIN_PRESSED := "action_tool_main_pressed"
 const ACTION_TOOL_CONFIRM_PRESSED := "action_tool_confirm_pressed"
 const ACTION_TOOL_CANCEL_PRESSED := "action_tool_cancel_pressed"
 
+const main_pressed_icon = preload("res://assets/icons/point_scan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+const cancel_pressed_icon = preload("res://assets/icons/close_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
+const confirm_pressed_icon = preload("res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
 
 var camera_tool : CameraTool
 var cursor_tool : CursorTool
@@ -34,11 +33,12 @@ func system_initialize():
 	
 	SystemManager.db_system.load_data_requested.connect(func():
 		load_data(SystemManager.db_system.get_data("ToolSystem", {}))
-	
 	)
 		
 	SystemManager.project_system.project_controller.initialized.connect(func():
-		camera_tool.center_view()
+		for tool in _tools.values():
+			tool.initialize()
+		
 	)
 	# 常驻工具
 	cursor_tool = get_tool(CursorTool.get_tool_name())
@@ -54,40 +54,16 @@ func system_initialize():
 	var tool = get_tool(tool_name)
 	switch_tool(tool_name)
 	
-	
 
 func _register_tools() -> void:
-	const main_pressed_icon = preload("res://assets/icons/point_scan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const pencil_icon = preload("res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const erase_icon = preload("res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const pick_color_icon = preload("res://assets/icons/colorize_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const fill_color_icon = preload("res://assets/icons/colors_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const cancel_pressed_icon = preload("res://assets/icons/close_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
-	const confirm_pressed_icon = preload("res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
-	
-	const move_icon = preload("res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
-	const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
-
-	register_tool(CameraTool.new(), [])
-	register_tool(CursorTool.new(), [])
+	register_tool(CameraTool.new())
+	register_tool(CursorTool.new())
 		
-	register_tool(PencilTool.new(), [
-		ActionButtonPanel.create_action_button_data(0, PencilTool.ACTION_DRAW_COLOR, pencil_icon),
-		ActionButtonPanel.create_action_button_data(2, ACTION_PICK_COLOR, pick_color_icon),
-		ActionButtonPanel.create_action_button_data(3, ACTION_FILL_COLOR, fill_color_icon),
-		ActionButtonPanel.create_action_button_data(4, EraserTool.ACTION_ERASE_COLOR, erase_icon),
-	])
+	register_tool(PencilTool.new())
 	register_tool(EraserTool.new())
-	register_tool(SelectionTool.new(),[
-		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, main_pressed_icon),
-		ActionButtonPanel.create_action_button_data(1, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
-		ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all),
-		#ActionButtonPanel.create_action_button_data(4, TransformTool.ACTION_TRANSFORM, move_icon),
-	])
-	register_tool(TransformTool.new(),[
-		ActionButtonPanel.create_action_button_data(0, ACTION_TOOL_MAIN_PRESSED, confirm_pressed_icon),
-		ActionButtonPanel.create_action_button_data(1, ACTION_TOOL_CANCEL_PRESSED, cancel_pressed_icon),
-	])
+	register_tool(SelectionTool.new())
+	register_tool(TransformTool.new())
+	register_tool(ColorPickerTool.new())
 	
 	
 func _register_input_actions():
@@ -95,12 +71,13 @@ func _register_input_actions():
 	action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
 	action_handler.register_action(EraserTool.ACTION_ERASE_COLOR)
 	action_handler.register_action(CameraTool.ACTION_CENTER_VIEW)
+	action_handler.register_action(FillColorTool.ACTION_FILL_COLOR)
+	action_handler.register_action(ColorPickerTool.ACTION_PICK_COLOR)
+	
 	action_handler.register_action(ACTION_TOOL_MAIN_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CONFIRM_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CANCEL_PRESSED)
 	
-	action_handler.register_action(ACTION_FILL_COLOR)
-	action_handler.register_action(ACTION_PICK_COLOR)
 
 func _connect_with_input_system(tool:BaseTool):
 	var input_system :InputSystem = SystemManager.input_system	
@@ -133,12 +110,12 @@ func load_data(data:Dictionary):
 	switch_tool(data.get("current_tool", PencilTool.get_tool_name()))
 
 # 注册工具
-func register_tool(tool: BaseTool, action_button_datas:=[]) -> void:
+func register_tool(tool: BaseTool) -> void:
 	var tool_name = tool.get_tool_name()
 	if not _tools.has(tool_name):
 		tool._tool_system = self
 		_tools[tool_name] = tool
-		_tool_action_button_datas[tool_name] = action_button_datas
+		#_tool_action_button_datas[tool_name] = action_button_datas
 		tool.property_updated.connect(func(prop_name:String, value:Variant):
 			tool_property_updated.emit(tool_name, prop_name, value)
 		)
@@ -162,12 +139,6 @@ func switch_tool(tool_name:String) -> void:
 	_connect_with_input_system(_current_tool)
 	tool_changed.emit(tool_name)
 
-func get_tool_action_button_datas(tool_name:String) -> Array:
-	return _tool_action_button_datas.get(tool_name, [])
-
-func request_action_button(tool_name:String, value:bool):
-	action_button_requested.emit(get_tool_action_button_datas(tool_name), value)
-
 func get_canvas_manager() -> CanvasManager:
 	return SystemManager.canvas_system.canvas_manager
 
@@ -182,3 +153,6 @@ func get_camera_zoom() -> float:
 
 func get_input_datas() -> InputDatas:
 	return SystemManager.input_system.input_recognizer.input_datas
+
+func get_tool_ui_control() -> ToolUIControl:
+	return SystemManager.ui_system.get_tool_ui_control()

@@ -10,7 +10,8 @@ func _ready() -> void:
 		input_recognizer = FakeGestureRecognizer.new()
 	elif OS.has_feature("windows"):
 		# NOTE: 如果需要，可以创建对应的 InputRecognizer
-		pass
+		input_recognizer = FakeGestureRecognizer.new()
+		
 	elif OS.has_feature("android"):
 		input_recognizer = GestureRecognizer.new()
 		

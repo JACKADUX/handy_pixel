@@ -1,11 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://xwf3y70npyiy"]
+[gd_scene load_steps=21 format=3 uid="uid://xwf3y70npyiy"]
 
 [ext_resource type="Script" uid="uid://ltm0r0tyfdkq" path="res://scenes/ui/components/color_selection.gd" id="1_2qx2g"]
 [ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
 [ext_resource type="PackedScene" uid="uid://b15eef6fao6nk" path="res://addons/handy_nodes/components/simple_color_picker/simple_color_picker.tscn" id="2_o3am5"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="3_5nw6s"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="3_p1kuo"]
-[ext_resource type="Script" uid="uid://xh36m7lqsdxt" path="res://scenes/ui/history_color_palette.gd" id="4_5nw6s"]
 [ext_resource type="Script" uid="uid://cmmcv7w2km2vp" path="res://addons/handy_nodes/mvc/view_adapter/menu_button_view_adapter.gd" id="4_5ygpn"]
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="4_jk00k"]
 [ext_resource type="Texture2D" uid="uid://c36h8iduw2ylf" path="res://assets/icons/remove_list.svg" id="4_sbweb"]
@@ -90,7 +89,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
 
 [node name="ScrollDragger" type="Node" parent="HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer"]
 script = ExtResource("3_p1kuo")
@@ -102,6 +100,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("4_jk00k")
 container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="ColorSelectionHandler" type="Node" parent="HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("1_o3am5")
+color_palette_generator = NodePath("..")
+model_data_mapper = ExtResource("12_rb5g8")
 
 [node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer2/PanelContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
 script = ExtResource("6_rb5g8")
@@ -123,20 +126,18 @@ script = ExtResource("8_x70kc")
 metadata/_custom_type_script = "uid://bfif1mfm0s464"
 
 [node name="UpShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer2/PanelContainer" node_paths=PackedStringArray("scroll_container")]
-visible = false
 material = SubResource("ShaderMaterial_5nw6s")
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.5)
+color = Color(0, 0, 0, 0.23)
 script = ExtResource("10_jk00k")
 scroll_container = NodePath("../ScrollContainer")
 type = 1
 
 [node name="DownShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer2/PanelContainer" node_paths=PackedStringArray("scroll_container")]
-visible = false
 material = SubResource("ShaderMaterial_5nw6s")
 instance_shader_parameters/v = 0.0
 custom_minimum_size = Vector2(0, 96)
@@ -144,7 +145,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
 mouse_filter = 2
-color = Color(0, 0, 0, 0.5)
+color = Color(0, 0, 0, 0.25)
 script = ExtResource("10_jk00k")
 scroll_container = NodePath("../ScrollContainer")
 type = 3
@@ -189,21 +190,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("4_jk00k")
 container_agent = NodePath("ColorPaletteContainerAgent")
-scale_factor = 1.0
 max_color_num = 5
-
-[node name="HistoryColorPalette" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
-script = ExtResource("4_5nw6s")
-color_palette_generator = NodePath("..")
-
-[node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
-script = ExtResource("6_rb5g8")
-container = NodePath("../HFlowContainer")
 
 [node name="ColorSelectionHandler" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
 script = ExtResource("1_o3am5")
 color_palette_generator = NodePath("..")
 model_data_mapper = ExtResource("12_rb5g8")
+use_history_palette = true
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("6_rb5g8")
+container = NodePath("../HFlowContainer")
 
 [node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/VBoxContainer/ColorPaletteGenerator"]
 layout_mode = 2

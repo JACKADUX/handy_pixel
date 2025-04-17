@@ -12,10 +12,8 @@ config_version=5
 
 config/name="HandyPixel"
 run/main_scene="uid://cyibwt5gr336g"
-config/auto_accept_quit=false
-config/quit_on_go_back=false
 config/features=PackedStringArray("4.4", "Forward Plus")
-boot_splash/show_image=false
+boot_splash/image="uid://c548w2cntg4m1"
 config/icon="uid://c548w2cntg4m1"
 
 [autoload]

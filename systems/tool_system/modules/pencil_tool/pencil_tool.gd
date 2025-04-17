@@ -25,9 +25,22 @@ var _cache_pen_position := Vector2i(INF,INF)
 var _draw_started := false
 var _draw_mode : ImageLayers.BlitMode
 
+
+const pencil_icon = preload("res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+const erase_icon = preload("res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+const pick_color_icon = preload("res://assets/icons/colorize_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+const fill_color_icon = preload("res://assets/icons/colors_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+
+
+const PENCIL_TOOL_UI = preload("res://systems/tool_system/modules/pencil_tool/pencil_tool_ui.tscn")
+
+var tool_ui :Control
+
 ## OVERRIDE ---------------------------------------------------------------------------------------- 
 static func get_tool_name() -> String:
 	return "pencil"
+
+
 
 ## 工具激活时调用
 func activate() -> void:
@@ -35,10 +48,19 @@ func activate() -> void:
 	add_indicator(_pen_shape_cursor)
 	_pen_color = get_active_color()
 	set_mask_image_dirty()
+	
+	var tool_ui_control := _tool_system.get_tool_ui_control()
+	if tool_ui_control:
+		tool_ui = PENCIL_TOOL_UI.instantiate()
+		tool_ui_control.add_too_ui(tool_ui)
+		tool_ui.hide()
 
+	
 ## 工具禁用时调用
 func deactivate() -> void:
 	remove_indicator(_pen_shape_cursor)
+	tool_ui.queue_free()
+	tool_ui = null
 
 func get_tool_data() -> Dictionary:
 	return {
@@ -46,11 +68,19 @@ func get_tool_data() -> Dictionary:
 		"pen_size": pen_size
 	}
 
+func _get_action_button_datas():
+	return [
+		ActionButtonPanel.create_action_button_data(0, PencilTool.ACTION_DRAW_COLOR, pencil_icon),
+		ActionButtonPanel.create_action_button_data(2, ColorPickerTool.ACTION_PICK_COLOR, pick_color_icon),
+		#ActionButtonPanel.create_action_button_data(3, FillColorTool.ACTION_FILL_COLOR, fill_color_icon),
+		ActionButtonPanel.create_action_button_data(4, EraserTool.ACTION_ERASE_COLOR, erase_icon),
+	]
+		
+
 func _handle_value_changed(prop_name:String, value:Variant):
 	if prop_name == "pen_shape" or prop_name == "pen_size":
 		set_mask_image_dirty()	
 	super(prop_name, value)
-
 
 func _on_action_called(action:String, state:ActionHandler.State):
 	match state:
@@ -71,29 +101,39 @@ func _on_action_called(action:String, state:ActionHandler.State):
 					_auto_fluent_draw()
 				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 					_auto_fluent_draw()
-				ToolSystem.ACTION_PICK_COLOR:
-					#project_setting.set_value("active_color", canvas_data.get_pixel(cell_pos))
-					pass
-				ToolSystem.ACTION_FILL_COLOR:
-					pass
-					#canvas_data.fill_color_alg(cell_pos_floor, active_color)
+				ColorPickerTool.ACTION_PICK_COLOR:
+					var color_picker = _tool_system.get_tool(ColorPickerTool.get_tool_name())
+					var color = color_picker.pick_color(_tool_system.cursor_tool.cell_pos_floor)
+					SystemManager.ui_system.model_data_mapper.set_value("active_color", color)
+					
 		ActionHandler.State.JUST_RELEASED:	
 			match action:
 				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
 					end_draw()
 				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 					end_draw()
-
+				FillColorTool.ACTION_FILL_COLOR:
+					pass
+					#canvas_data.fill_color_alg(cell_pos_floor, active_color)
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
 		InputRecognizer.EVENT_STATE_CHANGED:
 			if data.state == InputRecognizer.State.NONE:
-				request_action_button(false)
+				show_action_button_panel(false)
+				show_tool_ui(false)
+				
 			elif data.state == InputRecognizer.State.HOVER:
-				request_action_button(true)
+				show_action_button_panel(true)
+				show_tool_ui(true)
 
-		
+func show_tool_ui(value:bool):
+	if value:
+		tool_ui.show()
+	else:
+		tool_ui.hide()
+	
+
 func get_active_color():
 	return SystemManager.color_system.active_color
 

@@ -16,14 +16,14 @@ func _ready() -> void:
 				popup.clear()
 				for index:int in value.size():
 					popup.add_icon_item(SystemManager.color_system._palette_map_textures[index], "")
-					
-			"active_palette_index":
-				color_palette_generator.generate(SystemManager.color_system.get_active_palette())
 	)
 	
 	add_color_button.pressed.connect(func():
 		SystemManager.color_system.with_in_active_palette(func(colors:PackedColorArray):
-			colors.append(SystemManager.color_system.get_active_color())
+			var color = SystemManager.color_system.get_active_color()
+			if color in colors:
+				return true
+			colors.append(color)
 		)
 	)
 	
@@ -33,13 +33,15 @@ func _ready() -> void:
 	
 	remove_color_button.pressed.connect(func():
 		var index = color_palette_generator.get_color_index(SystemManager.color_system.get_active_color())
+		if index == -1:
+			return 
 		SystemManager.color_system.with_in_active_palette(func(colors:PackedColorArray):
 			colors.remove_at(index)
 		)
 	)
 	remove_palette_button.pressed.connect(func():
 		var center = remove_palette_button.global_position + remove_palette_button.get_rect().get_center()
-		var dialog = SystemManager.ui_system.popup_arrow_panel_manager.confirm_dialog(center+Vector2(0, 48))
+		var dialog = PopupArrowPanelManager.get_from_ui_system().confirm_dialog(center+Vector2(0, 96))
 		dialog.confirm_button.pressed.connect(func():
 			SystemManager.color_system.remove_palette()
 		)

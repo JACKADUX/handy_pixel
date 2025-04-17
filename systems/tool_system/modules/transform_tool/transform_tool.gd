@@ -39,9 +39,14 @@ var _resized_split_fg : Image
 var moved = false
 var _pressed_start = false
 
+const move_icon = preload("res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg")
+
 static func get_tool_name() -> String:
 	return "transform_tool"
 
+func initialize():
+	_confirm_transform()
+	
 # 工具激活时调用
 func activate() -> void:
 	if not _transform_indicator:
@@ -74,7 +79,13 @@ func mode_detecte():
 func deactivate() -> void:
 	_tool_system.cursor_tool._cursor.show()
 	_confirm_transform()
-	
+
+func _get_action_button_datas() -> Array:
+	return [
+		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.confirm_pressed_icon, 0),
+		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon, 0),
+	]
+
 func _confirm_transform():
 	_pressed_start = false
 	moved =	false
@@ -88,12 +99,11 @@ func _on_action_called(action:String, state:ActionHandler.State):
 			match action:
 				ToolSystem.ACTION_TOOL_MAIN_PRESSED:
 					_confirm_transform()
-					request_action_button(false)
+					show_action_button_panel(false)
 				ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 					SystemManager.undoredo_system.undo()
 					_confirm_transform()
-					request_action_button(false)
-
+					show_action_button_panel(false)
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
@@ -101,6 +111,8 @@ func _on_event_occurred(event:String, data:Dictionary):
 			if data.state not in [InputRecognizer.State.NONE, InputRecognizer.State.HOVER]:
 				return
 			var input_data = data.input_datas.get_input_data(0) as InputData
+			if not input_data:
+				return 
 			if input_data.is_just_pressed():
 				_pressed_start = true
 				if not moved:
@@ -143,7 +155,7 @@ func _on_pressed(input_data:InputData):
 			
 			
 			if not moved:
-				request_action_button(true)
+				show_action_button_panel(true)
 				moved = true
 				var used_rect = _prev_selection_mask_image.get_used_rect()
 				var selection_mask_image = _prev_selection_mask_image.get_region(used_rect)

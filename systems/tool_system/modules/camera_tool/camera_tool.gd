@@ -13,6 +13,9 @@ var _offset_zoom := []
 static func get_tool_name() -> String:
 	return "camera"
 
+func initialize():
+	center_view(true)
+
 # 工具激活时调用
 func activate() -> void:
 	_camera = CanvasCamera.new()
@@ -44,7 +47,9 @@ func _on_event_occurred(event:String, data:Dictionary):
 		InputRecognizer.EVENT_ZOOMED:
 			handle_zoom(SystemManager.canvas_system.get_touch_local_position(data.center), data.factor)
 
-func center_view():
+func center_view(no_toggle:=false):
+	if no_toggle:
+		_offset_zoom = []
 	var canvas_manager = _tool_system.get_canvas_manager()
 	if not canvas_manager:
 		return 

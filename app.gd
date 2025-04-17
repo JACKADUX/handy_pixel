@@ -1,17 +1,8 @@
 extends Control
-# https://fonts.google.com/icons?icon.size=96&icon.color=%23FFFFFF&icon.platform=web&icon.style=Rounded
+# keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
+# androiddebugkey
+# android
 
-
-#440
-#1.79999995231628
-#(2400, 1080)
-#
-
-#96
-#1.0
-#(2560, 1440)
-
+# 安卓图标规范 https://medium.com/google-design/designing-adaptive-icons-515af294c783
 func _ready() -> void:
-	pass
-	
-	
+	OS.request_permissions()

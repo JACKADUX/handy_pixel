@@ -1,31 +1,49 @@
-[gd_scene load_steps=5 format=3 uid="uid://8vx5t34tn6qi"]
+[gd_scene load_steps=8 format=3 uid="uid://8vx5t34tn6qi"]
 
 [ext_resource type="Script" uid="uid://dj1s5x0qr01st" path="res://scenes/ui/action_button_panel/touch_action_button.gd" id="1_qwv8y"]
 [ext_resource type="Texture2D" uid="uid://edhlck68enk2" path="res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_ru3i0"]
+[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="3_qh74y"]
+[ext_resource type="Script" uid="uid://de2j5atkd2pup" path="res://misc/stylebox_circle.gd" id="3_ru3i0"]
 [ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="3_tegi4"]
+[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="4_kmegr"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhbcy"]
-bg_color = Color(0.121094, 0.121094, 0.121094, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.390625, 0.390625, 0.390625, 1)
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
+[sub_resource type="StyleBox" id="StyleBox_ru3i0"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("3_ru3i0")
+radius_offset = 0.0
+color = Color(0, 0, 0, 0.429)
+outline_width = 2.0
+outline_color = Color(0.988, 0.988, 0.988, 0.808)
+point_count = 64
+metadata/_custom_type_script = "uid://de2j5atkd2pup"
 
 [node name="TouchActionButton" type="Control"]
-custom_minimum_size = Vector2(144, 144)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 0.075
+anchor_bottom = 0.133333
 size_flags_horizontal = 8
 size_flags_vertical = 8
 script = ExtResource("1_qwv8y")
 keep_pressed = true
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
+
+[node name="Trigger" type="Node" parent="."]
+script = ExtResource("3_qh74y")
+trigger_type = 6
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="Trigger"]
+script = ExtResource("4_kmegr")
+fn_name = "mouse_pressed_released_shader"
+fn_args = [0.2, 0.9, 1.0]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
 
 [node name="InputActionRequester" type="Node" parent="."]
 script = ExtResource("3_tegi4")
@@ -38,7 +56,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qhbcy")
+theme_override_styles/panel = SubResource("StyleBox_ru3i0")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(96, 96)

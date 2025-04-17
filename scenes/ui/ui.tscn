@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=40 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -31,14 +31,10 @@
 [ext_resource type="Script" uid="uid://bvtsglhg0cxxe" path="res://scenes/ui/components/input_action_requester.gd" id="22_o71gb"]
 [ext_resource type="Texture2D" uid="uid://bowbyjxsiwwl1" path="res://assets/icons/stacks_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="22_pa3n2"]
 [ext_resource type="PackedScene" uid="uid://c6y6t0ckd1yaa" path="res://scenes/ui/image_layers_ui/image_layers_ui.tscn" id="23_pa3n2"]
-[ext_resource type="Script" uid="uid://bdwl1eq16j7h8" path="res://scenes/ui/components/canvas_cell_pos_handler.gd" id="24_o71gb"]
-[ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="26_en2kd"]
-[ext_resource type="Shader" uid="uid://cr25vi0osd8os" path="res://assets/shader/invert_color.gdshader" id="27_67jad"]
-[ext_resource type="PackedScene" uid="uid://slkcdtbcptrs" path="res://scenes/ui/project_manage_panel/project_manage_panel.tscn" id="27_en2kd"]
 [ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
-[ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/ui/new_project_panel/new_project_panel.tscn" id="31_272wc"]
+[ext_resource type="PackedScene" uid="uid://ybxugb3nobbe" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd.tscn" id="34_lkvmi"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="38_h7igw"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
 
@@ -59,9 +55,6 @@ expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0xdx3"]
-shader = ExtResource("27_67jad")
-
 [node name="UI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -72,16 +65,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_fqqne")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="MainPanel" type="MarginContainer" parent="Control"]
+[node name="MainPanel" type="MarginContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -95,26 +79,37 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 96
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MainPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="TopBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+[node name="TopBar" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/separation = 48
 alignment = 1
 
-[node name="HomeButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="HomeButton" type="Button" parent="MainPanel/VBoxContainer/TopBar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 0
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
 icon = ExtResource("1_4w2x3")
 icon_alignment = 1
 
-[node name="CenterViewButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="Control2" type="Control" parent="MainPanel/VBoxContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TopCenterBar" type="HBoxContainer" parent="MainPanel/VBoxContainer/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CenterViewButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -124,11 +119,11 @@ icon = ExtResource("2_svq4k")
 icon_alignment = 1
 expand_icon = true
 
-[node name="InputActionRequester" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/CenterViewButton"]
+[node name="InputActionRequester" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/CenterViewButton"]
 script = ExtResource("22_o71gb")
 action_name = "action_center_view"
 
-[node name="GridVisibleButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="GridVisibleButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -139,16 +134,16 @@ icon = ExtResource("3_ygedu")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/GridVisibleButton"]
+[node name="ButtonViewAdapter" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/GridVisibleButton"]
 script = ExtResource("6_0xdx3")
 type = 1
 
-[node name="GeneralController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/GridVisibleButton/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/GridVisibleButton/ButtonViewAdapter"]
 script = ExtResource("6_vnqvi")
 model = ExtResource("38_h7igw")
 prop_name = "grid_visible"
 
-[node name="FollowCameraButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="FollowCameraButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -159,16 +154,16 @@ icon = ExtResource("4_oopc8")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/FollowCameraButton"]
+[node name="ButtonViewAdapter" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton"]
 script = ExtResource("6_0xdx3")
 type = 1
 
-[node name="ToolDataController" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/FollowCameraButton/ButtonViewAdapter"]
+[node name="ToolDataController" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton/ButtonViewAdapter"]
 script = ExtResource("9_y0kyo")
 tool_name = "camera"
 prop_name = "follow_cursor"
 
-[node name="SpeedButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="SpeedButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -178,18 +173,23 @@ icon = ExtResource("7_vnqvi")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("9_26a3v")
 popup_side = 3
 
-[node name="CanvasSpeedHandler" type="Node" parent="Control/MainPanel/VBoxContainer/TopBar/SpeedButton"]
+[node name="CanvasSpeedHandler" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
 script = ExtResource("10_26a3v")
 
-[node name="MenuButton" type="Button" parent="Control/MainPanel/VBoxContainer/TopBar"]
+[node name="Control" type="Control" parent="MainPanel/VBoxContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MenuButton" type="Button" parent="MainPanel/VBoxContainer/TopBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
 disabled = true
@@ -197,18 +197,21 @@ icon = ExtResource("5_qmss2")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MiddleBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+[node name="Sep" type="Control" parent="MainPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="MiddleBar" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LeftBar" type="VBoxContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+[node name="LeftBar" type="VBoxContainer" parent="MainPanel/VBoxContainer/MiddleBar"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 48
+theme_override_constants/separation = 24
 
-[node name="Sep" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
-layout_mode = 2
-
-[node name="PenButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+[node name="PenButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -220,14 +223,14 @@ icon = ExtResource("6_26a3v")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+[node name="FocusScaler" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 script = ExtResource("17_vnqvi")
 
-[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+[node name="ActiveToolRequester" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 script = ExtResource("16_ydrdt")
 tool_name = "pencil"
 
-[node name="OnActiveButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
+[node name="OnActiveButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -239,13 +242,13 @@ theme_type_variation = &"base_button"
 flat = true
 script = ExtResource("18_puycq")
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton/OnActiveButton"]
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton/OnActiveButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("15_7ygsn")
 popup_side = 2
 panel_offset = Vector2(0, 100)
 
-[node name="SelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+[node name="SelectionButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -257,14 +260,14 @@ icon = ExtResource("8_o71gb")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+[node name="FocusScaler" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
 script = ExtResource("17_vnqvi")
 
-[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+[node name="ActiveToolRequester" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
 script = ExtResource("16_ydrdt")
 tool_name = "selection_tool"
 
-[node name="OnActiveButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
+[node name="OnActiveButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -275,12 +278,12 @@ mouse_filter = 2
 flat = true
 script = ExtResource("18_puycq")
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton/OnActiveButton"]
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton/OnActiveButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("20_odea8")
 popup_side = 2
 
-[node name="TransformButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+[node name="TransformButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -292,14 +295,14 @@ icon = ExtResource("18_lkvmi")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
+[node name="FocusScaler" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
 script = ExtResource("17_vnqvi")
 
-[node name="ActiveToolRequester" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
+[node name="ActiveToolRequester" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/TransformButton"]
 script = ExtResource("16_ydrdt")
 tool_name = "transform_tool"
 
-[node name="Button" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar"]
+[node name="Button" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -310,22 +313,21 @@ icon = ExtResource("16_272wc")
 icon_alignment = 1
 expand_icon = true
 
-[node name="FocusScaler" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/LeftBar/Button"]
+[node name="FocusScaler" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/Button"]
 script = ExtResource("17_vnqvi")
 
-[node name="Control" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+[node name="CenterControl" type="Control" parent="MainPanel/VBoxContainer/MiddleBar"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="RightBar" type="VBoxContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar"]
+[node name="RightBar" type="VBoxContainer" parent="MainPanel/VBoxContainer/MiddleBar"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 48
+theme_override_constants/separation = 24
 
-[node name="Sep" type="Control" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
-layout_mode = 2
-
-[node name="LayerButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
+[node name="LayerButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/RightBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -335,12 +337,12 @@ icon = ExtResource("22_pa3n2")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton"]
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("23_pa3n2")
 panel_offset = Vector2(0, 200)
 
-[node name="ColorSelectionButton" type="Button" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar"]
+[node name="ColorSelectionButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/RightBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -349,12 +351,12 @@ theme_type_variation = &"base_button"
 icon_alignment = 1
 expand_icon = true
 
-[node name="PopupArrowHelper" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
 script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("15_oopc8")
 panel_offset = Vector2(0, 90)
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -366,7 +368,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="TextureRect2" type="TextureRect" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer"]
+[node name="TextureRect2" type="TextureRect" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer"]
 clip_children = 1
 layout_mode = 2
 mouse_filter = 2
@@ -374,7 +376,7 @@ texture = ExtResource("14_7ygsn")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="AdvancedColorPanel" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2" instance=ExtResource("29_dxwg8")]
+[node name="AdvancedColorPanel" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2" instance=ExtResource("29_dxwg8")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -385,21 +387,22 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ActiveColorApply" type="Node" parent="Control/MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2/AdvancedColorPanel"]
+[node name="ActiveColorApply" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton/MarginContainer/TextureRect2/AdvancedColorPanel"]
 script = ExtResource("20_fv78h")
 color_palet = true
 
-[node name="BottomBar" type="HBoxContainer" parent="Control/MainPanel/VBoxContainer"]
+[node name="BottomBar" type="HBoxContainer" parent="MainPanel/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 48
+theme_override_constants/separation = 24
 alignment = 1
 
-[node name="UndoRedoHandler" type="Node" parent="Control/MainPanel/VBoxContainer/BottomBar" node_paths=PackedStringArray("undo_button", "redo_button")]
+[node name="UndoRedoHandler" type="Node" parent="MainPanel/VBoxContainer/BottomBar" node_paths=PackedStringArray("undo_button", "redo_button")]
 script = ExtResource("21_fv78h")
 undo_button = NodePath("../UndoButton")
 redo_button = NodePath("../RedoButton")
 
-[node name="UndoButton" type="Button" parent="Control/MainPanel/VBoxContainer/BottomBar"]
+[node name="UndoButton" type="Button" parent="MainPanel/VBoxContainer/BottomBar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
@@ -413,7 +416,7 @@ icon = ExtResource("17_o2sfg")
 icon_alignment = 2
 expand_icon = true
 
-[node name="RedoButton" type="Button" parent="Control/MainPanel/VBoxContainer/BottomBar"]
+[node name="RedoButton" type="Button" parent="MainPanel/VBoxContainer/BottomBar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 96)
 layout_mode = 2
@@ -426,48 +429,24 @@ disabled = true
 icon = ExtResource("18_yy7ol")
 expand_icon = true
 
-[node name="HoverPanel" type="Control" parent="Control"]
+[node name="Layers" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 3
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
-[node name="CellPositionLabel" type="Label" parent="Control/HoverPanel"]
-modulate = Color(1, 1, 1, 0.94902)
-material = SubResource("ShaderMaterial_0xdx3")
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -176.0
-offset_right = 176.0
-offset_bottom = 96.0
-grow_horizontal = 2
-theme_type_variation = &"label_small"
-text = "(88, 88)"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CanvasCellPosHandler" type="Node" parent="Control/HoverPanel/CellPositionLabel"]
-script = ExtResource("24_o71gb")
-
-[node name="ProjectManagePanel" parent="Control" instance=ExtResource("27_en2kd")]
+[node name="ToolUIControl" parent="." instance=ExtResource("34_lkvmi")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
-
-[node name="NewProjectPanel" parent="Control" instance=ExtResource("31_272wc")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="PopupArrowPanelManager" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -486,12 +465,7 @@ offset_bottom = 114.0
 [node name="FPWS" type="Node" parent="PopupArrowPanelManager/PopupArrowPanel"]
 script = ExtResource("31_0xdx3")
 
-[node name="ActionButtonPanel" parent="." instance=ExtResource("26_en2kd")]
-visible = false
-layout_mode = 1
-
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -16,23 +16,44 @@ signal system_initialized
 var _initialized := false
 
 func _ready() -> void:
+	if _keep_only(): 
+		return
+	#get_tree().auto_accept_quit = false
+	#get_tree().quit_on_go_back = false
 	await get_tree().root.ready
-	for system in get_children():
-		if system.has_method("system_initialize"):
-			system.system_initialize()
-	_initialized = true
-	system_initialized.emit()
-	db_system.load_data()
-	
+	initialize()
+	load_data()
+		
 func _notification(what):
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		quit_request()
 	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_request()
-
+	
+		
+func _keep_only():
+	# NOTE: 打开其他测试场景时会移除
+	if not get_tree().current_scene.name.to_lower().begins_with("app"):
+		queue_free()
+		return true
+		
 func is_initialized() -> bool:
 	return _initialized
 
+func initialize():
+	for system in get_children():
+		if system.has_method("system_initialize"):
+			system.system_initialize()
+	_initialized = true
+	system_initialized.emit()
+
 func quit_request():
-	db_system.save_data()
+	save_data()
 	get_tree().quit()
+
+func save_data():
+	if db_system:
+		db_system.db_save()
+
+func load_data():
+	db_system.db_load()

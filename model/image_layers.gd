@@ -95,9 +95,15 @@ func is_inside_canvas(pos: Vector2i) -> bool:
 
 func get_pixel(pos: Vector2i) -> Color:
 	var color = Color.TRANSPARENT
-	for index in get_layer_count():
-		var layer = layers[index]
-		var _color = layer.image.get_pixelv(pos)
+	var count = get_layer_count()
+	for index in count:
+		var layer = layers[count -index-1]
+		if not layer.visible:
+			continue
+		var rect = Rect2(layer.position, layer.image.get_size())
+		if not rect.has_point(pos):
+			continue
+		var _color = layer.image.get_pixelv(pos - layer.position)
 		if _color.a != 0:
 			color = _color
 			break

@@ -20,7 +20,10 @@ func system_initialize():
 		db_system.set_data("ColorSystem", save_data())
 	)
 	
-	SystemManager.ui_system.model_data_mapper.register_with(self, "active_color")
+	SystemManager.ui_system.model_data_mapper.register("active_color", 
+		func(value): set_active_color(value),
+		func(key): return get_active_color()
+	)
 	SystemManager.ui_system.model_data_mapper.register_with(self, "history_color")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "palettes")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "active_palette_index")
@@ -36,10 +39,31 @@ func _init_palette_map():
 
 func get_active_palette() -> ColorPalette:
 	active_palette_index = clamp(active_palette_index, 0, palettes.size()-1)
+	if active_palette_index == -1 or palettes.is_empty():
+		return
 	return palettes[active_palette_index]
 
 func get_active_color() -> Color:
 	return active_color
+
+func set_active_color(value:Color):
+	if active_color == value:
+		return 
+	active_color = value
+	_update_history_color()
+
+func _update_history_color():
+	var colors = history_color.colors
+	if active_color in colors:
+		if colors[0] == active_color:
+			return 
+		colors.remove_at(colors.find(active_color))
+	colors.insert(0, active_color)
+	if colors.size() > max_history_color:
+		colors.resize(max_history_color)
+	history_color.colors = colors
+	SystemManager.ui_system.model_data_mapper.update("history_color")
+
 
 func new_palette():
 	var index = -1
@@ -68,10 +92,13 @@ func remove_palette():
 	SystemManager.ui_system.model_data_mapper.update("active_palette_index")
 
 func with_in_active_palette(fn:Callable):
+	# NOTE: 如果fn内部需要取消执行就返回 true
 	# fn(colors:PackColorArray)
 	var palette = get_active_palette()
 	var colors = palette.colors
-	fn.call(colors)
+	if fn.call(colors):
+		
+		return
 	palette.colors = colors  # NOTE:必须要这样
 	_palette_map_textures[active_palette_index] = _creat_palette_texture(active_palette_index)
 	SystemManager.ui_system.model_data_mapper.update("palettes")

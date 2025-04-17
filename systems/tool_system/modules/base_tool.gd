@@ -12,7 +12,9 @@ var undoredo_system:UndoRedoSystem:
 static func get_tool_name() -> String:
 	return ""
 
-	
+func initialize() -> void:
+	pass
+
 ## 工具激活时调用
 func activate() -> void:
 	pass
@@ -65,10 +67,34 @@ func _on_event_occurred(event:String, data:Dictionary):
 func _on_action_called(action:String, state:ActionHandler.State):
 	pass
 
-func request_action_button(value:bool):
-	_tool_system.request_action_button(get_tool_name(), value)
 
 func update_all():
 	var data = get_tool_data()
 	for prop_name in data:
 		property_updated.emit(prop_name, data[prop_name]) 
+
+func _get_action_button_datas() -> Array:
+	#return [
+		#ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, icon),
+	#]
+	return []
+	
+func show_action_button_panel(value:bool):
+	var tool_ui_control := _tool_system.get_tool_ui_control()
+	var action_button_panel = tool_ui_control.action_button_panel
+	var ui = tool_ui_control.owner
+	ui.main_panel.visible = not value
+	
+	if value:
+		var action_button_datas = _get_action_button_datas()
+		var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
+		var pos = input_data.start_position
+		var area_type = LayoutHelper.get_point_type_lr(pos, tool_ui_control.get_viewport_rect())
+		if area_type == LayoutHelper.AreaTypeLR.LEFT:
+			action_button_panel.set_mode(2)
+		elif area_type == LayoutHelper.AreaTypeLR.RIGHT:
+			action_button_panel.set_mode(1)
+		action_button_panel.setup_action_buttons(action_button_datas)
+		action_button_panel.show()
+	else:
+		action_button_panel.hide()

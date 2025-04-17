@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba28faaaqf2fx"]
+
+[ext_resource type="Script" uid="uid://b4qaboblppt5m" path="res://components/dialogs/infomation_dialog.gd" id="1_b0gas"]
+
+[node name="InformationDialog" type="PanelContainer"]
+offset_right = 404.0
+offset_bottom = 73.0
+theme_type_variation = &"popup_panel"
+script = ExtResource("1_b0gas")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.792969, 0.792969, 0.792969, 1)
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1

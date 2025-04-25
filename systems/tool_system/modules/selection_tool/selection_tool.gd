@@ -18,6 +18,7 @@ var _selection_area_indicator : SelectionAreaIndicator
 var _started := false
 var _points := PackedVector2Array()
 
+# NOTE: 会和 image_layers 的 canvas 尺寸一致，蒙版区域为白色，非蒙版区域为空
 var selection_mask_image : Image
 
 

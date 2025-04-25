@@ -72,7 +72,7 @@ func _get_action_button_datas():
 	return [
 		ActionButtonPanel.create_action_button_data(0, PencilTool.ACTION_DRAW_COLOR, pencil_icon),
 		ActionButtonPanel.create_action_button_data(2, ColorPickerTool.ACTION_PICK_COLOR, pick_color_icon),
-		#ActionButtonPanel.create_action_button_data(3, FillColorTool.ACTION_FILL_COLOR, fill_color_icon),
+		ActionButtonPanel.create_action_button_data(3, FillColorTool.ACTION_FILL_COLOR, fill_color_icon),
 		ActionButtonPanel.create_action_button_data(4, EraserTool.ACTION_ERASE_COLOR, erase_icon),
 	]
 		
@@ -88,8 +88,12 @@ func _on_action_called(action:String, state:ActionHandler.State):
 			_cache_pen_position = Vector2i(INF,INF)
 			match action:
 				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-					set_pen_color(get_active_color())
-					set_draw_mode(ImageLayers.BlitMode.BLEND)
+					var active_color = get_active_color()
+					set_pen_color(active_color)
+					if active_color.a > 0:
+						set_draw_mode(ImageLayers.BlitMode.BLEND)
+					else:
+						set_draw_mode(ImageLayers.BlitMode.BLIT)
 					begin_draw()
 				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 					set_pen_color(Color.TRANSPARENT)
@@ -113,8 +117,9 @@ func _on_action_called(action:String, state:ActionHandler.State):
 				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
 					end_draw()
 				FillColorTool.ACTION_FILL_COLOR:
-					pass
-					#canvas_data.fill_color_alg(cell_pos_floor, active_color)
+					var fill_color = _tool_system.get_tool(FillColorTool.get_tool_name()) as FillColorTool
+					fill_color.action_fill_active_color_on_active_layer(_tool_system.cursor_tool.cell_pos_floor)
+					
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
@@ -133,7 +138,6 @@ func show_tool_ui(value:bool):
 	else:
 		tool_ui.hide()
 	
-
 func get_active_color():
 	return SystemManager.color_system.active_color
 

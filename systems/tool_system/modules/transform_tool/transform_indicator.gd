@@ -21,7 +21,7 @@ func init_with_tool(p_tool:TransformTool):
 				_zoom = value
 				queue_redraw()
 	)
-	
+	_zoom = camera_tool.camera_zoom
 	scale = Vector2.ONE*cell_size
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 

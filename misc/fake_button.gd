@@ -19,13 +19,12 @@ func _ready() -> void:
 	agent.gui_input.connect(_gui_input)
 	
 func _gui_input(event: InputEvent) -> void:
-
 	if is_valid_event(event) and event.is_pressed() :
 		_hold = true
 		_dt = Time.get_ticks_msec()
 		_dpos = get_event_global_position(event)  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差
 		
-	if _hold and is_valid_event(event) and event.is_released() :
+	if _hold and is_valid_event(event) and event.is_released():
 		_hold = false
 		_dt = (Time.get_ticks_msec()- _dt)/1000.0
 		_dpos = get_event_global_position(event)-_dpos
@@ -38,8 +37,8 @@ func is_valid_event(event:InputEvent) -> bool:
 
 func get_event_global_position(event: InputEvent):
 	var mp : Vector2
+	if OS.has_feature("android") and InputEventScreenTouch:
+		return event.position
 	if event is InputEventMouseButton:
 		mp = event.global_position
-	elif event is InputEventScreenTouch:
-		mp = event.position
 	return mp

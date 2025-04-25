@@ -38,7 +38,6 @@ func system_initialize():
 	SystemManager.project_system.project_controller.initialized.connect(func():
 		for tool in _tools.values():
 			tool.initialize()
-		
 	)
 	# 常驻工具
 	cursor_tool = get_tool(CursorTool.get_tool_name())
@@ -64,21 +63,20 @@ func _register_tools() -> void:
 	register_tool(SelectionTool.new())
 	register_tool(TransformTool.new())
 	register_tool(ColorPickerTool.new())
-	
+	register_tool(FillColorTool.new())
 	
 func _register_input_actions():
 	var action_handler = SystemManager.input_system.action_handler
 	action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
 	action_handler.register_action(EraserTool.ACTION_ERASE_COLOR)
 	action_handler.register_action(CameraTool.ACTION_CENTER_VIEW)
-	action_handler.register_action(FillColorTool.ACTION_FILL_COLOR)
 	action_handler.register_action(ColorPickerTool.ACTION_PICK_COLOR)
+	action_handler.register_action(FillColorTool.ACTION_FILL_COLOR)
 	
 	action_handler.register_action(ACTION_TOOL_MAIN_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CONFIRM_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CANCEL_PRESSED)
 	
-
 func _connect_with_input_system(tool:BaseTool):
 	var input_system :InputSystem = SystemManager.input_system	
 	input_system.event_occurred.connect(tool._on_event_occurred)

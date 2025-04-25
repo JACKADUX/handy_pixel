@@ -16,14 +16,15 @@ signal system_initialized
 var _initialized := false
 
 func _ready() -> void:
+	OS.request_permissions()
 	if _keep_only(): 
 		return
-	#get_tree().auto_accept_quit = false
-	#get_tree().quit_on_go_back = false
+	get_tree().auto_accept_quit = false
+	get_tree().quit_on_go_back = false
 	await get_tree().root.ready
 	initialize()
 	load_data()
-		
+	
 func _notification(what):
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		quit_request()

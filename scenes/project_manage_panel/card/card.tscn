@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bo4ekf0ypdo1f"]
 
-[ext_resource type="Script" uid="uid://oofrgxwggij1" path="res://components/card/card.gd" id="1_5577b"]
+[ext_resource type="Script" uid="uid://oofrgxwggij1" path="res://scenes/project_manage_panel/card/card.gd" id="1_5577b"]
 [ext_resource type="Shader" uid="uid://cthsbvhawucuo" path="res://assets/shader/scale.gdshader" id="2_f3yfe"]
 [ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="3_paafk"]
 [ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="4_bvlio"]
@@ -23,6 +23,8 @@ shader = ExtResource("2_f3yfe")
 [node name="Card" type="PanelContainer"]
 offset_right = 240.0
 offset_bottom = 240.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_4l04p")
 script = ExtResource("1_5577b")
 
@@ -34,7 +36,7 @@ theme_type_variation = &"base_button"
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = -16
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -44,6 +46,7 @@ mouse_filter = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
 [node name="PanelContainer" type="Panel" parent="VBoxContainer/MarginContainer"]
 clip_children = 1

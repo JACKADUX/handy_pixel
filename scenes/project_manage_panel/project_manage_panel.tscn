@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://slkcdtbcptrs"]
+[gd_scene load_steps=21 format=3 uid="uid://slkcdtbcptrs"]
 
 [ext_resource type="Script" uid="uid://cftgg2refn6j6" path="res://scenes/project_manage_panel/project_manage_panel.gd" id="1_fg41p"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="1_mv0x6"]
@@ -9,7 +9,8 @@
 [ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="3_pmkn4"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="6_3a5jn"]
 [ext_resource type="Texture2D" uid="uid://d2yo0rgxbk6qc" path="res://assets/icons/edit.svg" id="6_5vxcr"]
-[ext_resource type="PackedScene" uid="uid://bo4ekf0ypdo1f" path="res://components/card/card.tscn" id="6_ktu8b"]
+[ext_resource type="Texture2D" uid="uid://c7khapr3d5vgt" path="res://assets/icons/photo_plus.svg" id="6_idixx"]
+[ext_resource type="PackedScene" uid="uid://bo4ekf0ypdo1f" path="res://scenes/project_manage_panel/card/card.tscn" id="6_ktu8b"]
 [ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="7_mtelp"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="8_xps3l"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="9_ng0cy"]
@@ -95,6 +96,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"label_title"
 text = "HandyPixel"
+
+[node name="ImportButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+theme_override_constants/icon_max_width = 48
+toggle_mode = true
+icon = ExtResource("6_idixx")
+icon_alignment = 1
 
 [node name="EditButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true

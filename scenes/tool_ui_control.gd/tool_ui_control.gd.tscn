@@ -30,6 +30,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="ReferenceRect" type="ReferenceRect" parent="MarginContainer"]
 layout_mode = 2
+border_color = Color(0.17276, 0.55795, 0.867188, 1)
 border_width = 4.0
 
 [node name="FPWS" type="Node" parent="MarginContainer/ReferenceRect"]

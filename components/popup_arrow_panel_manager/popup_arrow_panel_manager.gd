@@ -54,7 +54,6 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and not event.is_pressed():
 		for child in get_children():
 			child.hide()
-		print(123)
 		set_block(false)
 
 func new_block_layer(color:=Color.BLACK) -> ColorRect:

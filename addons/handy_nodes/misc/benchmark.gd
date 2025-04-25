@@ -31,4 +31,8 @@ static func start():
 
 static func end(bs):
 	# bs -> start_benchmark
-	print("time_cost: ", get_ticks_msec() - bs[0], " ms | size: ", convert_bit_to(get_memory() - bs[1]))
+	#var text = "time_cost: "+str(get_ticks_msec() - bs[0]) +" ms | size: " + str(convert_bit_to(get_memory() - bs[1]))
+	return get_ticks_msec() - bs[0]
+	var text = "time_cost: "+str(get_ticks_msec() - bs[0]) +" ms "
+	print(text)
+	return text

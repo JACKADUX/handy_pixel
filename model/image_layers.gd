@@ -89,7 +89,6 @@ func get_canvas_image(index:int) -> Image:
 	image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
 	return image
 	
-	
 func is_inside_canvas(pos: Vector2i) -> bool:
 	return pos.x >= 0 and pos.y >= 0 and pos.x < get_width() and pos.y < get_height()
 
@@ -152,8 +151,13 @@ func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i
 	var data = extend_blit_image(image_layer.image, src, mask, valid_src_rect, new_dst, mode)
 	if not data:
 		return false
-	var used_rect = data.image.get_used_rect()
-	image_layer.image = data.image.get_region(used_rect)
+	var used_rect :Rect2i = data.image.get_used_rect()
+	if used_rect.size == Vector2i.ZERO:
+		# FIXME: 为了方便我把大小为1的图片当作空图片使用，应该不会造成什么问题？
+		var image_size = Vector2.ONE
+		image_layer.image = Image.create_empty(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+	else:
+		image_layer.image = data.image.get_region(used_rect)
 	image_layer.position += data.offset + used_rect.position
 	return true
 

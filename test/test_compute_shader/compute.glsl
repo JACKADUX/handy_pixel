@@ -9,6 +9,5 @@ layout(set=0, binding=0, std430) buffer Floats {
 } floats;
 
 void main() {
-    //floats.data[gl_LocalInvocationID.x] += 100;
     floats.data[gl_GlobalInvocationID.x] += 100;
 }

@@ -6,14 +6,15 @@ extends PanelContainer
 @onready var margin_container: MarginContainer = %MarginContainer
 @onready var new_project_panel = %NewProjectPanel
 @onready var edit_button: Button = %EditButton
+@onready var import_button: Button = %ImportButton
 
 @onready var image_export_panel = %ImageExportPanel
 
 
 const ADD_PROJECT_ICON = preload("res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz128.svg")
 
-const Card = preload("res://components/card/card.gd")
-const CARD = preload("res://components/card/card.tscn")
+const Card = preload("res://scenes/project_manage_panel/card/card.gd")
+const CARD = preload("res://scenes/project_manage_panel/card/card.tscn")
 
 var thread :ThreadHelper
 
@@ -45,6 +46,24 @@ func _ready() -> void:
 		handle_goback()
 	)
 	
+	import_button.pressed.connect(func():
+		var files = await ImageUtils.open_image_dialog()
+		if not files:
+			return
+		var file = files.front()
+		var image = ImageUtils.create_image_from_file(file, 2048)
+		var id = SystemManager.project_system.new_project(Time.get_datetime_string_from_system(),
+				image.get_size(),
+				SystemManager.project_system.preset_canvas_bg_color
+		)
+		var image_layers = SystemManager.project_system.load_project_image_layers(id)
+		var image_layer = ImageLayer.create_with_image(image)
+		image_layers.set_layer(0, image_layer)
+		SystemManager.project_system.save_project_image_layers(id, image_layers)
+		SystemManager.project_system.set_active_project(id)
+		handle_goback()
+	)
+	
 	image_export_panel.confirm_dialog.confirm_button.pressed.connect(func():
 		var pos = size*0.5
 		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("Image Saved!", pos, 1)
@@ -65,6 +84,7 @@ func _update_project_edit_buttons():
 func _add_project_button():
 	var card := CARD.instantiate()
 	container_agent.add_item(card)
+	card.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
 	card.texture_rect.texture = ADD_PROJECT_ICON
 	card.texture_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
 	card.texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
@@ -72,7 +92,6 @@ func _add_project_button():
 		new_project_panel.show()
 		margin_container.hide()
 	)
-	#card.set_margin(96.0)  # (288-96)*0.5
 	ApplyThemeColor.apply(card.texture_rect, "color_black")
 
 func update_projects():

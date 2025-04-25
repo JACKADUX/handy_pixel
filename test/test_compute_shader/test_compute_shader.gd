@@ -1,33 +1,67 @@
 extends Control
 
+var rd := RenderingServer.create_local_rendering_device()
+
+@onready var texture_rect: TextureRect = $TextureRect
+@onready var texture_rect_2: TextureRect = $TextureRect2
+@onready var texture_rect_3: TextureRect = $TextureRect3
+
+var image:Image 
+var image2:Image 
+
+var test_color_select
+
+const LOGO = preload("res://logo.png")
+
+var scanline_fill = ScanlineFill.new()
+var floor_fill := FloodFill.new()
+
+var local = Vector2(2956.0, 1688.0)
+@onready var spin_box: SpinBox = $SpinBox
+
+var tolarence = 0
+@onready var label: Label = $Label
+@onready var label_3: Label = $Label3
+@onready var label_4: Label = $Label4
+@onready var label_2: Label = $Label2
+
 func _ready() -> void:
-	var rendering_device := RenderingServer.create_local_rendering_device()
+	image = LOGO.get_image()
+	_on_button_pressed()
+	floor_fill.set_rd(rd)
 	
-	var shader_file = preload("res://test/test_compute_shader/compute.glsl")
-	var shader_spriv = shader_file.get_spirv()
-	var shader_RID := rendering_device.shader_create_from_spirv(shader_spriv)
-	
-	var floats := PackedFloat32Array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]).to_byte_array()
-	var storage_buffer_RID = rendering_device.storage_buffer_create(floats.size(), floats)
-	#rendering_device.buffer_update(storage_buffer_RID, 0, floats.size(), floats)
-	var uniform := RDUniform.new()
-	uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
-	uniform.binding = 0
-	uniform.add_id(storage_buffer_RID)
-	var uniform_set_RID := rendering_device.uniform_set_create([uniform], shader_RID, 0)
-	
-	var pipline_RID := rendering_device.compute_pipeline_create(shader_RID)
-	
-	var compute_list_id := rendering_device.compute_list_begin()
-	
-	rendering_device.compute_list_bind_compute_pipeline(compute_list_id, pipline_RID)
-	rendering_device.compute_list_bind_uniform_set(compute_list_id, uniform_set_RID, 0)
-	rendering_device.compute_list_dispatch(compute_list_id, 2, 1, 1)
-	rendering_device.compute_list_end()
-	
-	rendering_device.submit()
-	rendering_device.sync()
-	
-	var output_bytes := rendering_device.buffer_get_data(storage_buffer_RID)
-	var output := output_bytes.to_float32_array()
-	print(output)
+func _on_button_pressed() -> void:
+	var mul = 16#16
+	image = image.duplicate()
+	#image.flip_x()
+	image.resize(512*mul,512*mul,Image.INTERPOLATE_NEAREST)  
+	texture_rect.texture.set_image(image)
+
+func _on_spin_box_value_changed(value: float) -> void:
+	var bs = Benchmark.start()
+	var output_image = floor_fill.compute(image, local, Color.RED, tolarence, value)
+	if output_image:
+		texture_rect_2.texture.set_image(output_image)
+	Benchmark.end(bs)
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+		var pos = texture_rect.get_local_mouse_position()
+		local = pos* float(image.get_width())/texture_rect.size.x
+		label.text = "img_size: %d x %d "%[image.get_width(), image.get_height()] 
+		var bs = Benchmark.start()
+		var output_image = floor_fill.compute(image, local, Color.RED, tolarence, spin_box.value)
+		if output_image:
+			texture_rect_3.texture.set_image(output_image)
+		var text1 = Benchmark.end(bs)
+		label_3.text = "GPU :"+ "time_cost: "+str(text1) +" ms "
+		
+		#bs = Benchmark.start()
+		#output_image = floor_fill.floor_fill_cpu(image, local, Color.RED, tolarence, spin_box.value)
+		#if output_image:
+			#texture_rect_2.texture.set_image(output_image)
+		#var text2 = Benchmark.end(bs)
+		#label_4.text = "CPU :"+ "time_cost: "+str(text2) +" ms "
+		#label_2.text = "GPU:CPU = %.02f : %.02f"%[1, float(text2)/text1]
+		
+		

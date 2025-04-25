@@ -15,3 +15,11 @@ static func create_with(image_size:=Vector2.ONE, visible:=true, position:=Vector
 	layer.visible = visible
 	layer.position = position
 	return layer
+
+static func create_with_image(image:Image, visible:=true, position:=Vector2.ZERO) -> ImageLayer:
+	var layer = ImageLayer.new()
+	image.convert(Image.FORMAT_RGBA8)
+	layer.image = image
+	layer.visible = visible
+	layer.position = position
+	return layer

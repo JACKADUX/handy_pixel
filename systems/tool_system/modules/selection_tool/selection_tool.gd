@@ -55,7 +55,7 @@ func _get_action_button_datas() -> Array:
 	return [
 		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.main_pressed_icon),
 		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon),
-		ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all)
+		#ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all)
 	]
 	
 func _on_action_called(action:String, state:ActionHandler.State):

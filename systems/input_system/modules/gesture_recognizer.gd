@@ -5,19 +5,8 @@ var _initial_distance := 0
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		var finger :InputData = input_datas.get_or_add_input_data(event.index)
-		if event.pressed:
-			# 记录触摸点
-			finger.clear()
-			finger.start_position = event.position
-			finger.end_position = event.position
-			finger.pressed = true
-		else:
-			# 移除离开的触摸点
-			finger.pressed = false
-		finger.double_clicked = event.double_tap
-		
+		InputData.update_in_touch(finger, event)
 		send_event(EVENT_INPUT_HANDLED, {"input_datas":input_datas, "state":state})
-		
 		if not input_datas.get_touch_count():
 			_initial_distance = 0
 			set_state(State.NONE)
@@ -25,9 +14,7 @@ func handle_input(event: InputEvent) -> void:
 		
 	if event is InputEventScreenDrag:
 		var finger :InputData = input_datas.get_input_data(event.index)
-		finger.end_position = event.position
-		finger.relative = event.relative
-		finger.draged = true
+		InputData.update_in_touch(finger, event)
 		_update_state(event)
 		send_event(EVENT_INPUT_HANDLED, {"input_datas":input_datas, "state":state})
 

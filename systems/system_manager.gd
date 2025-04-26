@@ -15,10 +15,13 @@ signal system_initialized
 
 var _initialized := false
 
+var rd := RenderingServer.create_local_rendering_device()
+
 func _ready() -> void:
 	OS.request_permissions()
 	if _keep_only(): 
 		return
+	# ViewUtils.auto_content_scale()
 	get_tree().auto_accept_quit = false
 	get_tree().quit_on_go_back = false
 	await get_tree().root.ready

@@ -26,6 +26,11 @@ class_name StyleBoxCircle extends StyleBox
 		_points_dirty = true
 		_redraw()
 
+@export var enable_aa := true:
+	set(value):
+		enable_aa = value
+		_redraw()
+
 var _points_dirty := true
 var _points := PackedVector2Array()
 var _colors := PackedColorArray()
@@ -45,15 +50,15 @@ func _draw(to_canvas_item: RID, rect: Rect2) :
 		_points_dirty = true
 	var radius = min(rect.size.x, rect.size.y)*0.5 + radius_offset
 	var center = rect.get_center()
+	if _points_dirty:
+		_points_dirty = false
+		_create_points(center, radius)
 	if color.a != 0:
-		RenderingServer.canvas_item_add_circle(to_canvas_item, center, radius, color, true)
+		RenderingServer.canvas_item_add_polygon(to_canvas_item, _points, PackedColorArray([color]))
+		if enable_aa:
+			RenderingServer.canvas_item_add_polyline(to_canvas_item, _points, PackedColorArray([color]), 0.5, enable_aa) # 用来做AA
 	if outline_width != 0 and outline_color.a != 0:
-		if _points_dirty:
-			_points_dirty = false
-			_create_points(center, radius)
-			_colors.resize(point_count)
-			_colors.fill(outline_color)
-		RenderingServer.canvas_item_add_polyline(to_canvas_item, _points, _colors, outline_width, true)
+		RenderingServer.canvas_item_add_polyline(to_canvas_item, _points, PackedColorArray([outline_color]), outline_width, enable_aa)
 		
 func _redraw():
 	var item = get_current_item_drawn()

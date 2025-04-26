@@ -91,11 +91,9 @@ theme_type_variation = &"base_button"
 icon = ExtResource("2_ktu8b")
 icon_alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"label_title"
-text = "HandyPixel"
 
 [node name="ImportButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -105,7 +103,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
 theme_override_constants/icon_max_width = 48
-toggle_mode = true
 icon = ExtResource("6_idixx")
 icon_alignment = 1
 

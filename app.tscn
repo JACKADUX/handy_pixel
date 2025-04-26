@@ -1,8 +1,42 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyibwt5gr336g"]
+[gd_scene load_steps=8 format=3 uid="uid://cyibwt5gr336g"]
 
 [ext_resource type="PackedScene" uid="uid://hjp2wug037f7" path="res://systems/canvas_system/module/canvas_manager.tscn" id="1_id6a3"]
 [ext_resource type="Script" uid="uid://ef2w4fuml1yx" path="res://app.gd" id="1_qbwvd"]
 [ext_resource type="PackedScene" uid="uid://ohii5c0hg52f" path="res://scenes/ui/ui.tscn" id="3_i4801"]
+[ext_resource type="Script" uid="uid://bkqqccpde03tv" path="res://scenes/finger_indicator/finger_indicator.gd" id="4_nee2x"]
+[ext_resource type="Script" uid="uid://de2j5atkd2pup" path="res://misc/stylebox_circle.gd" id="5_v7vdx"]
+
+[sub_resource type="StyleBox" id="StyleBox_atqe7"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("5_v7vdx")
+radius_offset = 0.0
+color = Color(0, 0, 0, 0.179)
+outline_width = 6.0
+outline_color = Color(1, 0.814, 0.082, 0.6)
+point_count = 64
+enable_aa = true
+metadata/_custom_type_script = "uid://de2j5atkd2pup"
+
+[sub_resource type="StyleBox" id="StyleBox_nee2x"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("5_v7vdx")
+radius_offset = 0.0
+color = Color(0, 0, 0, 0.179)
+outline_width = 6.0
+outline_color = Color(0.183, 0.612, 0.957, 0.6)
+point_count = 64
+enable_aa = true
+metadata/_custom_type_script = "uid://de2j5atkd2pup"
 
 [node name="App" type="Control"]
 layout_mode = 3
@@ -42,3 +76,52 @@ subviewport_container = NodePath("../..")
 
 [node name="UI" parent="." instance=ExtResource("3_i4801")]
 layout_mode = 1
+
+[node name="FingerIndicator" type="Control" parent="." node_paths=PackedStringArray("f1", "f2")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("4_nee2x")
+f1 = NodePath("F1")
+f2 = NodePath("F2")
+
+[node name="F1" type="Panel" parent="FingerIndicator"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_atqe7")
+
+[node name="Label" type="Label" parent="FingerIndicator/F1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="F2" type="Panel" parent="FingerIndicator"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 0
+offset_left = -2.0
+offset_top = 162.0
+offset_right = 142.0
+offset_bottom = 306.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_nee2x")
+
+[node name="Label2" type="Label" parent="FingerIndicator/F2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1

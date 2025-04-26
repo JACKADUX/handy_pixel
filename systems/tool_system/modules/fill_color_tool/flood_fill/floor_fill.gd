@@ -16,6 +16,8 @@ var counter_buffer_RID: RID
 var main_image: Image
 
 func set_rd(p_rd: RenderingDevice):
+	if not p_rd:
+		return
 	rd = p_rd
 	var shader_file = load("res://systems/tool_system/modules/fill_color_tool/flood_fill/flood_fill.glsl")
 	var shader_spirv = shader_file.get_spirv()

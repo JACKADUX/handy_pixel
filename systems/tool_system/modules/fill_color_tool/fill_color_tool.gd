@@ -9,10 +9,9 @@ var tolerance :float = 0.01  # 填充容差 0-> 当前颜色， 1->所有颜色
 
 var flood_fll := FloodFill.new()
 
-var rd := RenderingServer.create_local_rendering_device()
 
 func _init() -> void:
-	flood_fll.set_rd(rd)
+	flood_fll.set_rd(SystemManager.rd)
 
 func initialize() -> void:
 	flood_fll.free_rids()

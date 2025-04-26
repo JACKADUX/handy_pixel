@@ -1,7 +1,7 @@
 extends Control
 
 @onready var main_panel: MarginContainer = %MainPanel
-@onready var layers: Control = %Layers
+@onready var layers: Control = %Layers  # 用来新增页面 比如 ProjectManagePanel
 @onready var tool_ui_control: ToolUIControl = %ToolUIControl
 @onready var popup_arrow_panel_manager: PopupArrowPanelManager = %PopupArrowPanelManager
 

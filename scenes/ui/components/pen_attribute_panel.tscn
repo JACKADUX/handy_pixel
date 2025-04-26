@@ -88,6 +88,7 @@ tool_name = "pencil"
 prop_name = "pen_size"
 
 [node name="CustomSpinBoxWidget2" parent="." instance=ExtResource("4_8q6c3")]
+visible = false
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 3

@@ -60,6 +60,7 @@ icon = ExtResource("2_wxudy")
 icon_alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 theme_type_variation = &"label_title"
 theme_override_font_sizes/font_size = 66

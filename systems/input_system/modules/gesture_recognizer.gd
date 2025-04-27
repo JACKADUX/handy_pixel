@@ -38,7 +38,7 @@ func _update_state(event:InputEventScreenDrag):
 		State.HOVER:
 			if event.index == 0:
 				var finger_1 = input_datas.get_input_data(0)
-				send_event(EVENT_HOVERED, {"relative": finger_1.relative})
+				send_event(EVENT_HOVERED, {"relative": finger_1.relative, "end_position": finger_1.end_position})
 		State.PAN:
 			if touch_count == 2:
 				var finger_1 = input_datas.get_input_data(0)

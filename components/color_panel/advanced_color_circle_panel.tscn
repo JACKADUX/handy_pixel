@@ -1,0 +1,80 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddy3vs40m0agp"]
+
+[ext_resource type="Script" uid="uid://rg0iyc7w3nkm" path="res://components/color_panel/advanced_color_panel.gd" id="1_jtlli"]
+[ext_resource type="Script" uid="uid://de2j5atkd2pup" path="res://misc/stylebox_circle.gd" id="1_n5o6c"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="2_n5o6c"]
+
+[sub_resource type="StyleBox" id="StyleBox_cr3nb"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("1_n5o6c")
+radius_offset = 0.0
+color = Color(0, 0, 0, 1)
+outline_width = 0.0
+outline_color = Color(1, 1, 1, 1)
+point_count = 32
+enable_aa = true
+metadata/_custom_type_script = "uid://de2j5atkd2pup"
+
+[sub_resource type="StyleBox" id="StyleBox_ehr3f"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("1_n5o6c")
+radius_offset = 0.0
+color = Color(0, 0, 0, 0)
+outline_width = 4.0
+outline_color = Color(1, 1, 1, 1)
+point_count = 32
+enable_aa = true
+metadata/_custom_type_script = "uid://de2j5atkd2pup"
+
+[node name="AdvancedColorPanel" type="PanelContainer"]
+clip_children = 1
+custom_minimum_size = Vector2(96, 96)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBox_cr3nb")
+script = ExtResource("1_jtlli")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+texture = ExtResource("2_n5o6c")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.210938, 0.210938, 0.210938, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.210938, 0.210938, 0.210938, 1)
+
+[node name="Active" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_ehr3f")

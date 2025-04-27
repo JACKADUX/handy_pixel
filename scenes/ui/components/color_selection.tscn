@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://xwf3y70npyiy"]
+[gd_scene load_steps=22 format=3 uid="uid://xwf3y70npyiy"]
 
 [ext_resource type="Script" uid="uid://ltm0r0tyfdkq" path="res://scenes/ui/components/color_selection.gd" id="1_2qx2g"]
 [ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="4_jk00k"]
 [ext_resource type="Texture2D" uid="uid://c36h8iduw2ylf" path="res://assets/icons/remove_list.svg" id="4_sbweb"]
 [ext_resource type="Texture2D" uid="uid://capu0qrpvjyjw" path="res://assets/icons/list.svg" id="4_xa1tm"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="5_sbweb"]
 [ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="6_rb5g8"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="7_rb5g8"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="8_x70kc"]
@@ -53,6 +54,12 @@ focus_mode = 0
 icon = ExtResource("4_sbweb")
 flat = true
 
+[node name="PopupTextTooltipHelper5" type="Node" parent="HBoxContainer/VBoxContainer2/HBoxContainer2/RemovePaletteButton"]
+script = ExtResource("5_sbweb")
+title = "删除色卡"
+tooltip = "删除当前选择的色卡。不可撤回。"
+duration = 5.0
+
 [node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -63,6 +70,12 @@ layout_mode = 2
 focus_mode = 0
 icon = ExtResource("14_xa1tm")
 flat = true
+
+[node name="PopupTextTooltipHelper6" type="Node" parent="HBoxContainer/VBoxContainer2/HBoxContainer2/AddPaletteButton"]
+script = ExtResource("5_sbweb")
+title = "新增色卡"
+tooltip = "创建新的色卡。"
+duration = 5.0
 
 [node name="MenuButton" type="MenuButton" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
 unique_name_in_owner = true
@@ -160,6 +173,12 @@ focus_mode = 0
 icon = ExtResource("16_c376t")
 flat = true
 
+[node name="PopupTextTooltipHelper6" type="Node" parent="HBoxContainer/VBoxContainer2/HBoxContainer/RemoveColorButton"]
+script = ExtResource("5_sbweb")
+title = "删除颜色"
+tooltip = "去除当前选择的颜色或者末端的颜色。不可撤回。"
+duration = 5.0
+
 [node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -170,6 +189,12 @@ layout_mode = 2
 focus_mode = 0
 icon = ExtResource("14_5ygpn")
 flat = true
+
+[node name="PopupTextTooltipHelper7" type="Node" parent="HBoxContainer/VBoxContainer2/HBoxContainer/AddColorButton"]
+script = ExtResource("5_sbweb")
+title = "添加颜色"
+tooltip = "给色卡添加当前选择的颜色。"
+duration = 5.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2

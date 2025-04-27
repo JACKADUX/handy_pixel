@@ -30,11 +30,12 @@ void main() {
     vec4 mask = imageLoad(u_visited_mask, coord);
     // 已用 或者 未标记
     if (mask.r > 0.5 || mask.g < 0.5) return;
+    
     counter += 1;
     imageStore(u_visited_mask, coord, vec4(1.0, 0., 0., 1.));
     imageStore(u_output_image, coord, fill_color);
 
-    //if (hv_pass ==0) {  // hv_pass 在手机上会造成偶尔不完整的填充， 但不知道为什么会这样
+    if (hv_pass ==0) {  // hv_pass 在手机上会造成偶尔不完整的填充， 但不知道为什么会这样
         int left = coord.x;
         while (true) {
             left--;
@@ -62,7 +63,7 @@ void main() {
             }
             imageStore(u_visited_mask, r_pos, vec4(0.0, 1., 0., 1.));     
         }
-    //}else{
+    }else{
         int top = coord.y;
         while (true) {
             top--;
@@ -79,7 +80,7 @@ void main() {
         int bottom = coord.y;
         while (true) {
             bottom++;
-            if (bottom >= tex_size.x) break;
+            if (bottom >= tex_size.y) break;
             ivec2 b_pos = ivec2(coord.x, bottom);
             vec4 b_mask = imageLoad(u_visited_mask, b_pos);
             if (b_mask.r > 0.5 || b_mask.g > 0.5) break;
@@ -89,7 +90,7 @@ void main() {
             }
             imageStore(u_visited_mask, b_pos, vec4(0.0, 1., 0., 1.));    
         }
-    //}
+    }
 
     
 }

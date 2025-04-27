@@ -78,7 +78,13 @@ func _get_action_button_datas() -> Array:
 		#ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, icon),
 	#]
 	return []
-	
+
+func get_layout_area_type() -> LayoutHelper.AreaTypeLR:
+	var tool_ui_control := _tool_system.get_tool_ui_control()
+	var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
+	var pos = input_data.start_position
+	return LayoutHelper.get_point_type_lr(pos, tool_ui_control.get_viewport_rect())
+
 func show_action_button_panel(value:bool):
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	var action_button_panel = tool_ui_control.action_button_panel
@@ -87,9 +93,7 @@ func show_action_button_panel(value:bool):
 	
 	if value:
 		var action_button_datas = _get_action_button_datas()
-		var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
-		var pos = input_data.start_position
-		var area_type = LayoutHelper.get_point_type_lr(pos, tool_ui_control.get_viewport_rect())
+		var area_type = get_layout_area_type()
 		if area_type == LayoutHelper.AreaTypeLR.LEFT:
 			action_button_panel.set_mode(2)
 		elif area_type == LayoutHelper.AreaTypeLR.RIGHT:

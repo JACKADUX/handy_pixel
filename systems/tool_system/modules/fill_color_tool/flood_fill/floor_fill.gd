@@ -137,7 +137,7 @@ func compute(image: Image, qury_pos: Vector2i, fill_color: Color, tolerance: flo
 		var compute_list := rd.compute_list_begin()
 		rd.compute_list_bind_compute_pipeline(compute_list, pipeline_RID)
 		rd.compute_list_bind_uniform_set(compute_list, uniform_set_RID, 0)
-		rd.compute_list_dispatch(compute_list, tex_size.x / LOCAL_INVOCATION, tex_size.y / LOCAL_INVOCATION, 1)
+		rd.compute_list_dispatch(compute_list, ceil(float(tex_size.x) / LOCAL_INVOCATION) , ceil(float(tex_size.y) / LOCAL_INVOCATION), 1)
 		rd.compute_list_end()
 		
 		rd.submit()

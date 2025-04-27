@@ -59,7 +59,8 @@ func _create_project(id:="", name:="", file_path:="", cover_path:="") -> Diction
 		"created_at": Time.get_unix_time_from_system(),
 		"updated_at": Time.get_unix_time_from_system(),
 		"file_path": file_path,
-		"cover_path": cover_path  # 256x256
+		"cover_path": cover_path,  # 256x256
+		"canvas_size":Vector2.ZERO
 	}
 
 func new_project(name:="", p_canvas_size:=Vector2i(32, 32), color:=Color.TRANSPARENT) -> String:
@@ -125,6 +126,7 @@ func save_project_image_layers(id:String, image_layers:ImageLayers):
 	if not data:
 		return 
 	data.updated_at = Time.get_unix_time_from_system()
+	data.canvas_size = image_layers.canvas_size
 	var cover = get_image_layers_cover(image_layers)
 	cover.save_png(data.cover_path)
 	ResourceSaver.save(image_layers, data.file_path)

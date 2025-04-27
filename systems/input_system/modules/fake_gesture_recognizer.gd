@@ -54,7 +54,7 @@ func handle_input(event: InputEvent) -> void:
 		input_data_1.relative = event.relative
 		input_data_1.draged = true
 		if state == State.HOVER:
-			send_event(EVENT_HOVERED,  {"relative": input_data_1.relative})
+			send_event(EVENT_HOVERED,  {"relative": input_data_1.relative, "end_position": input_data_1.end_position})
 		elif state == State.PAN:
 			send_event(EVENT_PANED,  {"relative": input_data_1.relative})
 		send_event(EVENT_INPUT_HANDLED, {"input_datas":input_datas, "state":state})

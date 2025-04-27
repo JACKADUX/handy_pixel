@@ -176,6 +176,21 @@ script = ExtResource("2_xrq2b")
 model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
 
+[node name="Button9" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+theme_type_variation = &"base_button"
+text = "2048"
+
+[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button9"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(102, 204)
+
+[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button9/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

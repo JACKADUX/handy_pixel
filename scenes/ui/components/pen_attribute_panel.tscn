@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bwlq377qokg4n"]
+[gd_scene load_steps=10 format=3 uid="uid://bwlq377qokg4n"]
 
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="1_fg5j7"]
 [ext_resource type="Texture2D" uid="uid://skde8sphl5xt" path="res://assets/icons/circle_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="1_jd1iv"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ckr1kncipa12m" path="res://assets/icons/square_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_fg5j7"]
 [ext_resource type="Texture2D" uid="uid://edhlck68enk2" path="res://assets/icons/stylus_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="3_qmh7j"]
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="4_8q6c3"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_x3tsf"]
 [ext_resource type="Texture2D" uid="uid://ddh14srfsw5xy" path="res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_x3tsf"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
@@ -50,6 +51,11 @@ button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("1_jd1iv")
 icon_alignment = 1
 
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button"]
+script = ExtResource("4_x3tsf")
+title = "圆形画笔"
+duration = 3.0
+
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
@@ -64,6 +70,11 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("2_fg5j7")
 icon_alignment = 1
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button2"]
+script = ExtResource("4_x3tsf")
+title = "方形画笔"
+duration = 3.0
 
 [node name="CustomSpinBoxWidget" parent="." instance=ExtResource("4_8q6c3")]
 custom_minimum_size = Vector2(300, 100)

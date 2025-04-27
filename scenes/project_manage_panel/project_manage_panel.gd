@@ -66,7 +66,7 @@ func _ready() -> void:
 	
 	image_export_panel.confirm_dialog.confirm_button.pressed.connect(func():
 		var pos = size*0.5
-		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("Image Saved!", pos, 1)
+		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("图像保存成功!", pos, 1)
 	)
 	
 	new_project_panel.hide()
@@ -105,6 +105,12 @@ func update_projects():
 		container_agent.add_item(card)
 		card.set_meta("project_id", project_data.id)
 		card.buttons_container.visible = SystemManager.ui_system.projects_edit_state
+		var canvas_size = project_data.get("canvas_size", Vector2.ZERO) as Vector2
+		if not canvas_size.is_zero_approx():
+			card.size_label.text = "%dx%d"%[canvas_size.x,canvas_size.y]
+			card.size_label.show()
+		else:
+			card.size_label.hide()
 		fns.append(func():
 			if not project_data.cover_path or not FileAccess.file_exists(project_data.cover_path):
 				return 

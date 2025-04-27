@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://drhwvq1d8binf"]
+[gd_scene load_steps=9 format=3 uid="uid://drhwvq1d8binf"]
 
 [ext_resource type="Script" uid="uid://dwnuqna7iwuwe" path="res://scenes/ui/components/toggle_button_widget.gd" id="1_mas42"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_2nh30"]
 [ext_resource type="Texture2D" uid="uid://ddxk01e58vwxi" path="res://assets/icons/layer_new.svg" id="3_xgo10"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_2nh30"]
 [ext_resource type="Texture2D" uid="uid://bfto6ddbliw4r" path="res://assets/icons/layer_union.svg" id="4_mas42"]
 [ext_resource type="Texture2D" uid="uid://cdrd5f6fsr3ji" path="res://assets/icons/layer_sub.svg" id="5_2nh30"]
 [ext_resource type="Texture2D" uid="uid://djfn8rtb5epf" path="res://assets/icons/layer_difference.svg" id="6_xgo10"]
@@ -53,6 +54,11 @@ button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("3_xgo10")
 icon_alignment = 1
 
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button"]
+script = ExtResource("4_2nh30")
+title = "新建选区"
+duration = 3.0
+
 [node name="Button2" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(140, 72)
 layout_mode = 2
@@ -62,6 +68,11 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("4_mas42")
 icon_alignment = 1
+
+[node name="PopupTextTooltipHelper6" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button2"]
+script = ExtResource("4_2nh30")
+title = "增选选区"
+duration = 3.0
 
 [node name="Button3" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(140, 72)
@@ -73,6 +84,11 @@ button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("5_2nh30")
 icon_alignment = 1
 
+[node name="PopupTextTooltipHelper7" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button3"]
+script = ExtResource("4_2nh30")
+title = "减选选区"
+duration = 3.0
+
 [node name="Button4" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(140, 72)
 layout_mode = 2
@@ -83,3 +99,8 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("6_xgo10")
 icon_alignment = 1
+
+[node name="PopupTextTooltipHelper8" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/Button4"]
+script = ExtResource("4_2nh30")
+title = "交集选区"
+duration = 3.0

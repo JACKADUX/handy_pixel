@@ -113,3 +113,30 @@ func infomation_dialog(text:String, pos:Vector2, delay:float=3) -> InfomationDia
 		on_clean_notifyed()
 	)
 	return dialog
+
+const TooltipDialog = preload("res://components/dialogs/tooltip_dialog.gd")
+const TOOLTIP_DIALOG = preload("res://components/dialogs/tooltip_dialog.tscn")
+func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialog:
+	var gn = "TooltipDiaglogGroup"
+	for dlg in get_tree().get_nodes_in_group(gn):
+		dlg.queue_free()
+	var dialog = TOOLTIP_DIALOG.instantiate()
+	add_child(dialog)
+	dialog.add_to_group(gn)
+	dialog.z_index = 20
+	dialog.set_tooltip(title, tooltip)
+	
+	var center = get_rect().get_center()
+	# dialog.global_position = pos - dialog.get_rect().get_center()
+	dialog.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 24)
+	dialog.pivot_offset = Vector2(0, dialog.size.y)
+	
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(dialog, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
+	tween.tween_property(dialog, "scale", Vector2.ZERO, 0.2).from(Vector2.ONE).set_delay(delay)
+	tween.tween_callback(dialog.queue_free)
+	dialog.tree_exited.connect(func():
+		on_clean_notifyed()
+	)
+	return dialog

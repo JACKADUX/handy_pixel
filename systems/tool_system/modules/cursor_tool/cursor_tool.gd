@@ -7,7 +7,7 @@ var cell_pos_floor :Vector2i
 var cell_pos_round :Vector2i
 
 var cursor_speed_factor :float = 0.75 # 跟随倍率
-
+var cusor_immediate_mode := true
 
 static func get_tool_name() -> String:
 	return "cursor"
@@ -26,7 +26,8 @@ func deactivate() -> void:
 
 func get_tool_data() -> Dictionary:
 	return {
-		"cursor_speed_factor":cursor_speed_factor
+		"cursor_speed_factor":cursor_speed_factor,
+		"cusor_immediate_mode":cusor_immediate_mode
 	}
 
 func _handle_value_changed(prop_name:String, value:Variant):
@@ -51,6 +52,10 @@ func _on_event_occurred(event:String, data:Dictionary):
 				if SystemManager.canvas_system.get_canvas_rect().has_point(tap_pos):
 					set_value("cursor_position", tap_pos)
 		InputRecognizer.EVENT_HOVERED:
-			var relative = data.relative*cursor_speed_factor
-			set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())
-			
+			if not cusor_immediate_mode:
+				var relative = data.relative*cursor_speed_factor
+				set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())
+			else:
+				var tap_pos = SystemManager.canvas_system.get_touch_local_position(data.end_position)
+				set_value("cursor_position", tap_pos)
+	

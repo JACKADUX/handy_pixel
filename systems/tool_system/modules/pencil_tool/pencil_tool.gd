@@ -134,6 +134,11 @@ func _on_event_occurred(event:String, data:Dictionary):
 
 func show_tool_ui(value:bool):
 	if value:
+		var area_type = get_layout_area_type()
+		if area_type == LayoutHelper.AreaTypeLR.LEFT:
+			tool_ui.set_on_right()
+		elif area_type == LayoutHelper.AreaTypeLR.RIGHT:
+			tool_ui.set_on_left()
 		tool_ui.show()
 	else:
 		tool_ui.hide()

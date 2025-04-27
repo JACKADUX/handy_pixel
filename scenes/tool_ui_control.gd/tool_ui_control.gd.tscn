@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ybxugb3nobbe"]
+[gd_scene load_steps=5 format=3 uid="uid://ybxugb3nobbe"]
 
 [ext_resource type="Script" uid="uid://bfi11ulkjisx2" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd" id="1_k2kaw"]
 [ext_resource type="PackedScene" uid="uid://c3u6qya6ghxee" path="res://scenes/ui/action_button_panel/action_button_panel.tscn" id="1_qwrpp"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="2_0oq2m"]
+[ext_resource type="PackedScene" uid="uid://b1rl35yrfvo0x" path="res://systems/tool_system/modules/pencil_tool/pencil_tool_ui.tscn" id="3_beax0"]
 
 [node name="ToolUIControl" type="Control"]
 layout_mode = 3
@@ -34,6 +35,14 @@ border_color = Color(0.17276, 0.55795, 0.867188, 1)
 border_width = 4.0
 
 [node name="FPWS" type="Node" parent="MarginContainer/ReferenceRect"]
+script = ExtResource("2_0oq2m")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="PencilToolUi" parent="MarginContainer" instance=ExtResource("3_beax0")]
+visible = false
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="MarginContainer/PencilToolUi"]
 script = ExtResource("2_0oq2m")
 metadata/_custom_type_script = "uid://bfif1mfm0s464"
 

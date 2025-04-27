@@ -1,6 +1,5 @@
 extends Button
 
-
 func _ready() -> void:
 	var parent = get_parent()
 	if parent is not Button:

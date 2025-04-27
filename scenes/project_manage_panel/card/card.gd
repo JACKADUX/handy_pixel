@@ -9,6 +9,8 @@ extends PanelContainer
 @onready var export_button: Button = %ExportButton
 @onready var buttons_container: HBoxContainer = %ButtonsContainer
 
+@onready var size_label: Label = %SizeLabel
+
 func set_margin(value:int):
 	margin_container.add_theme_constant_override("margin_left", value)
 	margin_container.add_theme_constant_override("margin_right", value)

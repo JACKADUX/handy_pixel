@@ -5,9 +5,9 @@
 [ext_resource type="FontFile" uid="uid://cdwmjj6nmwrcs" path="res://assets/fonts/NotoSansSC/NotoSansSC-Regular.ttf" id="3_e58bp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e58bp"]
-content_margin_left = 8.0
+content_margin_left = 16.0
 content_margin_top = 8.0
-content_margin_right = 8.0
+content_margin_right = 16.0
 content_margin_bottom = 8.0
 bg_color = Color(0.980392, 0.956863, 0.901961, 1)
 border_width_left = 2
@@ -30,14 +30,24 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = -4
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="TitleHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/TitleHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_l302r")
 theme_override_font_sizes/font_size = 28
 text = "标题提示"
 
-[node name="Tooltip" type="Label" parent="VBoxContainer"]
+[node name="TooltipHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tooltip" type="Label" parent="VBoxContainer/TooltipHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_e58bp")

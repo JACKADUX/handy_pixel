@@ -17,24 +17,7 @@ extends Control
 func _ready() -> void:
 	SystemManager.ui_system.ui = self
 	%HomeButton.pressed.connect(open_projects_panel)
-
-func hide_all_except_bottom():
-	top_bar.hide()
-	top_center_bar.hide()
-	middle_bar.hide()
-	left_bar.hide()
-	center_area_control.hide()
-	right_bar.hide()
-	bottom_bar.show()
-
-func show_all():
-	top_bar.show()
-	top_center_bar.show()
-	middle_bar.show()
-	left_bar.show()
-	center_area_control.show()
-	right_bar.show()
-	bottom_bar.show()
+	
 	
 func open_projects_panel():
 	const ProjectManagePanel = preload("res://scenes/project_manage_panel/project_manage_panel.gd")

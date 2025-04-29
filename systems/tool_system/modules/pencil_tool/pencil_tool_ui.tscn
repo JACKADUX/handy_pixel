@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://csvxaiyl7x4k0" path="res://systems/tool_system/modules/pencil_tool/pencil_tool_ui.gd" id="1_hvefm"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="2_lmh4o"]
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="2_q6tdc"]
+[ext_resource type="PackedScene" uid="uid://f7yrqg5ge5gk" path="res://components/dialogs/tooltip_dialog.tscn" id="2_w0jsn"]
 [ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="4_hvefm"]
 [ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="5_p57ce"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="6_5wmqa"]
@@ -20,21 +21,6 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rssq3"]
 shader = ExtResource("7_hvefm")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbpcg"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.156863, 0.156863, 0.156863, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
-
 [node name="PencilToolUi" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -45,25 +31,21 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_hvefm")
 
-[node name="Label" type="Label" parent="."]
+[node name="TooltipDialog" parent="." instance=ExtResource("2_w0jsn")]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -47.0
-offset_top = -42.0
-offset_right = 48.0
+offset_left = -72.0
+offset_top = -84.0
+offset_right = 72.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.851563, 0.851563, 0.851563, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 32
-text = "(12, 12)"
 
-[node name="CellPosHandler" type="Node" parent="Label"]
+[node name="CellPosHandler" type="Node" parent="TooltipDialog"]
 script = ExtResource("1_6klbq")
 
 [node name="DockControl" type="PanelContainer" parent="."]
@@ -197,7 +179,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"base_button"
-theme_override_styles/normal = SubResource("StyleBoxFlat_fbpcg")
 disabled = true
 icon = ExtResource("12_567i7")
 icon_alignment = 2
@@ -212,7 +193,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"base_button"
-theme_override_styles/normal = SubResource("StyleBoxFlat_fbpcg")
 disabled = true
 icon = ExtResource("13_w0jsn")
 expand_icon = true

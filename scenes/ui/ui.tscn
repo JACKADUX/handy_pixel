@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=45 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -34,11 +34,16 @@
 [ext_resource type="Texture2D" uid="uid://bowbyjxsiwwl1" path="res://assets/icons/stacks_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="22_pa3n2"]
 [ext_resource type="PackedScene" uid="uid://c6y6t0ckd1yaa" path="res://scenes/ui/image_layers_ui/image_layers_ui.tscn" id="23_pa3n2"]
 [ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
+[ext_resource type="PackedScene" uid="uid://f7yrqg5ge5gk" path="res://components/dialogs/tooltip_dialog.tscn" id="27_pa3n2"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://ybxugb3nobbe" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd.tscn" id="34_lkvmi"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="38_h7igw"]
+[ext_resource type="Script" uid="uid://dpp2tqk3w1pmq" path="res://scenes/ui/components/camera_info.gd" id="40_y0kyo"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_0xdx3"]
+allow_unpress = true
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_puycq"]
 
@@ -57,21 +62,6 @@ outline_color = Color(1, 1, 1, 1)
 point_count = 12
 enable_aa = true
 metadata/_custom_type_script = "uid://de2j5atkd2pup"
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atqe7"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
-bg_color = Color(0.156863, 0.156863, 0.156863, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -134,6 +124,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
 toggle_mode = true
+button_group = SubResource("ButtonGroup_0xdx3")
 icon = ExtResource("3_67jad")
 icon_alignment = 1
 expand_icon = true
@@ -151,27 +142,58 @@ prop_name = "cusor_immediate_mode"
 script = ExtResource("6_y0kyo")
 title = "光标立即模式"
 tooltip = "开启后光标直接使用点击位置"
-duration = 3.0
+duration = 6.0
 
-[node name="CenterViewButton2" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
+[node name="FollowCameraButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
-icon = ExtResource("2_svq4k")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0xdx3")
+icon = ExtResource("4_oopc8")
 icon_alignment = 1
 expand_icon = true
 
-[node name="InputActionRequester" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/CenterViewButton2"]
-script = ExtResource("22_o71gb")
-action_name = "action_center_view"
+[node name="ButtonViewAdapter" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton"]
+script = ExtResource("6_0xdx3")
+type = 1
 
-[node name="PopupTextTooltipHelper" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/CenterViewButton2"]
+[node name="ToolDataController" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton/ButtonViewAdapter"]
+script = ExtResource("9_y0kyo")
+tool_name = "camera"
+prop_name = "follow_cursor"
+
+[node name="PopupTextTooltipHelper3" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton"]
 script = ExtResource("6_y0kyo")
-title = "视图全貌"
-tooltip = "从当前位置变成视图全貌，再次点击会回归原先的位置"
-duration = 3.0
+title = "摄像机跟随"
+tooltip = "开启后光标将保持在视图居中对齐"
+duration = 6.0
+
+[node name="SpeedButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("7_vnqvi")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
+script = ExtResource("8_qmss2")
+popup_panel_scene = ExtResource("9_26a3v")
+popup_side = 3
+
+[node name="CanvasSpeedHandler" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
+script = ExtResource("10_26a3v")
+
+[node name="PopupTextTooltipHelper4" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
+script = ExtResource("6_y0kyo")
+title = "光标延迟倍率"
+tooltip = "光标跟随时的延迟倍率，越低越慢"
+duration = 6.0
 
 [node name="GridVisibleButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
@@ -196,58 +218,28 @@ prop_name = "grid_visible"
 [node name="PopupTextTooltipHelper2" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/GridVisibleButton"]
 script = ExtResource("6_y0kyo")
 title = "网格"
-tooltip = "1x1的网格"
-duration = 3.0
+tooltip = "1x1的网格。网格只会在视图缩放到比较小时才会出现。"
+duration = 6.0
 
-[node name="FollowCameraButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
+[node name="CenterViewButton2" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
-toggle_mode = true
-icon = ExtResource("4_oopc8")
+icon = ExtResource("2_svq4k")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonViewAdapter" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton"]
-script = ExtResource("6_0xdx3")
-type = 1
+[node name="InputActionRequester" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/CenterViewButton2"]
+script = ExtResource("22_o71gb")
+action_name = "action_center_view"
 
-[node name="ToolDataController" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton/ButtonViewAdapter"]
-script = ExtResource("9_y0kyo")
-tool_name = "camera"
-prop_name = "follow_cursor"
-
-[node name="PopupTextTooltipHelper3" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/FollowCameraButton"]
+[node name="PopupTextTooltipHelper" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/CenterViewButton2"]
 script = ExtResource("6_y0kyo")
-title = "摄像机跟随"
-tooltip = "开启后光标将保持在视图居中对齐"
-duration = 3.0
-
-[node name="SpeedButton" type="Button" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"base_button"
-icon = ExtResource("7_vnqvi")
-icon_alignment = 1
-expand_icon = true
-
-[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
-script = ExtResource("8_qmss2")
-popup_panel_scene = ExtResource("9_26a3v")
-popup_side = 3
-
-[node name="CanvasSpeedHandler" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
-script = ExtResource("10_26a3v")
-
-[node name="PopupTextTooltipHelper4" type="Node" parent="MainPanel/VBoxContainer/TopBar/TopCenterBar/SpeedButton"]
-script = ExtResource("6_y0kyo")
-title = "光标延迟倍率"
-tooltip = "光标跟随时的延迟倍率，越低越慢"
-duration = 3.0
+title = "视图全貌"
+tooltip = "从当前位置变成视图全貌，再次点击会回归原先的位置"
+duration = 6.0
 
 [node name="Control" type="Control" parent="MainPanel/VBoxContainer/TopBar"]
 layout_mode = 2
@@ -299,7 +291,7 @@ tool_name = "pencil"
 script = ExtResource("6_y0kyo")
 title = "画笔工具"
 tooltip = "绘画模式下可使用：橡皮 / 吸色 / 填充等工具。再次点击打开设置窗口。"
-duration = 5.0
+duration = 6.0
 
 [node name="OnActiveButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/PenButton"]
 layout_mode = 1
@@ -355,7 +347,7 @@ tool_name = "selection_tool"
 script = ExtResource("6_y0kyo")
 title = "选区工具"
 tooltip = "通过两次独立的点击来创建选区。再次点击打开设置窗口。"
-duration = 5.0
+duration = 6.0
 
 [node name="OnActiveButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar/SelectionButton"]
 layout_mode = 1
@@ -410,7 +402,7 @@ tool_name = "transform_tool"
 script = ExtResource("6_y0kyo")
 title = "移动变形工具"
 tooltip = "非选区状态可以移动整个画布，选区状态可变形编辑选区内容。"
-duration = 5.0
+duration = 6.0
 
 [node name="Button" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/LeftBar"]
 custom_minimum_size = Vector2(96, 96)
@@ -517,7 +509,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"base_button"
-theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
 disabled = true
 icon = ExtResource("17_o2sfg")
 icon_alignment = 2
@@ -531,10 +522,20 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"base_button"
-theme_override_styles/normal = SubResource("StyleBoxFlat_atqe7")
 disabled = true
 icon = ExtResource("18_yy7ol")
 expand_icon = true
+
+[node name="CameraTooltipDialog" parent="MainPanel" instance=ExtResource("27_pa3n2")]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+metadata/_edit_use_anchors_ = true
+
+[node name="CameraInfo" type="Node" parent="MainPanel/CameraTooltipDialog"]
+script = ExtResource("40_y0kyo")
 
 [node name="Layers" type="Control" parent="."]
 unique_name_in_owner = true

@@ -7,7 +7,6 @@ var _zoom :float = 1
 
 func init_with_tool(p_tool:TransformTool):
 	tool = p_tool
-	var cell_size = SystemManager.canvas_system.cell_size
 	var camera_tool = SystemManager.tool_system.camera_tool
 	
 	tool.property_updated.connect(func(prop_name:String, value):
@@ -22,7 +21,7 @@ func init_with_tool(p_tool:TransformTool):
 				queue_redraw()
 	)
 	_zoom = camera_tool.camera_zoom
-	scale = Vector2.ONE*cell_size
+	scale = Vector2.ONE*CanvasData.CELL_SIZE
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 func _draw() -> void:

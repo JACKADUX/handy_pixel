@@ -69,12 +69,16 @@ func get_tool_data() -> Dictionary:
 	}
 
 func _get_action_button_datas():
-	return [
+	var actions = [
 		ActionButtonPanel.create_action_button_data(0, PencilTool.ACTION_DRAW_COLOR, pencil_icon),
 		ActionButtonPanel.create_action_button_data(2, ColorPickerTool.ACTION_PICK_COLOR, pick_color_icon),
 		ActionButtonPanel.create_action_button_data(3, FillColorTool.ACTION_FILL_COLOR, fill_color_icon),
 		ActionButtonPanel.create_action_button_data(4, EraserTool.ACTION_ERASE_COLOR, erase_icon),
 	]
+	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
+	if select_tool.has_selection():
+		actions.append(ActionButtonPanel.create_action_button_data(1, SelectionTool.ACTION_DESELECT_ALL, SelectionTool.ICON_CANCEL_SELECT))
+	return actions
 		
 
 func _handle_value_changed(prop_name:String, value:Variant):
@@ -119,7 +123,9 @@ func _on_action_called(action:String, state:ActionHandler.State):
 				FillColorTool.ACTION_FILL_COLOR:
 					var fill_color = _tool_system.get_tool(FillColorTool.get_tool_name()) as FillColorTool
 					fill_color.action_fill_active_color_on_active_layer(_tool_system.cursor_tool.cell_pos_floor)
-					
+				SelectionTool.ACTION_DESELECT_ALL:
+					var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
+					select_tool._on_action_called(SelectionTool.ACTION_DESELECT_ALL, ActionHandler.State.JUST_RELEASED)
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
@@ -163,7 +169,7 @@ func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 	
 	for pen_pos in dst_list:
 		# TODO: 选区绘画需要更好的方式？
-		if select_tool.selection_mask_image and not select_tool.selection_mask_image.is_invisible():
+		if select_tool.has_selection():
 			var selection_mask_image = select_tool.selection_mask_image.get_region(Rect2(pen_pos, rect.size))
 			inter_mask = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
 			inter_mask.blit_rect_mask(mask_image, selection_mask_image, rect, Vector2.ZERO)

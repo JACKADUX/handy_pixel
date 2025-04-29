@@ -272,7 +272,7 @@ func is_full_mode() -> bool:
 
 func set_area_rects(rect:Rect2):
 	area_rect = rect
-	rects = RectUtils.create_transform_rects(area_rect, rect_expand_size/camera_zoom/SystemManager.canvas_system.cell_size)
+	rects = RectUtils.create_transform_rects(area_rect, rect_expand_size/camera_zoom/CanvasData.CELL_SIZE)
 	property_updated.emit("rects", rects)
 
 func get_transform_index(gpos:Vector2)->int:

@@ -33,3 +33,8 @@ unique_name_in_owner = true
 script = ExtResource("3_88g7m")
 grid_enabled = false
 grid_color = Color(0.550781, 0.550781, 0.550781, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+drag_horizontal_enabled = true
+drag_vertical_enabled = true

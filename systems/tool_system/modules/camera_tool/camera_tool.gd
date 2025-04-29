@@ -8,7 +8,10 @@ var camera_zoom :float= 1
 
 var _camera : CanvasCamera
 var _offset_zoom := []
+var zoom_limit_min_aspect :float = 0.5 # NOTE:这个不是 camera_zoom, 而是画布与窗口的比值
+var zoom_limit_max_value :float = 100  # NOTE: 这个就是 camera_zoom 的值
 
+var main_canvas_data :CanvasData = preload("res://systems/canvas_system/main_canvas_data.tres")
 
 static func get_tool_name() -> String:
 	return "camera"
@@ -33,6 +36,13 @@ func get_tool_data() -> Dictionary:
 		"camera_zoom":camera_zoom,
 	}
 
+func _handle_value_changed(prop_name:String, value:Variant):
+	match prop_name:
+		"camera_offset":
+			main_canvas_data.camera_offset = value
+		"camera_zoom":
+			main_canvas_data.camera_zoom = value
+			
 func _on_action_called(action:String, state:ActionHandler.State):
 	match action:
 		ACTION_CENTER_VIEW:
@@ -42,20 +52,56 @@ func _on_action_called(action:String, state:ActionHandler.State):
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
 		InputRecognizer.EVENT_PANED:
-			var pan = data.relative
-			set_value("camera_offset",  camera_offset -pan/camera_zoom)
+			var offset = camera_offset -data.relative/camera_zoom
+			offset = _offset_limit(offset)
+			set_value("camera_offset", offset)
 		InputRecognizer.EVENT_ZOOMED:
+			if _zoom_limit(data.factor):
+				return 
 			handle_zoom(SystemManager.canvas_system.get_touch_local_position(data.center), data.factor)
 
+func _offset_limit(offset:Vector2):
+	# NOTE: 简单来说就是画布和视图的交集矩形最小边的长度要大于100px
+	var zoomed_offset = offset*camera_zoom
+	var viewport_size = main_canvas_data.viewport_size
+	var canvas_size = main_canvas_data.get_zoomed_canvas_size()
+	var rect1 = Rect2(Vector2.ZERO, canvas_size)
+	var rect2 = Rect2(zoomed_offset-viewport_size*0.5, viewport_size)
+
+	var rect1_center = rect1.get_center() 
+	var points1 = RectUtils.create_points_from_rect(rect1)
+	var points2 = RectUtils.create_points_from_rect(rect2)
+	var polyline = PackedVector2Array([rect1_center, zoomed_offset])
+	var intersect1 = Geometry2D.intersect_polyline_with_polygon(polyline, points1)
+	var intersect2 = Geometry2D.intersect_polyline_with_polygon(polyline, points2)
+	if intersect1 and intersect2:
+		var p1 = intersect1[0][1]
+		var p2 = intersect2[0][0]
+		
+		var v21 = p2-p1
+		var v_off = zoomed_offset-rect1_center
+		if v21.dot(v_off) > 0:
+			var dir = Vector2.ZERO
+			zoomed_offset -= v21 + v21.normalized()*100
+		return zoomed_offset/camera_zoom
+	return offset
+
+
+func _zoom_limit(factor:float):
+	var viewport_size = main_canvas_data.viewport_size
+	var canvas_size = main_canvas_data.get_zoomed_canvas_size()
+	var aspect = 1
+	if viewport_size.aspect() > canvas_size.aspect():
+		aspect = canvas_size.y/viewport_size.y
+	else:
+		aspect = canvas_size.x/viewport_size.x
+	if (aspect < zoom_limit_min_aspect and factor < 1) or (camera_zoom* CanvasData.CELL_SIZE >= zoom_limit_max_value and factor > 1):
+		return true
+		
 func center_view(no_toggle:=false):
 	if no_toggle:
 		_offset_zoom = []
-	var canvas_manager = _tool_system.get_canvas_manager()
-	if not canvas_manager:
-		return 
-	var viewport_size = canvas_manager.subviewport_container.size
-	var canvas_size = SystemManager.canvas_system.get_canvas_size()
-	_center_view(canvas_size, viewport_size)
+	_center_view(main_canvas_data.get_canvas_size(), main_canvas_data.viewport_size)
 
 func _center_view(canvas_size:Vector2, viewport_size:Vector2):
 	var offset = canvas_size*0.5

@@ -1,6 +1,7 @@
 class_name SelectionTool extends BaseTool
 
 const ACTION_SELECT_ALL := "action_select_all"
+const ACTION_DESELECT_ALL := "action_deselect_all"
 
 enum Mode {NONE, RECTANGLE, POLY}	
 var mode := Mode.RECTANGLE
@@ -21,7 +22,7 @@ var _points := PackedVector2Array()
 # NOTE: 会和 image_layers 的 canvas 尺寸一致，蒙版区域为白色，非蒙版区域为空
 var selection_mask_image : Image
 
-
+const ICON_CANCEL_SELECT = preload("res://assets/icons/cancel_select.svg")
 const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg")
 
 static func get_tool_name() -> String:
@@ -54,10 +55,35 @@ func get_data() -> Dictionary:
 func _get_action_button_datas() -> Array:
 	return [
 		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.main_pressed_icon),
-		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon),
+		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ICON_CANCEL_SELECT),
 		#ActionButtonPanel.create_action_button_data(4, SelectionTool.ACTION_SELECT_ALL, select_all)
 	]
+
+func has_selection() -> bool:
+	return selection_mask_image and not selection_mask_image.is_invisible()
+
+func action_cancel_select():
+	if not has_selection():
+		return 
+	_started = false
+	_points.clear()
+	var undo_image = selection_mask_image.duplicate() if selection_mask_image else null
+	selection_mask_image = null
+	var do_image = null
+	raise_selection_updated()
 	
+	SystemManager.undoredo_system.add_simple_undoredo("Selection", 
+		func(undoredo:UndoRedo):
+			undoredo.add_do_method(func():
+				selection_mask_image = do_image
+				raise_selection_updated()
+			)
+			undoredo.add_undo_method(func():
+				selection_mask_image = undo_image
+				raise_selection_updated()
+			)
+	)
+
 func _on_action_called(action:String, state:ActionHandler.State):
 	match state:
 		ActionHandler.State.JUST_RELEASED:
@@ -108,25 +134,8 @@ func _on_action_called(action:String, state:ActionHandler.State):
 							
 					raise_selection_updated()
 						
-				ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-					_started = false
-					_points.clear()
-					var undo_image = selection_mask_image.duplicate() if selection_mask_image else null
-					selection_mask_image = null
-					var do_image = null
-					raise_selection_updated()
-					
-					SystemManager.undoredo_system.add_simple_undoredo("Selection", 
-						func(undoredo:UndoRedo):
-							undoredo.add_do_method(func():
-								selection_mask_image = do_image
-								raise_selection_updated()
-							)
-							undoredo.add_undo_method(func():
-								selection_mask_image = undo_image
-								raise_selection_updated()
-							)
-					)
+				ACTION_DESELECT_ALL,ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+					action_cancel_select()
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:

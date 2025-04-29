@@ -32,10 +32,24 @@ class_name Grid extends Node2D
 		canvas_size = value
 		queue_redraw()
 
+func _ready() -> void:
+	if not SystemManager.is_initialized():
+		await SystemManager.system_initialized
+	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop, value):
+		if !grid_enabled:
+			return 
+		match prop:
+			"camera_zoom":
+				_update_visible()
+	)
 
+func _update_visible():
+	hide() if SystemManager.tool_system.camera_tool.camera_zoom <= 1 else show()
+	
 func _draw():
 	if !grid_enabled or grid_spacing < 1:
 		return
+	_update_visible()
 	var lines = PackedVector2Array()
 	# 绘制纵向网格线
 	for x in range(0, int(canvas_size.x) + 1, grid_spacing):

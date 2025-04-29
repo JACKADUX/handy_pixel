@@ -6,7 +6,7 @@ var cursor_position :Vector2
 var cell_pos_floor :Vector2i
 var cell_pos_round :Vector2i
 
-var cursor_speed_factor :float = 0.75 # 跟随倍率
+var cursor_speed_factor :float = 1. # 跟随倍率
 var cusor_immediate_mode := true
 
 static func get_tool_name() -> String:
@@ -33,16 +33,15 @@ func get_tool_data() -> Dictionary:
 func _handle_value_changed(prop_name:String, value:Variant):
 	match prop_name:
 		"cursor_position":
-			var cell_size = SystemManager.canvas_system.cell_size
-			var f_pos = Vector2i(floor(cursor_position/cell_size))
+			var f_pos = Vector2i(floor(cursor_position/ CanvasData.CELL_SIZE))
 			if f_pos != cell_pos_floor:
 				cell_pos_floor = f_pos
 				property_updated.emit("cell_pos_floor", cell_pos_floor)
-			var r_pos = Vector2i(round(cursor_position/cell_size))
+			var r_pos = Vector2i(round(cursor_position/ CanvasData.CELL_SIZE))
 			if r_pos != cell_pos_round:
 				cell_pos_round = r_pos
 				property_updated.emit("cell_pos_round", cell_pos_round)
-
+		
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
 		InputRecognizer.EVENT_INPUT_HANDLED:
@@ -56,6 +55,9 @@ func _on_event_occurred(event:String, data:Dictionary):
 				var relative = data.relative*cursor_speed_factor
 				set_value("cursor_position", cursor_position+relative/_tool_system.get_camera_zoom())
 			else:
-				var tap_pos = SystemManager.canvas_system.get_touch_local_position(data.end_position)
+				var offset = Vector2.ONE*-144
+				if get_layout_area_type() == LayoutHelper.AreaTypeLR.LEFT:
+					offset.x *=-1
+				var tap_pos = SystemManager.canvas_system.get_touch_local_position(data.end_position+offset)
 				set_value("cursor_position", tap_pos)
 	

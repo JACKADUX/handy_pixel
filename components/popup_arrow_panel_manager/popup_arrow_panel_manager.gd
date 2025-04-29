@@ -50,6 +50,10 @@ func on_clean_notifyed():
 			return 
 	set_block(false)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouse and event.is_pressed():
+		clear_tooltip_dialogs() # 有任何点击输入时关闭所有tooltip窗口
+
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and not event.is_pressed():
 		for child in get_children():
@@ -116,19 +120,23 @@ func infomation_dialog(text:String, pos:Vector2, delay:float=3) -> InfomationDia
 
 const TooltipDialog = preload("res://components/dialogs/tooltip_dialog.gd")
 const TOOLTIP_DIALOG = preload("res://components/dialogs/tooltip_dialog.tscn")
-func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialog:
-	var gn = "TooltipDiaglogGroup"
-	for dlg in get_tree().get_nodes_in_group(gn):
+const GROUP_TOOLTIP_DIALOG = "TooltipDiaglogGroup"
+func clear_tooltip_dialogs():
+	for dlg in get_tree().get_nodes_in_group(GROUP_TOOLTIP_DIALOG):
 		dlg.queue_free()
+		
+func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialog:
+	clear_tooltip_dialogs()
 	var dialog = TOOLTIP_DIALOG.instantiate()
 	add_child(dialog)
-	dialog.add_to_group(gn)
+	dialog.add_to_group(GROUP_TOOLTIP_DIALOG)
 	dialog.z_index = 20
 	dialog.set_tooltip(title, tooltip)
 	
 	var center = get_rect().get_center()
 	# dialog.global_position = pos - dialog.get_rect().get_center()
-	dialog.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 24)
+	dialog.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 0)
+	dialog.position += Vector2(96, -16)
 	dialog.pivot_offset = Vector2(0, dialog.size.y)
 	
 	var tween = create_tween()

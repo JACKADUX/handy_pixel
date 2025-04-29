@@ -36,15 +36,14 @@ func init_with_tool(p_tool:PencilTool):
 	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop_name:String, value):
 			match prop_name:
 				"camera_zoom":
-					material.set_shader_parameter("line_scale", 3.0/SystemManager.canvas_system.cell_size/value)
+					material.set_shader_parameter("line_scale", 3.0/CanvasData.CELL_SIZE/value)
 	)
-	var cell_size = SystemManager.canvas_system.cell_size
 	var zoom = SystemManager.tool_system.get_camera_zoom()
-	scale = Vector2.ONE*cell_size
+	scale = Vector2.ONE*CanvasData.CELL_SIZE
 	texture = ImageTexture.new()
 	var mat = ShaderMaterial.new()
 	mat.shader = OUTLINE
-	mat.set_shader_parameter("line_scale", 3.0/cell_size/zoom)
+	mat.set_shader_parameter("line_scale", 3.0/CanvasData.CELL_SIZE/zoom)
 	mat.set_shader_parameter("line_color", SystemManager.color_system.active_color)
 	mat.set_shader_parameter("use_line", 1.0)  # 0. fill  1. line
 	material = mat
@@ -65,4 +64,4 @@ func update_texture():
 func _align_center():
 	if not tool:
 		return
-	global_position = tool.get_pen_position()*SystemManager.canvas_system.cell_size
+	global_position = tool.get_pen_position()*CanvasData.CELL_SIZE

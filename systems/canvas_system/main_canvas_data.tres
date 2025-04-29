@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CanvasData" load_steps=2 format=3 uid="uid://b7v0h7r7o0bo6"]
+
+[ext_resource type="Script" uid="uid://bkp31ykpx7mg2" path="res://systems/canvas_system/canvas_data.gd" id="1_ljcxv"]
+
+[resource]
+script = ExtResource("1_ljcxv")
+cell_size = 10
+viewport_size = Vector2(0, 0)
+canvas_size = Vector2(0, 0)
+camera_offset = Vector2(0, 0)
+camera_zoom = 1.0
+metadata/_custom_type_script = "uid://bkp31ykpx7mg2"

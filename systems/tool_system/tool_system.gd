@@ -72,6 +72,9 @@ func _register_input_actions():
 	action_handler.register_action(CameraTool.ACTION_CENTER_VIEW)
 	action_handler.register_action(ColorPickerTool.ACTION_PICK_COLOR)
 	action_handler.register_action(FillColorTool.ACTION_FILL_COLOR)
+	action_handler.register_action(SelectionTool.ACTION_SELECT_ALL)
+	action_handler.register_action(SelectionTool.ACTION_DESELECT_ALL)
+	
 	
 	action_handler.register_action(ACTION_TOOL_MAIN_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CONFIRM_PRESSED)

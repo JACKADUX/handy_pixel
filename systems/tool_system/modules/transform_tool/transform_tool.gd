@@ -44,6 +44,9 @@ const move_icon = preload("res://assets/icons/drag_pan_96dp_FFFFFF_FILL1_wght400
 static func get_tool_name() -> String:
 	return "transform_tool"
 
+func register_action(action_handler:ActionHandler):
+	action_handler.register_action(ACTION_TRANSFORM)
+	
 func initialize():
 	_confirm_transform()
 	
@@ -64,6 +67,11 @@ func activate() -> void:
 	camera_zoom = _tool_system.camera_tool.camera_zoom
 	_tool_system.cursor_tool._cursor.hide()
 		
+# 工具禁用时调用
+func deactivate() -> void:
+	_tool_system.cursor_tool._cursor.show()
+	_confirm_transform()
+
 func mode_detecte():
 	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
 	if select_tool.selection_mask_image and not select_tool.selection_mask_image.is_invisible():
@@ -75,11 +83,6 @@ func mode_detecte():
 		rects = []
 		property_updated.emit("rects", rects)
 		
-# 工具禁用时调用
-func deactivate() -> void:
-	_tool_system.cursor_tool._cursor.show()
-	_confirm_transform()
-
 func _get_action_button_datas() -> Array:
 	return [
 		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.confirm_pressed_icon, 0),

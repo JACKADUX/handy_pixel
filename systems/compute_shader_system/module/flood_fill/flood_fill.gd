@@ -1,11 +1,4 @@
-class_name FloodFill
-
-const LOCAL_INVOCATION := 8
-var rd: RenderingDevice
-
-var shader_RID: RID
-var pipeline_RID: RID
-var uniform_set_RID: RID
+class_name CSO_FloodFill extends ComputeShaderObject
 
 var input_image_rid: RID
 var output_image_rid: RID
@@ -13,27 +6,9 @@ var visited_mask_rid: RID
 var params_buffer_RID: RID
 var counter_buffer_RID: RID
 
-var main_image: Image
-
-func set_rd(p_rd: RenderingDevice):
-	if not p_rd:
-		return
-	rd = p_rd
-	var shader_file = load("res://systems/tool_system/modules/fill_color_tool/flood_fill/flood_fill.glsl")
-	var shader_spirv = shader_file.get_spirv()
-	shader_RID = rd.shader_create_from_spirv(shader_spirv)
-	pipeline_RID = rd.compute_pipeline_create(shader_RID)
-	
-func free_rids():
-	if not rd or not input_image_rid:
-		return
-	rd.free_rid(input_image_rid)
-	rd.free_rid(output_image_rid)
-	rd.free_rid(visited_mask_rid)
-	rd.free_rid(params_buffer_RID)
-	rd.free_rid(counter_buffer_RID)
-	
-func _prepare_resources():
+func _prepare_resources(compute_shader_data:ComputeShaderData):
+	free_rids()
+	var main_image = compute_shader_data.image as Image
 	var width := main_image.get_width()
 	var height := main_image.get_height()
 	
@@ -46,7 +21,8 @@ func _prepare_resources():
 							| RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
 							)
 	input_image_rid = rd.texture_create(input_fmt, RDTextureView.new(), [main_image.get_data()])
-
+	add_to_free_list(input_image_rid)
+	
 	# 输出纹理
 	var output_fmt := RDTextureFormat.new()
 	output_fmt.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
@@ -58,6 +34,8 @@ func _prepare_resources():
 							| RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT # 用 rd.texture_clear
 							)
 	output_image_rid = rd.texture_create(output_fmt, RDTextureView.new(), [])
+	add_to_free_list(output_image_rid)
+	
 	# 访问标记纹理
 	var mask_fmt := RDTextureFormat.new()
 	mask_fmt.width = width
@@ -68,6 +46,7 @@ func _prepare_resources():
 						| RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
 						)
 	visited_mask_rid = rd.texture_create(mask_fmt, RDTextureView.new())
+	add_to_free_list(visited_mask_rid)
 	
 	# 属性
 	var target_color := Color.BLACK
@@ -79,10 +58,12 @@ func _prepare_resources():
 			tolerance
 	]).to_byte_array()
 	params_buffer_RID = rd.storage_buffer_create(buffer_data.size(), buffer_data)
+	add_to_free_list(params_buffer_RID)
 	
 	var counter_data = PackedInt32Array([0, 0]).to_byte_array()
 	counter_buffer_RID = rd.storage_buffer_create(counter_data.size(), counter_data)
-
+	add_to_free_list(counter_buffer_RID)
+	
 	var uniform_sets := [
 		create_uniform(RenderingDevice.UNIFORM_TYPE_IMAGE, 0, input_image_rid),
 		create_uniform(RenderingDevice.UNIFORM_TYPE_IMAGE, 1, output_image_rid),
@@ -92,24 +73,23 @@ func _prepare_resources():
 	]
 	uniform_set_RID = rd.uniform_set_create(uniform_sets, shader_RID, 0)
 
-func create_uniform(type: int, binding: int, rid: RID) -> RDUniform:
-	var uniform := RDUniform.new()
-	uniform.uniform_type = type
-	uniform.binding = binding
-	uniform.add_id(rid)
-	return uniform
+func compute(compute_shader_data:ComputeShaderData) -> Image:
+	# NOTE: 这个覆写主要是方便直接跳转到当前脚本
+	return super(compute_shader_data)
 
-func compute(image: Image, qury_pos: Vector2i, fill_color: Color, tolerance: float = 0, max_iter = 1000) -> Image:
+func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
+	var image = compute_shader_data.image
+	var qury_pos = compute_shader_data.qury_pos
+	var fill_color = compute_shader_data.fill_color
+	var tolerance = compute_shader_data.tolerance
 	# NOTE: 理论上 max_iter 基本不会到1000，比较大的图20-30基本能跑完， 所以可以保持默认
+	var max_iter = compute_shader_data.max_iter
+
 	var target_color = image.get_pixelv(qury_pos)
 	if target_color == fill_color:
 		return
+	_prepare_resources(compute_shader_data)
 	var tex_size = image.get_size()
-	if main_image != image:
-		main_image = image
-		free_rids()
-		_prepare_resources()
-	
 	# in img
 	rd.texture_update(input_image_rid, 0, image.get_data())
 	# out img
@@ -152,6 +132,15 @@ func compute(image: Image, qury_pos: Vector2i, fill_color: Color, tolerance: flo
 	var output_image = Image.create_from_data(tex_size.x, tex_size.y, false, Image.FORMAT_RGBA8, output_data)
 	return output_image
 
+func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
+	# var shader_data = compute_shader_data as FloodFillData
+	return floor_fill_cpu(
+		compute_shader_data.image, 
+		compute_shader_data.qury_pos, 
+		compute_shader_data.fill_color, 
+		compute_shader_data.tolerance, 
+		compute_shader_data.max_iter
+	)
 
 static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, tolerance: float = 0, max_iter = 1000):
 	var w = image.get_width()
@@ -225,3 +214,18 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 		poss = next_poss
 		hv_pass = 1- hv_pass
 	return output_image
+
+class FloodFillData extends ComputeShaderData:
+	var image: Image
+	var qury_pos: Vector2i
+	var fill_color: Color
+	var tolerance: float = 0
+	var max_iter :int= 1000
+	
+	static func create(image:Image, qury_pos:Vector2i, fill_color:Color, tolerance:float=0) -> FloodFillData:
+		var data = FloodFillData.new()
+		data.image = image
+		data.qury_pos = qury_pos
+		data.fill_color = fill_color
+		data.tolerance = tolerance
+		return data

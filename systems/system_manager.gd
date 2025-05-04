@@ -12,18 +12,15 @@ signal system_initialized
 @onready var color_system: ColorSystem = $ColorSystem
 @onready var undoredo_system: UndoRedoSystem = $UndoRedoSystem
 @onready var ui_system: UISystem = $UISystem
+@onready var compute_shader_system: ComputeShaderSystem = $ComputeShaderSystem
 
 var _initialized := false
-
-var rd := RenderingServer.create_local_rendering_device()
 
 func _ready() -> void:
 	OS.request_permissions()
 	if _keep_only(): 
 		return
-	# ViewUtils.auto_content_scale()
-	get_tree().auto_accept_quit = false
-	get_tree().quit_on_go_back = false
+	_setup_core_setting()
 	await get_tree().root.ready
 	initialize()
 	load_data()
@@ -34,7 +31,13 @@ func _notification(what):
 	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_request()
 	
-		
+func _setup_core_setting():
+	# ViewUtils.auto_content_scale()
+	get_tree().auto_accept_quit = false
+	get_tree().quit_on_go_back = false
+	Engine.max_fps = 60
+	OS.low_processor_usage_mode = true
+
 func _keep_only():
 	# NOTE: 打开其他测试场景时会移除
 	if not get_tree().current_scene.name.to_lower().begins_with("app"):
@@ -60,4 +63,5 @@ func save_data():
 		db_system.db_save()
 
 func load_data():
-	db_system.db_load()
+	if db_system:
+		db_system.db_load()

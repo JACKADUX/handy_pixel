@@ -7,17 +7,19 @@ const ACTION_FILL_COLOR := "action_fill_color"
 
 var tolerance :float = 0.01  # 填充容差 0-> 当前颜色， 1->所有颜色
 
-var flood_fll := FloodFill.new()
-
-
-func _init() -> void:
-	flood_fll.set_rd(SystemManager.rd)
-
-func initialize() -> void:
-	flood_fll.free_rids()
+var flood_fill := CSO_FloodFill.new()
 
 static func get_tool_name() -> String:
 	return "fill_color"
+	
+func register_action(action_handler:ActionHandler):
+	action_handler.register_action(ACTION_FILL_COLOR)
+
+func register_shader(compute_shader_system:ComputeShaderSystem):
+	compute_shader_system.register_compute_shader_object("flood_fill", flood_fill)
+
+func initialize() -> void:
+	flood_fill.free_rids()
 
 func get_tool_data() -> Dictionary:
 	return {
@@ -39,7 +41,10 @@ func action_fill_active_color_on_active_layer(qury_pos:Vector2i):
 	var active_color = SystemManager.color_system.active_color
 	var active_index = project_controller.get_active_layer_index()
 	var image = image_layers.create_canvas_image(active_index)
-	var output_mask = flood_fll.compute(image, qury_pos, Color.WHITE, tolerance)
+	var flood_fill_data = CSO_FloodFill.FloodFillData.create(
+			image, qury_pos, Color.WHITE, tolerance
+	)
+	var output_mask = flood_fill.compute(flood_fill_data)
 	var fill_image = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
 	fill_image.fill(active_color) # NOTE: 只有这样透明像素才能用
 	if selection_mask_image:

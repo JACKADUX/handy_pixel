@@ -74,7 +74,37 @@ func new_block_layer(color:=Color.BLACK) -> ColorRect:
 		on_clean_notifyed()
 	)
 	return control
+
+func custom_popup(control:Control):
+	var block_layer = new_block_layer(Color(Color.BLACK, 0.2))
+	block_layer.add_child(control)
 	
+	return block_layer
+	
+func add_panel_container(control:Control, margin:=24):
+	var contanier = PanelContainer.new()
+	contanier.theme_type_variation = "popup_panel"
+	
+	var margin_container = MarginContainer.new()
+	margin_container.add_theme_constant_override("margin_left", margin)
+	margin_container.add_theme_constant_override("margin_top", margin)
+	margin_container.add_theme_constant_override("margin_right", margin)
+	margin_container.add_theme_constant_override("margin_bottom", margin)
+	contanier.add_child(margin_container)
+	margin_container.add_child(control)
+	return contanier
+
+
+func quick_popup_tween(control:Control, type:=0):
+	match type:
+		0:
+			control.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
+			control.pivot_offset = control.size*0.5
+			var tween = create_tween()
+			tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(control, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
+	
+
 const CONFIRM = preload("res://components/dialogs/confirm.tscn")
 const ConfirmDialog = preload("res://components/dialogs/confirm_dialog.gd")
 func confirm_dialog(pos:Vector2) -> ConfirmDialog:
@@ -89,10 +119,10 @@ func confirm_dialog(pos:Vector2) -> ConfirmDialog:
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(dialog, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
 	
-	dialog.confirm_button.pressed.connect(func():
+	dialog.confirmed.connect(func():
 		block_layer.queue_free()
 	)
-	dialog.cancel_button.pressed.connect(func():
+	dialog.canceled.connect(func():
 		block_layer.queue_free()
 	)
 	return dialog
@@ -148,3 +178,30 @@ func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialo
 		on_clean_notifyed()
 	)
 	return dialog
+
+const Keyboard = preload("res://components/keyboard/keyboard.gd")
+const KEYBOARD = preload("res://components/keyboard/keyboard.tscn")
+
+func call_keyboard(value:float, bind_fn:Callable):
+	set_block(true)
+	var key_board = KEYBOARD.instantiate() as Keyboard
+	var block_layer = new_block_layer(Color(Color.BLACK, 0.2))
+	var panel_container = add_panel_container(key_board)
+	block_layer.add_child(panel_container)
+	
+	panel_container.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
+	panel_container.pivot_offset = panel_container.size*0.5
+	
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tween.tween_property(panel_container, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
+	
+	key_board.set_value(value)
+	key_board.confirmed.connect(func(v):
+		bind_fn.call(v)
+		block_layer.queue_free()
+	)
+	key_board.canceled.connect(func():
+		block_layer.queue_free()
+	)
+	return key_board

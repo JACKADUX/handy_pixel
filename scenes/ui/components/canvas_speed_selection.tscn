@@ -127,3 +127,31 @@ metadata/value_on = 1.0
 script = ExtResource("2_y2jh3")
 tool_name = "cursor"
 prop_name = "cursor_speed_factor"
+
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="SpeedButton5" type="Button" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(144, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"tab_button"
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_group = SubResource("ButtonGroup_fildv")
+text = "1.5x"
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton5"]
+script = ExtResource("1_y2jh3")
+type = 2
+metadata/value_on = 1.5
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/HBoxContainer/SpeedButton5/ButtonViewAdapter"]
+script = ExtResource("2_y2jh3")
+tool_name = "cursor"
+prop_name = "cursor_speed_factor"

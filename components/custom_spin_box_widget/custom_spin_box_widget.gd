@@ -1,6 +1,7 @@
 @tool
 class_name CustomSpinBoxWidget extends PanelContainer
 
+signal double_clicked
 signal value_changed(value:float)
 
 @onready var label: Label = %Label
@@ -82,9 +83,14 @@ func _ready() -> void:
 	
 	label.gui_input.connect(func(event:InputEvent):
 		if event is InputEventMouseButton:
+			if event.double_click:
+				double_clicked.emit()
+				return 
 			_pressed_label = event.pressed
 			_pressed_value = value
 			_delta_value = event.position
+			
+			
 		if event is InputEventMouseMotion and _pressed_label:
 			var ofsv = event.position-_delta_value
 			var ofs = ofsv.x if widget_layout_mode == WidgetLayoutMode.LR else -ofsv.y

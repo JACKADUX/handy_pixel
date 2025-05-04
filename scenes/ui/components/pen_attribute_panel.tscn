@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwlq377qokg4n"]
+[gd_scene load_steps=11 format=3 uid="uid://bwlq377qokg4n"]
 
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="1_fg5j7"]
 [ext_resource type="Texture2D" uid="uid://skde8sphl5xt" path="res://assets/icons/circle_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="1_jd1iv"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="4_8q6c3"]
 [ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_x3tsf"]
 [ext_resource type="Texture2D" uid="uid://ddh14srfsw5xy" path="res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_x3tsf"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://scenes/ui/components/keyboard_caller.gd" id="8_x3tsf"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
 
@@ -97,6 +98,9 @@ stretch_mode = 5
 script = ExtResource("1_fg5j7")
 tool_name = "pencil"
 prop_name = "pen_size"
+
+[node name="KeyboardCaller" type="Node" parent="CustomSpinBoxWidget"]
+script = ExtResource("8_x3tsf")
 
 [node name="CustomSpinBoxWidget2" parent="." instance=ExtResource("4_8q6c3")]
 visible = false

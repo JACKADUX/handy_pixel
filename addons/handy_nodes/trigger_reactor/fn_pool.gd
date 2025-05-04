@@ -18,11 +18,15 @@ static func test(control:Control, args:=[], kwargs:={}):
 
 static func scale(control:Control, args:=[], kwargs:={}):
 	_pivot_offset(control)
-	base_tween().tween_property(control, "scale", Vector2.ONE*args[0], args[1])
+	base_tween().tween_property(control, "scale", Vector2.ONE*args[1], args[0])
+
+static func scale_from(control:Control, args:=[], kwargs:={}):
+	_pivot_offset(control)
+	base_tween().tween_property(control, "scale", Vector2.ONE*args[2], args[0]).from(Vector2.ONE*args[1])
 
 static func move(control:Control, args:=[], kwargs:={}):
 	_pivot_offset(control)
-	base_tween().tween_property(control, "position", args[0], args[1]).as_relative()
+	base_tween().tween_property(control, "position", args[1], args[0]).as_relative()
 
 static func move_from(control:Control, args:=[], kwargs:={}):
 	var tween = base_tween(Tween.EASE_OUT, Tween.TRANS_BACK)

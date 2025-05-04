@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://slkcdtbcptrs"]
+[gd_scene load_steps=19 format=3 uid="uid://slkcdtbcptrs"]
 
 [ext_resource type="Script" uid="uid://cftgg2refn6j6" path="res://scenes/project_manage_panel/project_manage_panel.gd" id="1_fg41p"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="1_mv0x6"]
@@ -21,12 +21,6 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5mg1j"]
 shader = ExtResource("1_pmkn4")
 shader_parameter/blur = 2.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5mg1j"]
-bg_color = Color(0.98, 0.957, 0.902, 0.5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ng0cy"]
-bg_color = Color(0.98, 0.957, 0.902, 0.7)
 
 [node name="ProjectManagePanel" type="PanelContainer"]
 material = SubResource("ShaderMaterial_5mg1j")
@@ -169,14 +163,19 @@ layout_mode = 2
 texture = ExtResource("14_xps3l")
 stretch_mode = 3
 
-[node name="NewProjectPanel" parent="." instance=ExtResource("10_5mg1j")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5mg1j")
-
 [node name="ImageExportPanel" parent="." instance=ExtResource("16_ng0cy")]
-unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ng0cy")
+
+[node name="FPWS" type="Node" parent="ImageExportPanel"]
+script = ExtResource("6_3a5jn")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="NewProjectPanel" parent="." instance=ExtResource("10_5mg1j")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="FPWS" type="Node" parent="NewProjectPanel"]
+script = ExtResource("6_3a5jn")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"

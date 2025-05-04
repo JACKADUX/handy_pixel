@@ -64,18 +64,10 @@ func _register_tools() -> void:
 	register_tool(TransformTool.new())
 	register_tool(ColorPickerTool.new())
 	register_tool(FillColorTool.new())
+	register_tool(ShapeTool.new())
 	
 func _register_input_actions():
 	var action_handler = SystemManager.input_system.action_handler
-	action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
-	action_handler.register_action(EraserTool.ACTION_ERASE_COLOR)
-	action_handler.register_action(CameraTool.ACTION_CENTER_VIEW)
-	action_handler.register_action(ColorPickerTool.ACTION_PICK_COLOR)
-	action_handler.register_action(FillColorTool.ACTION_FILL_COLOR)
-	action_handler.register_action(SelectionTool.ACTION_SELECT_ALL)
-	action_handler.register_action(SelectionTool.ACTION_DESELECT_ALL)
-	
-	
 	action_handler.register_action(ACTION_TOOL_MAIN_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CONFIRM_PRESSED)
 	action_handler.register_action(ACTION_TOOL_CANCEL_PRESSED)
@@ -116,7 +108,8 @@ func register_tool(tool: BaseTool) -> void:
 	if not _tools.has(tool_name):
 		tool._tool_system = self
 		_tools[tool_name] = tool
-		#_tool_action_button_datas[tool_name] = action_button_datas
+		tool.register_action(SystemManager.input_system.action_handler)
+		tool.register_shader(SystemManager.compute_shader_system)
 		tool.property_updated.connect(func(prop_name:String, value:Variant):
 			tool_property_updated.emit(tool_name, prop_name, value)
 		)
@@ -136,6 +129,7 @@ func switch_tool(tool_name:String) -> void:
 		_current_tool.deactivate()  # 禁用当前工具
 		_disconnect_with_input_system(_current_tool)
 	_current_tool = get_tool(tool_name)
+	assert(_current_tool, "当前工具不存在:%s"%tool_name)
 	_current_tool.activate()  # 激活新工具
 	_connect_with_input_system(_current_tool)
 	tool_changed.emit(tool_name)

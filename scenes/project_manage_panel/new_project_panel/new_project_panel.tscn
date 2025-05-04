@@ -1,275 +1,223 @@
-[gd_scene load_steps=13 format=3 uid="uid://dlcwld5qjara0"]
+[gd_scene load_steps=12 format=3 uid="uid://dlcwld5qjara0"]
 
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="1_1yl1e"]
-[ext_resource type="Script" uid="uid://bi4cr2xrsjxhg" path="res://scenes/project_manage_panel/new_project_panel/new_project_panel.gd" id="1_hklw0"]
-[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="2_o77qf"]
-[ext_resource type="Texture2D" uid="uid://du58b0jb165et" path="res://assets/icons/arrow_back_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_wxudy"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="2_xrq2b"]
-[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="3_hx706"]
 [ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="4_thngy"]
 [ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/images/Checkerboard_16.svg" id="4_wxudy"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_t1ats"]
-[ext_resource type="Texture2D" uid="uid://ehh751hrv2c0" path="res://assets/icons/check_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="5_thngy"]
 [ext_resource type="Script" uid="uid://b0ddeg4g3xfmg" path="res://addons/handy_nodes/mvc/view_adapter/value_combine_adapter.gd" id="5_wxudy"]
+[ext_resource type="Texture2D" uid="uid://d3pv6ixfej7dl" path="res://assets/icons/width.svg" id="9_vp61n"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://scenes/ui/components/keyboard_caller.gd" id="10_ll40s"]
+[ext_resource type="Texture2D" uid="uid://cw82aco636sv8" path="res://assets/icons/height.svg" id="12_vmpnl"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="13_vp61n"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_xrq2b"]
 
-[node name="NewProjectPanel" type="PanelContainer"]
+[node name="NewProjectPanel" type="VBoxContainer"]
+offset_right = 464.0
+offset_bottom = 676.0
+size_flags_horizontal = 4
+theme_override_constants/separation = 24
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 24
+
+[node name="HBoxContainer2" type="GridContainer" parent="HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 2
+columns = 3
+
+[node name="Button" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "8x8"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(8, 8)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button6" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "16"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button6"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(16, 16)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button6/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button2" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "32"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button2"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(32, 32)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button2/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button3" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "64"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button3"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(64, 64)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button3/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button4" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "128"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button4"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(128, 128)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button4/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button5" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "256"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button5"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(256, 256)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button5/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button8" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+text = "512"
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button8"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(512, 512)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button8/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Button10" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+theme_override_font_sizes/font_size = 24
+
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button10"]
+script = ExtResource("4_thngy")
+metadata/value = Vector2(1024, 1024)
+
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button10/ButtonViewAdapter"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="Label" type="Label" parent="HBoxContainer5/HBoxContainer2/Button10"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 3
-script = ExtResource("1_hklw0")
+theme_override_font_sizes/font_size = 24
+text = "1024"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 96
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 96
-theme_override_constants/margin_bottom = 96
-
-[node name="Trigger" type="Node" parent="MarginContainer"]
-script = ExtResource("2_o77qf")
-trigger_type = 9
-metadata/_custom_type_script = "uid://0syxcf2838lg"
-
-[node name="Reactor" type="Node" parent="MarginContainer/Trigger"]
-script = ExtResource("3_hx706")
-fn_name = "move_from"
-fn_args = [0.2, Vector2(0, 200), Vector2(0, 0)]
-metadata/_custom_type_script = "uid://bt6tds0lgyobf"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 96
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
-[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"base_button"
-icon = ExtResource("2_wxudy")
-icon_alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-theme_type_variation = &"label_title"
-theme_override_font_sizes/font_size = 66
-text = "New Canvas"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 76
-alignment = 1
-
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
+[node name="Button9" type="Button" parent="HBoxContainer5/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 theme_type_variation = &"base_button"
-text = "8x8"
+theme_override_font_sizes/font_size = 24
 
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button"]
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer2/Button9"]
 script = ExtResource("4_thngy")
-metadata/value = Vector2(8, 8)
+metadata/value = Vector2(2048, 2048)
 
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer2/Button9/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
 model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_size"
 
-[node name="Button6" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "16"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(16, 16)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button6/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "32"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(32, 32)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button2/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "64"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(64, 64)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button3/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "128"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(128, 128)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button4/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button5" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "256"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(256, 256)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button5/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button8" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
-text = "512"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button8"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(512, 512)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button8/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="Button9" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(144, 144)
-layout_mode = 2
-theme_type_variation = &"base_button"
+[node name="Label" type="Label" parent="HBoxContainer5/HBoxContainer2/Button9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
 text = "2048"
-
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button9"]
-script = ExtResource("4_thngy")
-metadata/value = Vector2(102, 204)
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer2/Button9/ButtonViewAdapter"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="WidgetValueCombiner" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3" node_paths=PackedStringArray("widgets")]
-script = ExtResource("5_wxudy")
-widgets = [NodePath("../CustomSpinBoxWidget"), NodePath("../CustomSpinBoxWidget2")]
-
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer3/WidgetValueCombiner"]
-script = ExtResource("2_xrq2b")
-model = ExtResource("5_t1ats")
-prop_name = "preset_canvas_size"
-
-[node name="CustomSpinBoxWidget" parent="MarginContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_1yl1e")]
-custom_minimum_size = Vector2(400, 140)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-widget_layout_mode = 0
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 1
-theme_type_variation = &"label_sub_title"
-text = " W"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"label_small"
-text = "x"
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 1
-theme_type_variation = &"label_sub_title"
-text = "H"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CustomSpinBoxWidget2" parent="MarginContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_1yl1e")]
-custom_minimum_size = Vector2(400, 140)
+[node name="HBoxContainer3" type="VBoxContainer" parent="HBoxContainer5"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="HBoxContainer5/HBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
 size_flags_vertical = 4
-widget_layout_mode = 1
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_override_constants/separation = 65
-
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
 theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer3/Button"]
 script = ExtResource("4_thngy")
-metadata/value = Color(1, 1, 1, 0)
+type = 2
+metadata/value_on = Color(1, 1, 1, 0)
 
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer3/Button/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
 model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer5/HBoxContainer3/Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -282,29 +230,31 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer5/HBoxContainer3/Button/MarginContainer"]
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("4_wxudy")
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 200)
+[node name="Button2" type="Button" parent="HBoxContainer5/HBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer3/Button2"]
 script = ExtResource("4_thngy")
-metadata/value = Color(1, 1, 1, 1)
+type = 2
+metadata/value_on = Color(1, 1, 1, 1)
 
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer3/Button2/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
 model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2"]
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer5/HBoxContainer3/Button2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -317,27 +267,29 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button2/MarginContainer2"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer5/HBoxContainer3/Button2/MarginContainer2"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 200)
+[node name="Button3" type="Button" parent="HBoxContainer5/HBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"base_button"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xrq2b")
 
-[node name="ButtonViewAdapter" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
+[node name="ButtonViewAdapter" type="Node" parent="HBoxContainer5/HBoxContainer3/Button3"]
 script = ExtResource("4_thngy")
-metadata/value = Color(0, 0, 0, 1)
+type = 2
+metadata/value_on = Color(0, 0, 0, 1)
 
-[node name="GeneralController" type="Node" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3/ButtonViewAdapter"]
+[node name="GeneralController" type="Node" parent="HBoxContainer5/HBoxContainer3/Button3/ButtonViewAdapter"]
 script = ExtResource("2_xrq2b")
 model = ExtResource("5_t1ats")
 prop_name = "preset_canvas_bg_color"
 
-[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3"]
+[node name="MarginContainer3" type="MarginContainer" parent="HBoxContainer5/HBoxContainer3/Button3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -350,18 +302,72 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer4/HBoxContainer/Button3/MarginContainer3"]
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer5/HBoxContainer3/Button3/MarginContainer3"]
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.0507813, 0.0507813, 0.0507813, 1)
 
-[node name="OkButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer4"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 144)
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 8
-theme_type_variation = &"base_button"
-icon = ExtResource("5_thngy")
-icon_alignment = 1
-expand_icon = true
+size_flags_vertical = 4
+
+[node name="WidgetValueCombiner" type="Node" parent="VBoxContainer2" node_paths=PackedStringArray("widgets")]
+script = ExtResource("5_wxudy")
+widgets = [NodePath("../HBoxContainer/CustomSpinBoxWidget"), NodePath("../HBoxContainer2/CustomSpinBoxWidget2")]
+
+[node name="GeneralController" type="Node" parent="VBoxContainer2/WidgetValueCombiner"]
+script = ExtResource("2_xrq2b")
+model = ExtResource("5_t1ats")
+prop_name = "preset_canvas_size"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer"]
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"label_small"
+texture = ExtResource("9_vp61n")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CustomSpinBoxWidget" parent="VBoxContainer2/HBoxContainer" instance=ExtResource("1_1yl1e")]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="KeyboardCaller" type="Node" parent="VBoxContainer2/HBoxContainer/CustomSpinBoxWidget"]
+script = ExtResource("10_ll40s")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer2/HBoxContainer2"]
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"label_small"
+texture = ExtResource("12_vmpnl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CustomSpinBoxWidget2" parent="VBoxContainer2/HBoxContainer2" instance=ExtResource("1_1yl1e")]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="KeyboardCaller" type="Node" parent="VBoxContainer2/HBoxContainer2/CustomSpinBoxWidget2"]
+script = ExtResource("10_ll40s")
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("13_vp61n")]
+unique_name_in_owner = true
+layout_mode = 2

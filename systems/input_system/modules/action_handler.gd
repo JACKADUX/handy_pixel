@@ -11,6 +11,7 @@ func has_action(action:String) -> bool:
 
 func register_action(action:String):
 	if has_action(action):
+		printerr("action: '%s' exists"%action)
 		return 
 	_actions.append(action)
 	InputMap.add_action(action)

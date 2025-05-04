@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://2plok6fkt3pj"
+path="res://.godot/imported/ellipse.glsl-962f0c09c02a2b8bc0aa6a9dd826ae6f.res"
+
+[deps]
+
+source_file="res://systems/compute_shader_system/module/ellipse/ellipse.glsl"
+dest_files=["res://.godot/imported/ellipse.glsl-962f0c09c02a2b8bc0aa6a9dd826ae6f.res"]
+
+[params]
+

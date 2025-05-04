@@ -42,7 +42,7 @@ func _ready() -> void:
 	remove_palette_button.pressed.connect(func():
 		var center = remove_palette_button.global_position + remove_palette_button.get_rect().get_center()
 		var dialog = PopupArrowPanelManager.get_from_ui_system().confirm_dialog(center+Vector2(0, 96))
-		dialog.confirm_button.pressed.connect(func():
+		dialog.confirmed.connect(func():
 			SystemManager.color_system.remove_palette()
 		)
 	)

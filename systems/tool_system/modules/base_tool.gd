@@ -9,24 +9,6 @@ var project_controller:ProjectController:
 var undoredo_system:UndoRedoSystem:
 	get(): return _tool_system.get_undoredo_system()
 
-static func get_tool_name() -> String:
-	return ""
-
-func initialize() -> void:
-	pass
-
-## 工具激活时调用
-func activate() -> void:
-	pass
-
-## 工具禁用时调用
-func deactivate() -> void:
-	pass
-	
-## 保存工具数据
-func get_tool_data() -> Dictionary:
-	return {}
-
 func set_tool_data(data:Dictionary):
 	for key in data:
 		set_value(key, data[key])
@@ -57,27 +39,10 @@ func remove_indicator(indocator:Node):
 	canvas_manager.remove_child(indocator)
 	indocator.queue_free()
 
-## 针对特定属性修改的效果可以发生在这里
-func _handle_value_changed(prop_name:String, value:Variant):
-	pass
-
-func _on_event_occurred(event:String, data:Dictionary):
-	pass
-
-func _on_action_called(action:String, state:ActionHandler.State):
-	pass
-
-
 func update_all():
 	var data = get_tool_data()
 	for prop_name in data:
 		property_updated.emit(prop_name, data[prop_name]) 
-
-func _get_action_button_datas() -> Array:
-	#return [
-		#ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, icon),
-	#]
-	return []
 
 func get_layout_area_type() -> LayoutHelper.AreaTypeLR:
 	var tool_ui_control := _tool_system.get_tool_ui_control()
@@ -102,3 +67,70 @@ func show_action_button_panel(value:bool):
 		action_button_panel.show()
 	else:
 		action_button_panel.hide()
+
+
+## MainOverrides ---------------------------------------------------------------------------------
+## 工具名称
+static func get_tool_name() -> String:
+	return ""
+
+## 行为注册，方便在ui调用
+func register_action(action_handler:ActionHandler):
+	# action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
+	pass
+
+## ComputeShader注册, 非必要的工具可跳过
+func register_shader(compute_shader_system:ComputeShaderSystem):
+	# compute_shader_system.register_compute_shader_object("flood_fill", flood_fill)
+	pass
+
+## 工具初始化， 新建项目时自动调用
+func initialize() -> void:
+	pass
+
+## 保存工具数据
+func get_tool_data() -> Dictionary:
+	# NOTE： 用于保存的数据
+	return {}
+
+## 工具激活时调用
+func activate() -> void:
+	#_pen_shape_cursor = PenShapeCursor.new()
+	#add_indicator(_pen_shape_cursor)
+	pass
+
+## 工具禁用时调用
+func deactivate() -> void:
+	# remove_indicator(_pen_shape_cursor)
+	pass
+
+## 使用工具时的功能按钮
+func _get_action_button_datas() -> Array:
+	#return [
+		#ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, icon),
+	#]
+	return []
+
+## 针对特定属性修改的效果可以发生在这里
+func _handle_value_changed(prop_name:String, value:Variant):
+	#match prop_name:
+		#"pen_shape":
+			#pass
+	pass
+
+func _on_event_occurred(event:String, data:Dictionary):
+	#match event:
+		#InputRecognizer.EVENT_STATE_CHANGED:
+			#if data.state == InputRecognizer.State.NONE:
+				#show_action_button_panel(false)
+			#elif data.state == InputRecognizer.State.HOVER:
+				#show_action_button_panel(true)
+	pass
+
+func _on_action_called(action:String, state:ActionHandler.State):
+	#match state:
+		#ActionHandler.State.JUST_RELEASED:
+			#match action:
+				#ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+					#pass
+	pass

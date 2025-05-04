@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdkafgefw6iys"]
+
+[ext_resource type="Script" uid="uid://dq0qxlr4ljrgr" path="res://test/test_shape/test_shape.gd" id="1_4rnk6"]
+
+[node name="TestShape" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4rnk6")
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 530.0
+offset_top = 23.0
+offset_right = 554.0
+offset_bottom = 47.0
+text = "outline"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 71.0
+value = 7.0
+rounded = true
+allow_greater = true
+
+[node name="SpinBox2" type="SpinBox" parent="."]
+layout_mode = 0
+offset_left = 250.0
+offset_right = 460.0
+offset_bottom = 71.0
+value = 7.0
+rounded = true
+allow_greater = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+offset_left = 542.0
+offset_top = 147.0
+offset_right = 542.0
+offset_bottom = 147.0
+scale = Vector2(20, 20)
+stretch_mode = 2
+
+[connection signal="pressed" from="CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="SpinBox2" to="." method="_on_spin_box_2_value_changed"]

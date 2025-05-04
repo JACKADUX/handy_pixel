@@ -4,7 +4,7 @@ const IMAGE_EXTENSION = ["png", "jpg", "jpeg", "webp", "svg"]
 const IMAGE_FILETER_EXTENSION = ["*.png", "*.jpg", "*.jpeg", "*.webp", "*.svg"]
 
 static func is_image_file(path:String) -> bool:
-	return path.get_extension() in IMAGE_EXTENSION
+	return path.get_extension().to_lower() in IMAGE_EXTENSION
 
 static func image_to_64(value:Image) -> String:
 	return Marshalls.raw_to_base64(value.save_png_to_buffer())
@@ -42,13 +42,13 @@ static func shrink_images(images:Array[Image], max_size:=1024) -> Array[Image]:
 static func get_all_image_path_from(dir_path:String):
 	var image_paths = []
 	for file :String in DirAccess.get_files_at(dir_path):
-		if file.get_extension() not in IMAGE_EXTENSION:
+		if file.get_extension().to_lower()  not in IMAGE_EXTENSION:
 			continue
 		image_paths.append(dir_path.path_join(file))
 	return image_paths
 
 static func export_image(image:Image, file_path:String):
-	match file_path.get_extension():
+	match file_path.get_extension().to_lower() :
 		"png": image.save_png(file_path)
 		"jpg","jpeg": image.save_jpg(file_path)
 		"webp": image.save_webp(file_path)

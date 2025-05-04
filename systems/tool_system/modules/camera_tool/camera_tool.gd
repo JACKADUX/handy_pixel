@@ -16,6 +16,9 @@ var main_canvas_data :CanvasData = preload("res://systems/canvas_system/main_can
 static func get_tool_name() -> String:
 	return "camera"
 
+func register_action(action_handler:ActionHandler):
+	action_handler.register_action(ACTION_CENTER_VIEW)
+
 func initialize():
 	center_view(true)
 

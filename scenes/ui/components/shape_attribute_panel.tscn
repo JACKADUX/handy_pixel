@@ -1,0 +1,195 @@
+[gd_scene load_steps=11 format=3 uid="uid://yho2ooro7uxu"]
+
+[ext_resource type="Texture2D" uid="uid://c4uvoxcendx3o" path="res://assets/icons/line.svg" id="1_6nqug"]
+[ext_resource type="Texture2D" uid="uid://cqvk1iqmks5wr" path="res://assets/icons/rectangle_shape.svg" id="1_v3og6"]
+[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="2_majm1"]
+[ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_ro62w"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_3br3m"]
+[ext_resource type="Texture2D" uid="uid://cjxqhh53dtgl3" path="res://assets/icons/rectangle_shape_fill.svg" id="5_2e848"]
+[ext_resource type="Texture2D" uid="uid://d4pj67cor370" path="res://assets/icons/bezier.svg" id="5_ro62w"]
+[ext_resource type="Texture2D" uid="uid://bb44n43msckd5" path="res://assets/icons/ellipse.svg" id="8_n2muo"]
+[ext_resource type="Texture2D" uid="uid://cebtv6ebetusv" path="res://assets/icons/ellipse_fill.svg" id="9_3br3m"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_l0i8i"]
+
+[node name="PenAttributePanel" type="VBoxContainer"]
+offset_right = 243.0
+offset_bottom = 239.0
+theme_override_constants/separation = 48
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_type_variation = &"base_panel"
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer"]
+clip_children = 2
+layout_mode = 2
+theme_type_variation = &"clip_panel"
+
+[node name="HBoxContainer" type="GridContainer" parent="PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="LineButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("1_6nqug")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/LineButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 1
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/LineButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/LineButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0
+
+[node name="BezierLineButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("5_ro62w")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/BezierLineButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 6
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/BezierLineButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/BezierLineButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0
+
+[node name="RectButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("1_v3og6")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 2
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0
+
+[node name="RectFillButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("5_2e848")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectFillButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 3
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectFillButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectFillButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0
+
+[node name="CircleButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("8_n2muo")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 4
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0
+
+[node name="CircleFillButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l0i8i")
+icon = ExtResource("9_3br3m")
+icon_alignment = 1
+
+[node name="ButtonViewAdapter" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleFillButton"]
+script = ExtResource("2_majm1")
+type = 2
+metadata/_custom_type_script = "uid://bsprgm68s2bo"
+metadata/value_on = 5
+
+[node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleFillButton/ButtonViewAdapter"]
+script = ExtResource("2_ro62w")
+tool_name = "shape"
+prop_name = "shape_type"
+metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleFillButton"]
+script = ExtResource("4_3br3m")
+title = "矩形"
+duration = 3.0

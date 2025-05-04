@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://did7ib200iaoe"
+path="res://.godot/imported/flood_fill.glsl-5006d573faec2de64e506cebc2a33cf9.res"
+
+[deps]
+
+source_file="res://systems/compute_shader_system/module/flood_fill/flood_fill.glsl"
+dest_files=["res://.godot/imported/flood_fill.glsl-5006d573faec2de64e506cebc2a33cf9.res"]
+
+[params]
+

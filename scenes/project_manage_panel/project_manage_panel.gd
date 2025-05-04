@@ -4,11 +4,8 @@ extends PanelContainer
 @onready var goback_button: Button = %GobackButton
 @onready var container_agent: ContainerAgent = %ContainerAgent
 @onready var margin_container: MarginContainer = %MarginContainer
-@onready var new_project_panel = %NewProjectPanel
 @onready var edit_button: Button = %EditButton
 @onready var import_button: Button = %ImportButton
-
-@onready var image_export_panel = %ImageExportPanel
 
 
 const ADD_PROJECT_ICON = preload("res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz128.svg")
@@ -29,21 +26,8 @@ func _ready() -> void:
 		_update_project_edit_buttons()
 	)
 	
-	new_project_panel.cancel_pressed.connect(func():
-		new_project_panel.hide()
-		margin_container.show()
-	)
 	SystemManager.project_system.project_datas_changed.connect(func():
 		update_projects()
-	)
-	new_project_panel.ok_pressed.connect(func():
-		new_project_panel.hide()
-		var id = SystemManager.project_system.new_project(Time.get_datetime_string_from_system(),
-				SystemManager.project_system.preset_canvas_size,
-				SystemManager.project_system.preset_canvas_bg_color
-		)
-		SystemManager.project_system.set_active_project(id)
-		handle_goback()
 	)
 	
 	import_button.pressed.connect(func():
@@ -64,13 +48,8 @@ func _ready() -> void:
 		handle_goback()
 	)
 	
-	image_export_panel.confirm_dialog.confirm_button.pressed.connect(func():
-		var pos = size*0.5
-		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("图像保存成功!", pos, 1)
-	)
 	
-	new_project_panel.hide()
-	image_export_panel.hide()
+	
 	_update_project_edit_buttons.call_deferred()
 	
 func _update_project_edit_buttons():
@@ -89,8 +68,8 @@ func _add_project_button():
 	card.texture_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
 	card.texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	card.main_button.pressed.connect(func():
-		new_project_panel.show()
-		margin_container.hide()
+		popup_new_project_panel()
+		
 	)
 	ApplyThemeColor.apply(card.texture_rect, "color_black")
 
@@ -127,7 +106,7 @@ func update_projects():
 			var control = card.delete_button
 			var center = control.global_position + control.get_rect().get_center()
 			var dialog = PopupArrowPanelManager.get_from_ui_system().confirm_dialog(center+Vector2(0, 96))
-			dialog.confirm_button.pressed.connect(func():
+			dialog.confirmed.connect(func():
 				SystemManager.project_system.delete_project(card.get_meta("project_id"))
 			)
 		)
@@ -141,8 +120,8 @@ func update_projects():
 			var file_path = dir_path.path_join(TimeUtils.get_time_stemp_for_name()+"_"+UUID.v4()+".png")
 			
 			DirAccess.make_dir_recursive_absolute(dir_path)
-			image_export_panel.show_export(image, file_path)
-			
+			var image_export_panel = popup_image_export_panel()
+			image_export_panel.setup_export(image, file_path)
 		)
 		
 	thread.call_fns(fns)
@@ -150,3 +129,57 @@ func update_projects():
 func handle_goback():
 	SystemManager.save_data()
 	queue_free()
+
+
+## Dialogs
+
+const NEW_PROJECT_PANEL = preload("res://scenes/project_manage_panel/new_project_panel/new_project_panel.tscn")
+func popup_new_project_panel():
+	margin_container.hide()
+	var new_project_panel = NEW_PROJECT_PANEL.instantiate()
+	var popup_manager = PopupArrowPanelManager.get_from_ui_system()
+	var block_layer = popup_manager.custom_popup(new_project_panel)
+	
+	block_layer.tree_exited.connect(func():
+		margin_container.show()
+	)
+	popup_manager.quick_popup_tween(new_project_panel)
+	
+	var confirm_dialog = new_project_panel.get_node("%ConfirmDialog")
+	confirm_dialog.canceled.connect(func():
+		block_layer.queue_free()
+	)
+	
+	confirm_dialog.confirmed.connect(func():
+		var id = SystemManager.project_system.new_project(Time.get_datetime_string_from_system(),
+				SystemManager.project_system.preset_canvas_size,
+				SystemManager.project_system.preset_canvas_bg_color
+		)
+		SystemManager.project_system.set_active_project(id)
+		block_layer.queue_free()
+		handle_goback()
+	)
+
+const ImageExportPanel = preload("res://scenes/project_manage_panel/image_export_panel/image_export_panel.gd")
+const IMAGE_EXPORT_PANEL = preload("res://scenes/project_manage_panel/image_export_panel/image_export_panel.tscn")
+func popup_image_export_panel():
+	margin_container.hide()
+	var image_export_panel = IMAGE_EXPORT_PANEL.instantiate()
+	var popup_manager = PopupArrowPanelManager.get_from_ui_system()
+	var block_layer = popup_manager.custom_popup(image_export_panel)
+	
+	block_layer.tree_exited.connect(func():
+		margin_container.show()
+	)
+	popup_manager.quick_popup_tween(image_export_panel)
+	
+	image_export_panel.confirm_dialog.confirmed.connect(func():
+		var pos = size*0.5
+		popup_manager.infomation_dialog("图像保存成功!", pos, 1)
+		block_layer.queue_free()
+	)
+	image_export_panel.confirm_dialog.canceled.connect(func():
+		block_layer.queue_free()
+	)
+	
+	return image_export_panel

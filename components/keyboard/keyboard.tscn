@@ -1,0 +1,221 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3gijbd20i1q2"]
+
+[ext_resource type="Script" uid="uid://v5x8s6yedgr7" path="res://components/keyboard/keyboard.gd" id="1_ic2xp"]
+[ext_resource type="Texture2D" uid="uid://do5cigr54uh5b" path="res://assets/icons/delete_48.svg" id="2_1ffh8"]
+[ext_resource type="Texture2D" uid="uid://b3tcmn2voqn80" path="res://assets/icons/backspace.svg" id="2_ge0nx"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="3_1ffh8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic2xp"]
+bg_color = Color(0.196078, 0.192157, 0.176471, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.980392, 0.956863, 0.901961, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.196078, 0.192157, 0.176471, 1)
+shadow_size = 2
+shadow_offset = Vector2(12, 12)
+
+[node name="Keyboard" type="VBoxContainer"]
+theme_override_constants/separation = 24
+script = ExtResource("1_ic2xp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.980392, 0.956863, 0.901961, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ic2xp")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackSpace" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("2_ge0nx")
+icon_alignment = 1
+
+[node name="Numbers" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 3
+
+[node name="Button1" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "1"
+
+[node name="Button2" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "2"
+
+[node name="Button3" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "3"
+
+[node name="Button4" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "4"
+
+[node name="Button5" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "5"
+
+[node name="Button6" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "6"
+
+[node name="Button7" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "7"
+
+[node name="Button8" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "8"
+
+[node name="Button9" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "9"
+
+[node name="Dot" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "."
+metadata/value = "."
+
+[node name="Button0" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "0"
+
+[node name="Clear" type="Button" parent="Numbers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("2_1ffh8")
+icon_alignment = 1
+
+[node name="Symbols" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 5
+
+[node name="Button13" type="Button" parent="Symbols"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "+"
+metadata/value = "+"
+
+[node name="Button14" type="Button" parent="Symbols"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "-"
+metadata/value = "-"
+
+[node name="Button15" type="Button" parent="Symbols"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "*"
+metadata/value = "*"
+
+[node name="Button16" type="Button" parent="Symbols"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "/"
+metadata/value = "/"
+
+[node name="Button17" type="Button" parent="Symbols"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+text = "="
+metadata/value = "="
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("3_1ffh8")]
+unique_name_in_owner = true
+layout_mode = 2

@@ -40,7 +40,8 @@ var tool_ui :Control
 static func get_tool_name() -> String:
 	return "pencil"
 
-
+func register_action(action_handler:ActionHandler):
+	action_handler.register_action(ACTION_DRAW_COLOR)
 
 ## 工具激活时调用
 func activate() -> void:
@@ -84,7 +85,6 @@ func _get_action_button_datas():
 func _handle_value_changed(prop_name:String, value:Variant):
 	if prop_name == "pen_shape" or prop_name == "pen_size":
 		set_mask_image_dirty()	
-	super(prop_name, value)
 
 func _on_action_called(action:String, state:ActionHandler.State):
 	match state:
@@ -272,93 +272,16 @@ func _get_draw_cell_pos(cell_pos_round:Vector2i, cell_pos_floor:Vector2i) -> Vec
 
 
 # 生成笔刷形状的坐标偏移
-static func generate_alpha_image(size: int, shape: PenShape) -> Image:
+func generate_alpha_image(size: int, shape: PenShape) -> Image:
 	match shape:
 		PenShape.SQUARE:
 			var image := Image.create(size, size, false, Image.FORMAT_RGBA8)
 			image.fill(Color.WHITE)
 			return image
 		PenShape.CIRCLE:
-			return generate_circle_pen_image(size)
+			# NOTE
+			var ellipse = Ellipse.get_from_system("ellipse") as Ellipse
+			if not ellipse:
+				return 
+			return ellipse.compute(Ellipse.EllipseData.create(Vector2.ONE*size, Color.WHITE))
 	return 
-
-static func generate_circle_pen_image(diameter: int, shrink:float= 1) -> Image:
-	var image := Image.create_empty(diameter, diameter, false, Image.FORMAT_RGBA8)
-	var radius = diameter*0.5
-	if diameter < 10:
-		shrink = 0.88  # 这个是通过测试得出来的结果比较好得常量
-	else:
-		shrink = 1
-	var radius_sq = radius*radius*shrink
-	var ofs = 0.5
-	var color1 = Color.WHITE
-	var color2 = Color.TRANSPARENT
-	for x in diameter:
-		for y in diameter:
-			var dx = x-radius+ofs
-			var dy = y-radius+ofs
-			var dist_sq = dx*dx + dy*dy
-			image.set_pixel(x, y, color1 if dist_sq <= radius_sq else color2)
-	return image
-
-static func generate_circle_pen(diameter: int, shrink:float= 1) -> PackedVector2Array:
-	var points := PackedVector2Array()
-	var radius = diameter*0.5
-	if diameter < 10:
-		shrink = 0.88  # 这个是通过测试得出来的结果比较好得常量
-	else:
-		shrink = 1
-	var radius_sq = radius*radius*shrink
-	var ofs = 0.5
-	for x in diameter:
-		for y in diameter:
-			var dx = x-radius+ofs
-			var dy = y-radius+ofs
-			var dist_sq = dx*dx + dy*dy
-			if dist_sq <= radius_sq:
-				points.append(Vector2i(x, y))
-	return points
-
-static func generate_circle_pen_outline(radius: int) -> PackedVector2Array:
-	var points := PackedVector2Array()
-	var x := radius
-	var y := 0
-	var p := 1 - radius  # 初始决策参数
-	var center = Vector2(radius,radius)
-	# 初始点
-	points.append_array(_get_circle_points(center, x, y))
-
-	# Midpoint Circle Algorithm
-	while x > y:
-		y += 1
-		
-		# Mid-point 在圆内或圆上
-		if p <= 0:
-			p = p + 2 * y + 1
-		else:
-			x -= 1
-			p = p + 2 * y - 2 * x + 1
-		
-		# 确保 x >= y
-		if x < y:
-			break
-		
-		# 添加对称点
-		points.append_array(_get_circle_points(center, x, y))
-		if x != y:
-			points.append_array(_get_circle_points(center, y, x))
-
-	return points
-
-# 获取圆上对称的8个点
-static func _get_circle_points(center: Vector2i, x: int, y: int) -> PackedVector2Array:
-	return PackedVector2Array([
-		Vector2(center.x + x, center.y + y),
-		Vector2(center.x - x, center.y + y),
-		Vector2(center.x + x, center.y - y),
-		Vector2(center.x - x, center.y - y),
-		Vector2(center.x + y, center.y + x),
-		Vector2(center.x - y, center.y + x),
-		Vector2(center.x + y, center.y - x),
-		Vector2(center.x - y, center.y - x)
-	])

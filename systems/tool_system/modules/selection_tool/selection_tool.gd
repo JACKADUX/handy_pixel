@@ -28,6 +28,10 @@ const select_all = preload("res://assets/icons/select_all_96dp_FFFFFF_FILL0_wght
 static func get_tool_name() -> String:
 	return "selection_tool"
 
+func register_action(action_handler:ActionHandler):
+	action_handler.register_action(ACTION_SELECT_ALL)
+	action_handler.register_action(ACTION_DESELECT_ALL)
+	
 func initialize():
 	_started = false
 	_points.clear()
@@ -46,7 +50,7 @@ func deactivate() -> void:
 	#remove_indicator(_selection_area_indicator)
 	pass
 
-func get_data() -> Dictionary:
+func get_tool_data() -> Dictionary:
 	return {
 		"mode":mode,
 		"selection_type":selection_type,

@@ -1,70 +1,49 @@
-[gd_scene load_steps=11 format=3 uid="uid://bas2i2dboymfs"]
+[gd_scene load_steps=10 format=3 uid="uid://bas2i2dboymfs"]
 
 [ext_resource type="Texture2D" uid="uid://bq71fvg4wqwiy" path="res://assets/icons/image_size.svg" id="1_d4tt4"]
 [ext_resource type="Script" uid="uid://sg0fxgj837y0" path="res://scenes/project_manage_panel/image_export_panel/image_export_panel.gd" id="1_iki28"]
-[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="2_d4tt4"]
 [ext_resource type="Script" uid="uid://cs0ekt1ad0bqn" path="res://components/theme_manager/apply_theme_color.gd" id="2_iki28"]
-[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="3_iki28"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="4_l8y0j"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_i0dqg"]
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="6_iki28"]
 [ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="6_x0htl"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://scenes/ui/components/keyboard_caller.gd" id="7_gettl"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_d4tt4"]
 
-[node name="ImageExportPanel" type="PanelContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ImageExportPanel" type="VBoxContainer"]
+offset_right = 588.0
+offset_bottom = 656.0
+theme_override_constants/separation = 48
 script = ExtResource("1_iki28")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 2
-
-[node name="Trigger" type="Node" parent="CenterContainer"]
-script = ExtResource("2_d4tt4")
-trigger_type = 9
-metadata/_custom_type_script = "uid://0syxcf2838lg"
-
-[node name="Reactor" type="Node" parent="CenterContainer/Trigger"]
-script = ExtResource("3_iki28")
-fn_name = "move_from"
-fn_args = [0.2, Vector2(0, 200), Vector2(0, 0)]
-metadata/_custom_type_script = "uid://bt6tds0lgyobf"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 48
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer2"]
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 layout_mode = 2
 texture = ExtResource("1_d4tt4")
 stretch_mode = 5
 
-[node name="ApplyThemeColor" type="Node" parent="CenterContainer/VBoxContainer/HBoxContainer2/TextureRect"]
+[node name="ApplyThemeColor" type="Node" parent="HBoxContainer2/TextureRect"]
 script = ExtResource("2_iki28")
 metadata/_custom_type_script = "uid://cs0ekt1ad0bqn"
 
-[node name="InfoLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+[node name="InfoLabel" type="Label" parent="HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "8888x8888"
 horizontal_alignment = 1
 
-[node name="ScaleButtons" type="GridContainer" parent="CenterContainer/VBoxContainer"]
+[node name="ScaleButtons" type="GridContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
 
-[node name="Button1" type="Button" parent="CenterContainer/VBoxContainer/ScaleButtons"]
+[node name="Button1" type="Button" parent="ScaleButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
@@ -73,7 +52,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_d4tt4")
 text = "x1"
 
-[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer/ScaleButtons"]
+[node name="Button2" type="Button" parent="ScaleButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
@@ -82,7 +61,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_d4tt4")
 text = "x2"
 
-[node name="Button3" type="Button" parent="CenterContainer/VBoxContainer/ScaleButtons"]
+[node name="Button3" type="Button" parent="ScaleButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
@@ -91,7 +70,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_d4tt4")
 text = "x3"
 
-[node name="Button4" type="Button" parent="CenterContainer/VBoxContainer/ScaleButtons"]
+[node name="Button4" type="Button" parent="ScaleButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
@@ -100,10 +79,10 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_d4tt4")
 text = "x4"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="MulButton" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="MulButton" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 2
@@ -112,7 +91,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_d4tt4")
 text = "x"
 
-[node name="CustomSpinBoxWidget" parent="CenterContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_iki28")]
+[node name="CustomSpinBoxWidget" parent="HBoxContainer" instance=ExtResource("6_iki28")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 140)
 layout_mode = 2
@@ -120,12 +99,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 100
 
-[node name="GeneralController" type="Node" parent="CenterContainer/VBoxContainer/HBoxContainer/CustomSpinBoxWidget"]
+[node name="GeneralController" type="Node" parent="HBoxContainer/CustomSpinBoxWidget"]
 script = ExtResource("4_l8y0j")
 model = ExtResource("5_i0dqg")
 prop_name = "image_export_custom_mul"
 metadata/_custom_type_script = "uid://b34ad457xwvey"
 
-[node name="ConfirmDialog" parent="CenterContainer/VBoxContainer" instance=ExtResource("6_x0htl")]
+[node name="KeyboardCaller" type="Node" parent="HBoxContainer/CustomSpinBoxWidget"]
+script = ExtResource("7_gettl")
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("6_x0htl")]
 unique_name_in_owner = true
 layout_mode = 2

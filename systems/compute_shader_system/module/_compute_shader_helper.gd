@@ -1,4 +1,6 @@
-class_name ComputeShaderHelper
+#class_name ComputeShaderHelper
+
+
 
 static func create_uniform(type: int, binding: int, rid: RID) -> RDUniform:
 	var uniform := RDUniform.new()
@@ -39,67 +41,9 @@ static func new_image_uniform(texture_RID:RID, binding:int=0) -> RDUniform:
 	uniform.add_id(texture_RID)
 	return uniform
 
-
-class Base:
-	const LOCAL_INVOCATION := 8
-	var shader_RID: RID
-	var pipeline_RID: RID
-	var fns_caller := FnsCaller.new()
-	var rd := RenderingServer.get_rendering_device()
-	
-	var CSH = ComputeShaderHelper
-	
-	func _init():
-		var shader_file = load("glsl_path")
-		var shader_spirv = shader_file.get_spirv()
-		shader_RID = rd.shader_create_from_spirv(shader_spirv)
-		pipeline_RID = rd.compute_pipeline_create(shader_RID)
-	
-	func free_rids():
-		fns_caller.free_rids()
-		rd.free_rid(shader_RID)
-		rd.free_rid(pipeline_RID)
-		rd.free_rid(pipeline_RID)
 		
-	func compute_template():
-		fns_caller.call_fns()
-		var image :Image
-		var tex_size = Vector2(512,512)
-		
-		# buffer
-		var buffer_RID := ComputeShaderHelper.new_buffer_RID(rd, [])
-		fns_caller.add(rd.free_rid.bind(buffer_RID))
-		var buffer_uniform = ComputeShaderHelper.new_buffer_uniform(buffer_RID, 0)  # WARNING : 注意 binding 对齐
-		
-		# img input 
-		var tex_input_RID = ComputeShaderHelper.texture_RID_from_sampling_image(rd, image, true)  # WARNING : 注意 input / output 的选择
-		fns_caller.add(rd.free_rid.bind(tex_input_RID))
-		var tex_input_uniform = ComputeShaderHelper.new_image_uniform(tex_input_RID, 1)
-		
-		# tex output
-		var tex_output_RID = ComputeShaderHelper.texture_RID_from_sampling_image(rd, image, false)
-		fns_caller.add(rd.free_rid.bind(tex_output_RID))
-		var tex_output_uniform = ComputeShaderHelper.new_image_uniform(tex_output_RID, 2)
-		
-		# uniform_set
-		# WARNING : 注意 binding 和 uniform 顺序对齐
-		var uniform_set_RID = rd.uniform_set_create([buffer_uniform, tex_input_uniform, tex_output_uniform], shader_RID, 0)
-		
-		# begin
-		var compute_list_id := rd.compute_list_begin()
-		rd.compute_list_bind_compute_pipeline(compute_list_id, pipeline_RID)
-		rd.compute_list_bind_uniform_set(compute_list_id, uniform_set_RID, 0)
-		rd.compute_list_dispatch(compute_list_id, tex_size.x / LOCAL_INVOCATION, tex_size.y / LOCAL_INVOCATION, 1)
-		rd.compute_list_end()
-		
-		# out
-		var output_data = rd.texture_get_data(tex_output_uniform, 0)
-		var output_image = Image.create_from_data(tex_size.x, tex_size.y, false, Image.FORMAT_RGBA8, output_data)
-		fns_caller.call_fns()
-		return output_image
-		
-	func _glsl_copy_to_use():
-		"""
+func _glsl_copy_to_use():
+	"""
 #[compute]
 
 #version 450
@@ -131,8 +75,8 @@ void main() {
 	// 写入输出纹理
 	imageStore(u_output_image, pixel_coord, final_color);
 }
-		"""
-		pass
+	"""
+	pass
 	
 class FnsCaller:
 

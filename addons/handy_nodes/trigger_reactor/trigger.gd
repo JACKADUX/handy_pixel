@@ -7,6 +7,7 @@ enum TriggerType {
 			PRESSED, RELEASED, PRESSED_RELEASED,
 			DOUBLE_CLICKED,
 			READY, VISIBLITY_CHANGED,
+			VALUE_CHANGED
 			}
 
 @export var trigger_type:TriggerType
@@ -67,4 +68,8 @@ func connect_trigger():
 		TriggerType.READY:
 			trigger_control.ready.connect(func():
 				raise_trigger()
+			)
+		TriggerType.VALUE_CHANGED:
+			trigger_control.value_changed.connect(func(v):
+				raise_trigger({"value":v})
 			)

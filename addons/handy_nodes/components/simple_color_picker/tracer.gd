@@ -42,17 +42,18 @@ func _gui_input(event):
 	elif event is InputEventMouseMotion and _pressed:
 		var diff = event.global_position - _start_pos
 		set_location(_start_location+Vector2(diff.x/size.x,diff.y/size.y)*offset_factor)
+		location_changed.emit()
 		
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_released():
 		if _pressed:
 			set_location(_location)
+			location_changed.emit()
 			drag_ended.emit()
 		_pressed = false
 	
 #---------------------------------------------------------------------------------------------------
 func set_location(value:Vector2):
 	_location = value.clamp(Vector2.ZERO, Vector2.ONE)
-	location_changed.emit()
 	queue_redraw()
 	
 #---------------------------------------------------------------------------------------------------

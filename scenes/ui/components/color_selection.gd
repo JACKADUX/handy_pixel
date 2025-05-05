@@ -21,8 +21,8 @@ func _ready() -> void:
 	add_color_button.pressed.connect(func():
 		SystemManager.color_system.with_in_active_palette(func(colors:PackedColorArray):
 			var color = SystemManager.color_system.get_active_color()
-			if color in colors:
-				return true
+			#if color in colors:
+			#	return true
 			colors.append(color)
 		)
 	)

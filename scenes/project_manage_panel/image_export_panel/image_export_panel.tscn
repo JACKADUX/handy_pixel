@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bq71fvg4wqwiy" path="res://assets/icons/image_size.svg" id="1_d4tt4"]
 [ext_resource type="Script" uid="uid://sg0fxgj837y0" path="res://scenes/project_manage_panel/image_export_panel/image_export_panel.gd" id="1_iki28"]
 [ext_resource type="Script" uid="uid://cs0ekt1ad0bqn" path="res://components/theme_manager/apply_theme_color.gd" id="2_iki28"]
-[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="4_l8y0j"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc_component/general_controller.gd" id="4_l8y0j"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_i0dqg"]
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="6_iki28"]
 [ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="6_x0htl"]

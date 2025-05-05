@@ -6,7 +6,7 @@ var undoredo : UndoRedo
 
 func _ready() -> void:
 	undoredo = UndoRedo.new()
-	undoredo.max_steps = 50
+	undoredo.max_steps = 20
 	undoredo.version_changed.connect(func():
 		undoredo_changed.emit()
 		print("undoredo_version:",undoredo.get_version())

@@ -38,6 +38,9 @@ func generate(palette:ColorPalette):
 			container_agent.add_item(color_panel)
 			color_panel.add_to_group(group)
 			color_panel.custom_minimum_size = Vector2.ONE*min_size
+			fake_button.double_clicked.connect(func():
+				pass
+			)
 			fake_button.pressed.connect(func():
 				color_selected.emit(color_panel.get_color())
 				get_tree().call_group(group, "deactivate")

@@ -2,7 +2,7 @@ class_name BaseTrigger extends Node
 
 signal triggered(data:Dictionary)
 
-@export var trigger_control:Control
+@export var trigger_control:Node
 @export var trigger_on_ready := false
 
 func _ready() -> void:

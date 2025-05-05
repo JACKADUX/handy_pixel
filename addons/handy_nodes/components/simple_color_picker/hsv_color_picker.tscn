@@ -1,0 +1,234 @@
+[gd_scene load_steps=13 format=3 uid="uid://be8yu8ob7yp31"]
+
+[ext_resource type="Script" uid="uid://cfvfy4ar30t5w" path="res://addons/handy_nodes/components/simple_color_picker/hsv_color_picker.gd" id="1_qmvf8"]
+[ext_resource type="Shader" uid="uid://bg8wmqoixn0fu" path="res://addons/handy_nodes/components/simple_color_picker/resource/hue_bar.gdshader" id="2_5sio0"]
+[ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://addons/handy_nodes/components/simple_color_picker/tracer.gd" id="3_doll6"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="4_3kugk"]
+[ext_resource type="Shader" uid="uid://bd7pixayg3xvb" path="res://addons/handy_nodes/components/simple_color_picker/resource/blend_color_bar.gdshader" id="4_5sio0"]
+[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="4_doll6"]
+[ext_resource type="Shader" uid="uid://c1gf6eu1kk2n7" path="res://addons/handy_nodes/components/simple_color_picker/resource/transparent_bar.gdshader" id="5_fjm34"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1att3"]
+shader = ExtResource("2_5sio0")
+shader_parameter/x_dir = 1.0
+shader_parameter/saturation = 1.0
+shader_parameter/value = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_doll6"]
+shader = ExtResource("4_5sio0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3kugk"]
+shader = ExtResource("4_5sio0")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_idh23"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_645cy"]
+shader = ExtResource("5_fjm34")
+
+[node name="HSVColorPicker" type="VBoxContainer"]
+offset_right = 536.0
+offset_bottom = 116.0
+theme_override_constants/separation = 24
+script = ExtResource("1_qmvf8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RRect" type="ColorRect" parent="HBoxContainer"]
+material = SubResource("ShaderMaterial_1att3")
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 1, 0.883333, 1)
+
+[node name="RTracer" type="Control" parent="HBoxContainer/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_doll6")
+shape = 2
+fill_color = Color(1, 1, 1, 0)
+width = 16
+border = 4
+
+[node name="RLabel" type="Label" parent="HBoxContainer/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_doll6")
+theme_override_font_sizes/font_size = 32
+text = "H 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RRect" type="ColorRect" parent="HBoxContainer2"]
+material = SubResource("ShaderMaterial_doll6")
+instance_shader_parameters/c1 = Color(1, 1, 1, 1)
+instance_shader_parameters/c2 = Color(1, 0, 0.0166664, 1)
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0.733333, 1, 1)
+
+[node name="GTracer" type="Control" parent="HBoxContainer2/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_doll6")
+shape = 2
+fill_color = Color(1, 1, 1, 0)
+width = 16
+border = 4
+
+[node name="GLabel" type="Label" parent="HBoxContainer2/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_doll6")
+theme_override_font_sizes/font_size = 32
+text = "S 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RRect" type="ColorRect" parent="HBoxContainer3"]
+material = SubResource("ShaderMaterial_3kugk")
+instance_shader_parameters/c1 = Color(1, 1, 0, 1)
+instance_shader_parameters/c2 = Color(1, 1, 1, 1)
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 0.32, 0.32, 1)
+
+[node name="BTracer" type="Control" parent="HBoxContainer3/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_doll6")
+shape = 2
+fill_color = Color(1, 1, 1, 0)
+width = 16
+border = 4
+
+[node name="BLabel" type="Label" parent="HBoxContainer3/RRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_doll6")
+theme_override_font_sizes/font_size = 32
+text = "V 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_idh23")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="FinalColor" type="ColorRect" parent="PanelContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+color = Color(1, 1, 1, 0.67451)
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/HBoxContainer4/FinalColor"]
+show_behind_parent = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_3kugk")
+expand_mode = 1
+
+[node name="AlphaRect" type="ColorRect" parent="PanelContainer/HBoxContainer4"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_645cy")
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer4/AlphaRect"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_3kugk")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="AlphaTracer" type="Control" parent="PanelContainer/HBoxContainer4/AlphaRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_doll6")
+shape = 2
+fill_color = Color(1, 1, 1, 0)
+width = 16
+border = 4
+
+[node name="ALabel" type="Label" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_doll6")
+theme_override_font_sizes/font_size = 32
+text = "A 255"
+horizontal_alignment = 1
+vertical_alignment = 1

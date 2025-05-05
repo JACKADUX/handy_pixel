@@ -1,6 +1,7 @@
 class_name FakeButton extends Node
 
 signal pressed
+signal double_clicked
 
 @export var agent : Control
 ## 触发pressed 信号需要拖拽长度小于这个数值
@@ -19,6 +20,9 @@ func _ready() -> void:
 	
 func _gui_input(event: InputEvent) -> void:
 	if InputEventUtils.is_pressed(event) :
+		if InputEventUtils.is_double_clicked(event):
+			double_clicked.emit()
+			return 
 		_hold = true
 		_dt = Time.get_ticks_msec()
 		_dpos = InputEventUtils.get_event_global_position(event)  # NOTE: 触屏上不能使用get_global_mouse_position() 会有误差

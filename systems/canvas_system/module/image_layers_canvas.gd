@@ -156,7 +156,7 @@ func queue_redraw_layer(index:int):
 		_redraw_dirty = range(textures.size())
 	else:
 		_redraw_dirty.append(index)
-
+	
 func draw_layer(index:int):
 	var rid = rids[index]
 	var texture :ImageTexture= textures[index]

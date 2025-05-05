@@ -15,6 +15,12 @@ func register_with(object:Object, key:String):
 		func(value): object.set(key, value),
 		func(key): return object.get(key)
 	)
+	
+func clear():
+	module_caller.clear()
+	
+func unregister(key:String):
+	module_caller.erase(key)
 
 func set_value(key:String, value:Variant):
 	if not module_caller.has(key):

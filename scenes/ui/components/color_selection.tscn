@@ -1,11 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://xwf3y70npyiy"]
+[gd_scene load_steps=30 format=3 uid="uid://xwf3y70npyiy"]
 
 [ext_resource type="Script" uid="uid://ltm0r0tyfdkq" path="res://scenes/ui/components/color_selection.gd" id="1_2qx2g"]
 [ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/components/color_selection_handler.gd" id="1_o3am5"]
 [ext_resource type="PackedScene" uid="uid://b15eef6fao6nk" path="res://addons/handy_nodes/components/simple_color_picker/simple_color_picker.tscn" id="2_o3am5"]
-[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc/general_controller.gd" id="3_5nw6s"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc_component/general_controller.gd" id="3_5nw6s"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="3_p1kuo"]
-[ext_resource type="Script" uid="uid://cmmcv7w2km2vp" path="res://addons/handy_nodes/mvc/view_adapter/menu_button_view_adapter.gd" id="4_5ygpn"]
+[ext_resource type="Script" uid="uid://cmmcv7w2km2vp" path="res://addons/handy_nodes/mvc_component/view_adapters/menu_button_view_adapter.gd" id="4_5ygpn"]
 [ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="4_jk00k"]
 [ext_resource type="Texture2D" uid="uid://c36h8iduw2ylf" path="res://assets/icons/remove_list.svg" id="4_sbweb"]
 [ext_resource type="Texture2D" uid="uid://capu0qrpvjyjw" path="res://assets/icons/list.svg" id="4_xa1tm"]
@@ -19,11 +19,20 @@
 [ext_resource type="Texture2D" uid="uid://dd2iw51w8a3us" path="res://assets/icons/add_color.svg" id="14_5ygpn"]
 [ext_resource type="Texture2D" uid="uid://cwmydkpklmuiq" path="res://assets/icons/add_list.svg" id="14_xa1tm"]
 [ext_resource type="Texture2D" uid="uid://bvhmll860k3ps" path="res://assets/icons/remove_color.svg" id="16_c376t"]
+[ext_resource type="Script" uid="uid://dwnuqna7iwuwe" path="res://scenes/ui/components/toggle_button_widget.gd" id="19_calfg"]
+[ext_resource type="PackedScene" uid="uid://evpxvli58vpd" path="res://addons/handy_nodes/components/simple_color_picker/rgb_color_picker.tscn" id="20_c376t"]
+[ext_resource type="Texture2D" uid="uid://dfxav0rf5xmgg" path="res://assets/icons/color_rect.svg" id="20_i0tb8"]
+[ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="21_calfg"]
+[ext_resource type="PackedScene" uid="uid://be8yu8ob7yp31" path="res://addons/handy_nodes/components/simple_color_picker/hsv_color_picker.tscn" id="21_nsyhe"]
+[ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="22_i0tb8"]
+[ext_resource type="Script" uid="uid://dqfxx8dinkf4y" path="res://scenes/ui/value_react_fn.gd" id="23_aio25"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3am5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5nw6s"]
 shader = ExtResource("9_p1kuo")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_nsyhe"]
 
 [node name="ColorSelection" type="VBoxContainer"]
 offset_right = 400.0
@@ -200,14 +209,147 @@ duration = 5.0
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="SimpleColorPicker" parent="HBoxContainer/VBoxContainer" instance=ExtResource("2_o3am5")]
+[node name="ToggleButtonWidget" type="Node" parent="HBoxContainer/VBoxContainer" node_paths=PackedStringArray("button_datas")]
+script = ExtResource("19_calfg")
+button_datas = {
+NodePath("../PanelContainer/HBoxContainer2/ColorButton"): 0,
+NodePath("../PanelContainer/HBoxContainer2/RGBButton"): 1,
+NodePath("../PanelContainer/HBoxContainer2/HSVButton"): 2
+}
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/ToggleButtonWidget"]
+script = ExtResource("3_5nw6s")
+model = ExtResource("12_rb5g8")
+prop_name = "color_palette_mode"
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"clip_panel"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ColorButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_nsyhe")
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2/ColorButton"]
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("20_i0tb8")
+expand_mode = 1
+stretch_mode = 5
+flip_v = true
+
+[node name="RGBButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_nsyhe")
+text = "RGB"
+
+[node name="HSVButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_nsyhe")
+text = "HSV"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SimpleColorPicker" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_o3am5")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/SimpleColorPicker"]
+[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/SimpleColorPicker"]
 script = ExtResource("3_5nw6s")
 model = ExtResource("12_rb5g8")
 prop_name = "active_color"
+
+[node name="Trigger" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/SimpleColorPicker" node_paths=PackedStringArray("trigger_control")]
+script = ExtResource("21_calfg")
+trigger_type = 10
+trigger_control = NodePath("../../../ToggleButtonWidget")
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/SimpleColorPicker/Trigger" node_paths=PackedStringArray("react_control")]
+script = ExtResource("22_i0tb8")
+react_control = NodePath("../..")
+fn_pool = ExtResource("23_aio25")
+fn_name = "set_visible_with_value"
+fn_args = [0]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
+
+[node name="RgbColorPicker" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("20_c376t")]
+visible = false
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/RgbColorPicker"]
+script = ExtResource("3_5nw6s")
+model = ExtResource("12_rb5g8")
+prop_name = "active_color"
+
+[node name="Trigger" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/RgbColorPicker" node_paths=PackedStringArray("trigger_control")]
+script = ExtResource("21_calfg")
+trigger_type = 10
+trigger_control = NodePath("../../../ToggleButtonWidget")
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/RgbColorPicker/Trigger" node_paths=PackedStringArray("react_control")]
+script = ExtResource("22_i0tb8")
+react_control = NodePath("../..")
+fn_pool = ExtResource("23_aio25")
+fn_name = "set_visible_with_value"
+fn_args = [1]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
+
+[node name="HSVColorPicker" parent="HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("21_nsyhe")]
+visible = false
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/HSVColorPicker"]
+script = ExtResource("3_5nw6s")
+model = ExtResource("12_rb5g8")
+prop_name = "active_color"
+
+[node name="Trigger" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/HSVColorPicker" node_paths=PackedStringArray("trigger_control")]
+script = ExtResource("21_calfg")
+trigger_type = 10
+trigger_control = NodePath("../../../ToggleButtonWidget")
+metadata/_custom_type_script = "uid://0syxcf2838lg"
+
+[node name="Reactor" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/HSVColorPicker/Trigger" node_paths=PackedStringArray("react_control")]
+script = ExtResource("22_i0tb8")
+react_control = NodePath("../..")
+fn_pool = ExtResource("23_aio25")
+fn_name = "set_visible_with_value"
+fn_args = [2]
+metadata/_custom_type_script = "uid://bt6tds0lgyobf"
 
 [node name="ColorPaletteGenerator" type="MarginContainer" parent="HBoxContainer/VBoxContainer" node_paths=PackedStringArray("container_agent")]
 layout_mode = 2

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c4uvoxcendx3o" path="res://assets/icons/line.svg" id="1_6nqug"]
 [ext_resource type="Texture2D" uid="uid://cqvk1iqmks5wr" path="res://assets/icons/rectangle_shape.svg" id="1_v3og6"]
-[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc/view_adapter/button_view_adapter.gd" id="2_majm1"]
+[ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc_component/view_adapters/button_view_adapter.gd" id="2_majm1"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_ro62w"]
 [ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_3br3m"]
 [ext_resource type="Texture2D" uid="uid://cjxqhh53dtgl3" path="res://assets/icons/rectangle_shape_fill.svg" id="5_2e848"]
@@ -56,7 +56,7 @@ metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
 
 [node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/LineButton"]
 script = ExtResource("4_3br3m")
-title = "矩形"
+title = "直线"
 duration = 3.0
 
 [node name="BezierLineButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
@@ -83,7 +83,7 @@ metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
 
 [node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/BezierLineButton"]
 script = ExtResource("4_3br3m")
-title = "矩形"
+title = "曲线"
 duration = 3.0
 
 [node name="RectButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
@@ -137,7 +137,7 @@ metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
 
 [node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/RectFillButton"]
 script = ExtResource("4_3br3m")
-title = "矩形"
+title = "填充矩形"
 duration = 3.0
 
 [node name="CircleButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
@@ -164,7 +164,7 @@ metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
 
 [node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleButton"]
 script = ExtResource("4_3br3m")
-title = "矩形"
+title = "椭圆"
 duration = 3.0
 
 [node name="CircleFillButton" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
@@ -191,5 +191,5 @@ metadata/_custom_type_script = "uid://bk4v1rhe5htsa"
 
 [node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/CircleFillButton"]
 script = ExtResource("4_3br3m")
-title = "矩形"
+title = "填充椭圆"
 duration = 3.0

@@ -22,6 +22,7 @@ const confirm_pressed_icon = preload("res://assets/icons/check_96dp_FFFFFF_FILL0
 var camera_tool : CameraTool
 var cursor_tool : CursorTool
 
+
 	
 func system_initialize():
 	_register_tools()
@@ -151,3 +152,6 @@ func get_input_datas() -> InputDatas:
 
 func get_tool_ui_control() -> ToolUIControl:
 	return SystemManager.ui_system.get_tool_ui_control()
+
+func get_main_canvas_data() -> CanvasData:
+	return SystemManager.canvas_system.main_canvas_data

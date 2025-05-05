@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ModelDataMapper" load_steps=2 format=3 uid="uid://mj2hbv42w62k"]
 
-[ext_resource type="Script" uid="uid://bfkhkk2tvqcxi" path="res://addons/handy_nodes/mvc/model_data_mapper.gd" id="1_13uvf"]
+[ext_resource type="Script" uid="uid://bfkhkk2tvqcxi" path="res://addons/handy_nodes/mvc_component/model_data_mapper.gd" id="1_13uvf"]
 
 [resource]
 script = ExtResource("1_13uvf")

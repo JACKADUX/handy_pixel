@@ -9,6 +9,9 @@ var project_controller:ProjectController:
 var undoredo_system:UndoRedoSystem:
 	get(): return _tool_system.get_undoredo_system()
 
+var main_canvas_data:CanvasData:
+	get(): return _tool_system.get_main_canvas_data()
+
 func set_tool_data(data:Dictionary):
 	for key in data:
 		set_value(key, data[key])
@@ -45,6 +48,7 @@ func update_all():
 		property_updated.emit(prop_name, data[prop_name]) 
 
 func get_layout_area_type() -> LayoutHelper.AreaTypeLR:
+	return LayoutHelper.AreaTypeLR.LEFT
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
 	var pos = input_data.start_position

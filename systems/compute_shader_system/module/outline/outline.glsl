@@ -11,8 +11,6 @@ layout(set=0, binding = 2) buffer Params {
     float width;
 };
 
-shared ivec2 check_list[];
-
 void main(){
 
     ivec2 coord = ivec2(gl_GlobalInvocationID.xy);

@@ -11,8 +11,6 @@ var _offset_zoom := []
 var zoom_limit_min_aspect :float = 0.5 # NOTE:这个不是 camera_zoom, 而是画布与窗口的比值
 var zoom_limit_max_value :float = 100  # NOTE: 这个就是 camera_zoom 的值
 
-var main_canvas_data :CanvasData = preload("res://systems/canvas_system/main_canvas_data.tres")
-
 static func get_tool_name() -> String:
 	return "camera"
 

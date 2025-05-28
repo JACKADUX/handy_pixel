@@ -7,6 +7,5 @@ vec4 difference(vec4 base, vec4 blend){
 }
 
 void fragment(){
-	vec4 color = texture(TEXTURE, UV);
-	COLOR.rgb = difference(color, texture(sct, SCREEN_UV)).rgb;
+	COLOR.rgb = difference(texture(TEXTURE, UV), texture(sct, SCREEN_UV)).rgb;
 }

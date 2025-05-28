@@ -9,8 +9,9 @@ func _ready() -> void:
 			"cell_pos_floor":
 				dlg.show()
 				var pos = value + Vector2i.ONE
-				dlg.set_tooltip("","x:%d | y:%d"%[pos.x , pos.y])
-				dlg.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE)
+				dlg.set_tooltip("","x:%d  |  y:%d"%[pos.x , pos.y])
+				dlg.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP, Control.PRESET_MODE_MINSIZE)
+				dlg.tooltip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	)
 	if not dlg.is_node_ready():
 		await dlg.ready

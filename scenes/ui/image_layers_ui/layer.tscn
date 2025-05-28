@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://flmr31hfks82"]
+[gd_scene load_steps=11 format=3 uid="uid://flmr31hfks82"]
 
 [ext_resource type="Texture2D" uid="uid://bst2wgstrjjwa" path="res://assets/icons/visibility_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_7308c"]
 [ext_resource type="Script" uid="uid://dht4v2n614maw" path="res://scenes/ui/image_layers_ui/layer.gd" id="1_w1lpd"]
 [ext_resource type="Script" uid="uid://d3r6ekoyuc1pq" path="res://addons/handy_nodes/nodes/fake_button.gd" id="2_7308c"]
-[ext_resource type="Texture2D" uid="uid://cxox3xrb3a3gb" path="res://assets/icons/visibility_off_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_n0aaf"]
+[ext_resource type="Texture2D" uid="uid://br68sh5jwwio1" path="res://assets/icons/lock_off.svg" id="3_stv0o"]
 [ext_resource type="Texture2D" uid="uid://bor6wec5clpuu" path="res://assets/images/Checkerboard_16.svg" id="5_7308c"]
+[ext_resource type="Texture2D" uid="uid://d22yhealr3uts" path="res://assets/icons/visibility_off.svg" id="5_stv0o"]
+[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="6_stv0o"]
+[ext_resource type="Texture2D" uid="uid://oopk1d8rhbry" path="res://assets/icons/lock_on.svg" id="8_pl10s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7308c"]
 
@@ -53,25 +56,26 @@ mouse_filter = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="IndexLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="LockButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 6
-theme_override_colors/font_color = Color(0.910156, 0.910156, 0.910156, 1)
-theme_override_font_sizes/font_size = 24
-text = "88"
-horizontal_alignment = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+texture_normal = ExtResource("3_stv0o")
+texture_pressed = ExtResource("8_pl10s")
+stretch_mode = 5
 
 [node name="VisibleButton" type="TextureButton" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 toggle_mode = true
 button_pressed = true
-texture_normal = ExtResource("2_n0aaf")
+texture_normal = ExtResource("5_stv0o")
 texture_pressed = ExtResource("1_7308c")
 stretch_mode = 5
 
@@ -99,3 +103,42 @@ grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/CoverBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="OpacityLabel" type="Label" parent="MarginContainer/HBoxContainer/CoverBG/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.964706, 0.964706, 0.964706, 1)
+theme_override_colors/font_outline_color = Color(0.222656, 0.222656, 0.222656, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("6_stv0o")
+theme_override_font_sizes/font_size = 24
+text = "100%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IndexLabel" type="Label" parent="MarginContainer/HBoxContainer/CoverBG/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.964706, 0.964706, 0.964706, 1)
+theme_override_colors/font_outline_color = Color(0.222656, 0.222656, 0.222656, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("6_stv0o")
+theme_override_font_sizes/font_size = 24
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1

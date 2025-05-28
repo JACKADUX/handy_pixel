@@ -13,7 +13,9 @@ func handle_input(event: InputEvent) -> void:
 			_send_action(ColorPickerTool.ACTION_PICK_COLOR, event.is_pressed())
 		if event.key_label == KEY_F:
 			_send_action(FillColorTool.ACTION_FILL_COLOR, event.is_pressed())
-				
+		if Input.is_action_just_pressed("ui_text_select_all"):
+			_send_action(SelectionTool.ACTION_SELECT_ALL, event.is_released())
+			
 	if event is InputEventMouseButton:
 		if event.button_index in [MOUSE_BUTTON_WHEEL_DOWN,MOUSE_BUTTON_WHEEL_UP] :
 			if event.is_pressed():

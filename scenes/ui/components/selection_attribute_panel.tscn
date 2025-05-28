@@ -42,7 +42,7 @@ NodePath("../Button4"): 3
 [node name="ToolDataController" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer/ToggleButtonView"]
 script = ExtResource("2_2nh30")
 tool_name = "selection_tool"
-prop_name = "selection_type"
+prop_name = "mask_type"
 
 [node name="Button" type="Button" parent="PanelContainer/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(140, 72)

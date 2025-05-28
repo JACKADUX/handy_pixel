@@ -39,3 +39,8 @@ func get_tool_ui_control() -> ToolUIControl:
 	if not ui:
 		return 
 	return ui.tool_ui_control
+
+func get_temp_action_buttons_control() -> TempActionButtons:
+	if not ui:
+		return 
+	return ui.temp_action_buttons

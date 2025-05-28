@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu4hy0uildd2x"]
+
+[ext_resource type="Script" uid="uid://cff0s822i0nff" path="res://scenes/ui/image_layers_ui/w_layer_opacity.gd" id="1_5adel"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="1_wqnfl"]
+[ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://addons/handy_nodes/components/simple_color_picker/tracer.gd" id="1_x1br2"]
+[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="4_5adel"]
+
+[node name="WidgetLayerOpacity" type="PanelContainer"]
+clip_children = 1
+custom_minimum_size = Vector2(96, 96)
+offset_right = 96.0
+offset_bottom = 585.0
+size_flags_vertical = 3
+theme_type_variation = &"clip_panel"
+script = ExtResource("1_5adel")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_wqnfl")
+stretch_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Trace" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("1_x1br2")
+shape = 3
+fill_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+width = 12
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_5adel")
+theme_override_font_sizes/font_size = 32
+text = "100%"
+horizontal_alignment = 1
+vertical_alignment = 1

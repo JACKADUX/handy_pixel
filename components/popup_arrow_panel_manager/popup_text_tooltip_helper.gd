@@ -1,4 +1,4 @@
-extends Node
+class_name PopupTextTooltipHelper extends Node
 
 @export var pressed_node:Node
 

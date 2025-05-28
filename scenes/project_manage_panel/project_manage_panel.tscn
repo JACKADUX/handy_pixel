@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://slkcdtbcptrs"]
+[gd_scene load_steps=17 format=3 uid="uid://slkcdtbcptrs"]
 
 [ext_resource type="Script" uid="uid://cftgg2refn6j6" path="res://scenes/project_manage_panel/project_manage_panel.gd" id="1_fg41p"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="1_mv0x6"]
@@ -14,9 +14,7 @@
 [ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc_component/view_adapters/button_view_adapter.gd" id="7_mtelp"]
 [ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc_component/general_controller.gd" id="8_xps3l"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="9_ng0cy"]
-[ext_resource type="PackedScene" uid="uid://dlcwld5qjara0" path="res://scenes/project_manage_panel/new_project_panel/new_project_panel.tscn" id="10_5mg1j"]
 [ext_resource type="Texture2D" uid="uid://0mnifv41s14o" path="res://assets/icons/add_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz128.svg" id="14_xps3l"]
-[ext_resource type="PackedScene" uid="uid://bas2i2dboymfs" path="res://scenes/project_manage_panel/image_export_panel/image_export_panel.tscn" id="16_ng0cy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5mg1j"]
 shader = ExtResource("1_pmkn4")
@@ -162,20 +160,3 @@ self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 layout_mode = 2
 texture = ExtResource("14_xps3l")
 stretch_mode = 3
-
-[node name="ImageExportPanel" parent="." instance=ExtResource("16_ng0cy")]
-visible = false
-layout_mode = 2
-
-[node name="FPWS" type="Node" parent="ImageExportPanel"]
-script = ExtResource("6_3a5jn")
-metadata/_custom_type_script = "uid://bfif1mfm0s464"
-
-[node name="NewProjectPanel" parent="." instance=ExtResource("10_5mg1j")]
-visible = false
-layout_mode = 2
-size_flags_vertical = 6
-
-[node name="FPWS" type="Node" parent="NewProjectPanel"]
-script = ExtResource("6_3a5jn")
-metadata/_custom_type_script = "uid://bfif1mfm0s464"

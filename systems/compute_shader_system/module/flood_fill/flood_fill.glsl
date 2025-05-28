@@ -16,6 +16,7 @@ layout(set=0, binding = 4) buffer Counter {
     int counter; 
     int hv_pass;
 };
+layout(set=0, binding = 5, rgba8) uniform image2D u_input_mask_image;
 
 bool color_match(vec4 a, vec4 b) {
     vec4 diff = abs(a-b);
@@ -48,6 +49,11 @@ void main() {
                 imageStore(u_visited_mask, l_pos, vec4(1.0, 0., 0., 1.));
                 break;
             }
+            if (imageLoad(u_input_mask_image, l_pos).a < 0.5){
+                imageStore(u_visited_mask, l_pos, vec4(1.0, 0., 0., 1.));
+                break;
+            }
+
             imageStore(u_visited_mask, l_pos, vec4(0.0, 1., 0., 1.));     
         }
         int right = coord.x;
@@ -58,6 +64,10 @@ void main() {
             vec4 r_mask = imageLoad(u_visited_mask, r_pos);
             if (r_mask.r > 0.5 || r_mask.g > 0.5) break;
             if (!color_match(imageLoad(u_input_image, r_pos), target_color)){
+                imageStore(u_visited_mask, r_pos, vec4(1.0, 0., 0., 1.));
+                break;
+            }
+            if (imageLoad(u_input_mask_image, r_pos).a < 0.5){
                 imageStore(u_visited_mask, r_pos, vec4(1.0, 0., 0., 1.));
                 break;
             }
@@ -75,6 +85,10 @@ void main() {
                 imageStore(u_visited_mask, t_pos, vec4(1.0, 0., 0., 1.));
                 break;
             }
+            if (imageLoad(u_input_mask_image, t_pos).a < 0.5){
+                imageStore(u_visited_mask, t_pos, vec4(1.0, 0., 0., 1.));
+                break;
+            }
             imageStore(u_visited_mask, t_pos, vec4(0.0, 1., 0., 1.));    
         }
         int bottom = coord.y;
@@ -85,6 +99,10 @@ void main() {
             vec4 b_mask = imageLoad(u_visited_mask, b_pos);
             if (b_mask.r > 0.5 || b_mask.g > 0.5) break;
             if (!color_match(imageLoad(u_input_image, b_pos), target_color)){
+                imageStore(u_visited_mask, b_pos, vec4(1.0, 0., 0., 1.));
+                break;
+            }
+            if (imageLoad(u_input_mask_image, b_pos).a < 0.5){
                 imageStore(u_visited_mask, b_pos, vec4(1.0, 0., 0., 1.));
                 break;
             }

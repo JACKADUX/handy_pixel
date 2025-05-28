@@ -1,6 +1,7 @@
 class_name CSO_FloodFill extends ComputeShaderObject
 
 var input_image_rid: RID
+var input_mask_rid: RID
 var output_image_rid: RID
 var visited_mask_rid: RID
 var params_buffer_RID: RID
@@ -9,6 +10,7 @@ var counter_buffer_RID: RID
 func _prepare_resources(compute_shader_data:ComputeShaderData):
 	free_rids()
 	var main_image = compute_shader_data.image as Image
+	var mask_image = compute_shader_data.mask as Image
 	var width := main_image.get_width()
 	var height := main_image.get_height()
 	
@@ -22,6 +24,17 @@ func _prepare_resources(compute_shader_data:ComputeShaderData):
 							)
 	input_image_rid = rd.texture_create(input_fmt, RDTextureView.new(), [main_image.get_data()])
 	add_to_free_list(input_image_rid)
+	
+	# 蒙版
+	var input_mask_fmt := RDTextureFormat.new()
+	input_mask_fmt.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	input_mask_fmt.width = width
+	input_mask_fmt.height = height
+	input_mask_fmt.usage_bits = (RenderingDevice.TEXTURE_USAGE_STORAGE_BIT
+							| RenderingDevice.TEXTURE_USAGE_CAN_UPDATE_BIT
+							)
+	input_mask_rid = rd.texture_create(input_mask_fmt, RDTextureView.new(), [mask_image.get_data()])
+	add_to_free_list(input_mask_rid)
 	
 	# 输出纹理
 	var output_fmt := RDTextureFormat.new()
@@ -69,7 +82,8 @@ func _prepare_resources(compute_shader_data:ComputeShaderData):
 		create_uniform(RenderingDevice.UNIFORM_TYPE_IMAGE, 1, output_image_rid),
 		create_uniform(RenderingDevice.UNIFORM_TYPE_IMAGE, 2, visited_mask_rid),
 		create_uniform(RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER, 3, params_buffer_RID),
-		create_uniform(RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER, 4, counter_buffer_RID)
+		create_uniform(RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER, 4, counter_buffer_RID),
+		create_uniform(RenderingDevice.UNIFORM_TYPE_IMAGE, 5, input_mask_rid)
 	]
 	uniform_set_RID = rd.uniform_set_create(uniform_sets, shader_RID, 0)
 
@@ -79,19 +93,20 @@ func compute(compute_shader_data:ComputeShaderData) -> Image:
 
 func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 	var image = compute_shader_data.image
+	var mask_image = compute_shader_data.mask
 	var qury_pos = compute_shader_data.qury_pos
 	var fill_color = compute_shader_data.fill_color
 	var tolerance = compute_shader_data.tolerance
 	# NOTE: 理论上 max_iter 基本不会到1000，比较大的图20-30基本能跑完， 所以可以保持默认
 	var max_iter = compute_shader_data.max_iter
-
 	var target_color = image.get_pixelv(qury_pos)
-	if target_color == fill_color:
-		return
+	
 	_prepare_resources(compute_shader_data)
 	var tex_size = image.get_size()
 	# in img
 	rd.texture_update(input_image_rid, 0, image.get_data())
+	# in mask
+	rd.texture_update(input_mask_rid, 0, mask_image.get_data())
 	# out img
 	rd.texture_clear(output_image_rid, Color(0, 0, 0, 0), 0, 1, 0, 1)
 	# mask img
@@ -136,13 +151,14 @@ func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
 	# var shader_data = compute_shader_data as FloodFillData
 	return floor_fill_cpu(
 		compute_shader_data.image, 
+		compute_shader_data.mask,
 		compute_shader_data.qury_pos, 
 		compute_shader_data.fill_color, 
 		compute_shader_data.tolerance, 
 		compute_shader_data.max_iter
 	)
 
-static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, tolerance: float = 0, max_iter = 1000):
+static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_color: Color, tolerance: float = 0, max_iter = 1000):
 	var w = image.get_width()
 	var h = image.get_height()
 	var output_image :Image = Image.create_empty(w, h, false, Image.FORMAT_RGBA8)
@@ -179,6 +195,8 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 					break
 				if coord in poss or coord in next_poss:
 					break
+				if mask and mask.get_pixelv(coord).a == 0:
+					break
 				next_poss.append(coord)
 				
 			var right = pos.x
@@ -190,6 +208,8 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 					break
 				if coord in poss or coord in next_poss:
 					break
+				if mask and mask.get_pixelv(coord).a == 0:
+					break
 				next_poss.append(coord)
 			var top = pos.y
 			while not hv_pass:
@@ -199,6 +219,8 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 				if not color_match_fn.call(image.get_pixelv(coord), target_color) or output_image.get_pixelv(coord) == fill_color:
 					break
 				if coord in poss or coord in next_poss:
+					break
+				if mask and mask.get_pixelv(coord).a == 0:
 					break
 				next_poss.append(coord)
 			var bottom = pos.y
@@ -210,6 +232,8 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 					break
 				if coord in poss or coord in next_poss:
 					break
+				if mask and mask.get_pixelv(coord).a == 0:
+					break
 				next_poss.append(coord)
 		poss = next_poss
 		hv_pass = 1- hv_pass
@@ -217,14 +241,20 @@ static func floor_fill_cpu(image: Image, qury_pos: Vector2i, fill_color: Color, 
 
 class FloodFillData extends ComputeShaderData:
 	var image: Image
+	var mask: Image
 	var qury_pos: Vector2i
 	var fill_color: Color
 	var tolerance: float = 0
 	var max_iter :int= 1000
 	
-	static func create(image:Image, qury_pos:Vector2i, fill_color:Color, tolerance:float=0) -> FloodFillData:
+	static func create(image:Image, mask:Image, qury_pos:Vector2i, fill_color:Color, tolerance:float=0) -> FloodFillData:
 		var data = FloodFillData.new()
 		data.image = image
+		if not mask:
+		# 如果蒙版不存在就随便指定一张图就可以
+			mask = image.duplicate()
+			mask.fill(Color.WHITE)
+		data.mask = mask
 		data.qury_pos = qury_pos
 		data.fill_color = fill_color
 		data.tolerance = tolerance

@@ -8,6 +8,7 @@ var _prev_size := Vector2.ZERO
 
 var textures : Array[ImageTexture] = []
 var rids :Array[RID] = []
+var opacities : PackedFloat64Array = []
 
 var _redraw_dirty := []
 
@@ -49,7 +50,7 @@ func bind_with_controller():
 	project_contorller.layer_created.connect(func(index:int):
 		var image_layers := project_contorller.get_image_layers()
 		var image_layer = image_layers.get_layer(index)
-		create_layer(index, image_layer.image)
+		create_layer(index, image_layer.image, image_layer.opacity)
 	)
 	
 	project_contorller.layer_deleted.connect(func(index:int):
@@ -77,6 +78,8 @@ func bind_with_controller():
 				update_layer_texture(index, value)
 			ImageLayer.PROP_VISIBLE:
 				set_layer_visible(index, value)
+			ImageLayer.PROP_OPACITY:
+				set_layer_opacity(index, value)
 			ImageLayer.PROP_POSITION:
 				set_layer_position(index, value)
 	)
@@ -95,6 +98,7 @@ func update_layer_with(index:int, image_layer:ImageLayer):
 	update_layer_texture(index, image_layer.image)
 	set_layer_visible(index, image_layer.visible)
 	set_layer_position(index, image_layer.position)
+	set_layer_opacity(index, image_layer.opacity)
 	
 #----------------------------------------------------------------------------------------------------
 func init_viewport():
@@ -116,18 +120,20 @@ func get_texture_rid() -> RID:
 	return RenderingServer.viewport_get_texture(viewport_id)
 	
 #----------------------------------------------------------------------------------------------------
-func create_layer(index:int, image:Image):
+func create_layer(index:int, image:Image, alpha:float=1):
 	if index < 0 or rids.size() < index :
 		return false
 	var rid = RenderingServer.canvas_item_create()
 	RenderingServer.canvas_item_set_parent(rid, canvas_id)
 	rids.insert(index, rid)
-	textures.insert(index, ImageTexture.create_from_image(image) if image and not image.is_empty() else ImageTexture.new())
+	textures.insert(index, ImageTexture.create_from_image(image) if image else null)
+	opacities.insert(index, alpha)
 
 func delete_layer(index:int):
 	textures.remove_at(index)
 	RenderingServer.free_rid(rids[index])
 	rids.remove_at(index)
+	opacities.remove_at(index)
 	queue_redraw()
 	
 func clear():
@@ -135,11 +141,18 @@ func clear():
 	for rid in rids:
 		RenderingServer.free_rid(rid)
 	rids = []
+	opacities.clear()
 	queue_redraw()
 
 func update_layer_texture(index:int, value:Image):
+	if not value:
+		textures[index] = null
+		queue_redraw_layer(index)
+		return 
 	var texture = textures[index]
-	if texture.get_size() != Vector2(value.get_size()):
+	if not texture:
+		textures[index] = ImageTexture.create_from_image(value)
+	elif texture.get_size() != Vector2(value.get_size()):
 		texture.set_image(value)
 	else:
 		texture.update(value)
@@ -151,6 +164,10 @@ func set_layer_position(index:int, value:Vector2):
 func set_layer_visible(index:int, value:bool):
 	RenderingServer.canvas_item_set_visible(rids[index], value)
 
+func set_layer_opacity(index:int, value:float):
+	opacities[index] = value
+	queue_redraw_layer(index)
+
 func queue_redraw_layer(index:int):
 	if index == -1:
 		_redraw_dirty = range(textures.size())
@@ -161,9 +178,12 @@ func draw_layer(index:int):
 	var rid = rids[index]
 	var texture :ImageTexture= textures[index]
 	RenderingServer.canvas_item_clear(rid)
+	if not texture:
+		return 
 	if _debug_mode:
 		RenderingServer.canvas_item_add_rect(rid, Rect2(Vector2.ZERO, texture.get_size()), Color.RED)
-	texture.draw(rid, Vector2.ZERO)
+	var texture_modulate = Color(Color.WHITE, opacities[index])
+	texture.draw(rid, Vector2.ZERO, texture_modulate)
 
 func _draw() -> void:
 	RenderingServer.canvas_item_add_texture_rect(get_canvas_item(), Rect2(0,0,canvas_size.x, canvas_size.y), get_texture_rid())

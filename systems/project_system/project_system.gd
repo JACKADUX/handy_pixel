@@ -35,6 +35,7 @@ func system_initialize():
 		db_system.set_project_setting("project_cover_size", project_cover_size)
 		db_system.set_data("ProjectSystem", save_data())
 	)
+
 	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_size")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "preset_canvas_bg_color")

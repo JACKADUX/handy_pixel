@@ -7,3 +7,6 @@ extends PanelContainer
 @onready var index_label: Label = %IndexLabel
 @onready var visible_button: TextureButton = %VisibleButton
 @onready var fake_button: Node = %FakeButton
+
+@onready var opacity_label: Label = %OpacityLabel
+@onready var lock_button: TextureButton = %LockButton

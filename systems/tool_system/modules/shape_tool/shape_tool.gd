@@ -13,8 +13,9 @@ var cell_pos_floor : Vector2i:
 	get(): return _tool_system.cursor_tool.cell_pos_floor
 var cell_pos_round : Vector2i:
 	get(): return _tool_system.cursor_tool.cell_pos_round
-var shape_data := ShapeData.new()
+var shape_data :ShapeData= RectShapeData.new()
 
+var _draw_started := false
 
 static func get_tool_name() -> String:
 	return "shape"
@@ -66,21 +67,35 @@ func _handle_value_changed(prop_name:String, value:Variant):
 				shape_data = RectShapeData.new()
 
 func _on_action_called(action:String, state:ActionHandler.State):
-		match action:
-			ToolSystem.ACTION_TOOL_MAIN_PRESSED:
-				match shape_type:
-					ShapeType.LINE:
-						_handle_line(state)
-					ShapeType.RECTANGLE, ShapeType.RECTANGLE_FILL:
-						_handle_rect(state)
-					ShapeType.ELLIPSE, ShapeType.ELLIPSE_FILL:
-						_handle_ellipse(state)
-					ShapeType.BEZEIR:
-						_handle_bezier(state)
-			ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-				shape_data.clear()
-				raise_shape_data_updated()
-				
+	if state == ActionHandler.State.JUST_PRESSED:
+		_check_draw_started()
+	if not is_draw_started():
+		return 
+	match action:
+		ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+			match shape_type:
+				ShapeType.LINE:
+					_handle_line(state)
+				ShapeType.RECTANGLE, ShapeType.RECTANGLE_FILL:
+					_handle_rect(state)
+				ShapeType.ELLIPSE, ShapeType.ELLIPSE_FILL:
+					_handle_ellipse(state)
+				ShapeType.BEZEIR:
+					_handle_bezier(state)
+		ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			shape_data.clear()
+			raise_shape_data_updated()
+
+func _check_draw_started():
+	if not project_controller.is_layer_editable(project_controller.get_active_layer_index()):
+		_draw_started = false
+		PopupArrowPanelManager.get_from_ui_system().quick_notify_dialog("编辑失败:当前图层已锁定！")
+	else:
+		_draw_started = true
+
+func is_draw_started():
+	return _draw_started
+
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
 		InputRecognizer.EVENT_STATE_CHANGED:
@@ -178,18 +193,9 @@ func _shape_apply():
 			
 	var active_color = SystemManager.color_system.active_color
 	var active_index = project_controller.get_active_layer_index()
-	var image = image_layers.create_canvas_image(active_index)
 	
 	var fill_image = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
 	fill_image.fill(active_color) # NOTE: 只有这样透明像素才能用
-	
-	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
-	
-	if select_tool.selection_mask_image and not select_tool.selection_mask_image.is_invisible():
-		var selection_mask_image:Image = select_tool.selection_mask_image.get_region(rect)
-		var inter_mask = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
-		inter_mask.blit_rect_mask(output_mask, selection_mask_image, Rect2(Vector2.ZERO, rect.size), Vector2i.ZERO)
-		output_mask = inter_mask
 	
 	var undo_image_layer = image_layers.get_layer(active_index).duplicate(true)
 	project_controller.action_blit_image(active_index, fill_image, output_mask, Rect2(Vector2.ZERO, rect.size), rect.position, 

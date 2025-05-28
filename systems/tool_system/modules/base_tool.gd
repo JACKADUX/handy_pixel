@@ -48,7 +48,7 @@ func update_all():
 		property_updated.emit(prop_name, data[prop_name]) 
 
 func get_layout_area_type() -> LayoutHelper.AreaTypeLR:
-	return LayoutHelper.AreaTypeLR.LEFT
+	#return LayoutHelper.AreaTypeLR.LEFT
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
 	var pos = input_data.start_position
@@ -58,7 +58,7 @@ func show_action_button_panel(value:bool):
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	var action_button_panel = tool_ui_control.action_button_panel
 	var ui = tool_ui_control.owner
-	ui.main_panel.visible = not value
+	ui.set_main_panel_visible(not value)
 	
 	if value:
 		var action_button_datas = _get_action_button_datas()
@@ -71,7 +71,6 @@ func show_action_button_panel(value:bool):
 		action_button_panel.show()
 	else:
 		action_button_panel.hide()
-
 
 ## MainOverrides ---------------------------------------------------------------------------------
 ## 工具名称

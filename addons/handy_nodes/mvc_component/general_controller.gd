@@ -45,5 +45,6 @@ static func bind_view_model(view:Node, model:Object, prop_name:String):
 			var msg = "view：‘%s’ asigned property prop_name : '%s' is not registered in model."%[str(view), prop_name]
 			printerr(msg)
 		var value = model.get_value(prop_name)
+		view.set_value(value)
 		view.value_changed.emit(value) # NOTE:用信号可以触发trigger
 	init_value.call_deferred()

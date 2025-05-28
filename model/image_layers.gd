@@ -17,7 +17,7 @@ func initialize(p_canvas_size:Vector2i, color:=Color.TRANSPARENT) -> void:
 func is_valid_layer(index:int) -> bool:
 	return 0 <= index and index < layers.size() 
 
-func create_layer(index:int, image_size:=Vector2.ONE, visible:=true, position:=Vector2.ZERO) -> bool:
+func create_layer(index:int, image_size:=Vector2.ZERO, visible:=true, position:=Vector2.ZERO) -> bool:
 	if index < 0 or layers.size() < index : # NOTE: 这里的判定和 is_valid_layer 不一样
 		return false
 	var layer = ImageLayer.create_with(image_size, visible, position)
@@ -59,11 +59,20 @@ func set_layer(index:int, image_layer:ImageLayer) -> bool:
 func get_layer_count() -> int:
 	return layers.size()
 
-func get_layer_property(index:int, property:String):
-	return get_layer(index).get(property)
+func get_layer_property(index:int, property:String, defualt:Variant=null):
+	var layer = get_layer(index)
+	if layer:
+		return layer.get(property)
+	return defualt
 
 func set_layer_property(index:int, property:String, value:Variant):
-	get_layer(index).set(property, value)
+	var layer = get_layer(index)
+	if not layer:
+		return
+	if property == ImageLayer.PROP_ALL:
+		layer.update_with(value)
+	else:
+		layer.set(property, value)
 
 func create_canvas_image(index:int=0) -> Image:
 	var layer = get_layer(index)
@@ -77,13 +86,13 @@ func generate_final_image() -> Image:
 	var image = Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
 	for index in layers.size():
 		var layer = layers[index]
-		if layer.visible:
+		if layer.visible and layer.image:
 			image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
 	return image
 
 func get_canvas_image(index:int) -> Image:
 	var layer = get_layer(index)
-	if not layer:
+	if not layer or not layer.image:
 		return 
 	var image = Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
 	image.blit_rect_mask(layer.image, layer.image, Rect2i(Vector2.ZERO, layer.image.get_size()), layer.position)
@@ -97,7 +106,7 @@ func get_pixel(pos: Vector2i) -> Color:
 	var count = get_layer_count()
 	for index in count:
 		var layer = layers[count -index-1]
-		if not layer.visible:
+		if not layer.image or not layer.visible:
 			continue
 		var rect = Rect2(layer.position, layer.image.get_size())
 		if not rect.has_point(pos):
@@ -119,20 +128,9 @@ func get_height() -> int:
 
 func is_init_state() -> bool:
 	if get_layer_count() == 1:
-		var image = get_layer(0).image
-		return image.is_invisible() and image.get_size() == get_size()
+		return get_layer(0).image == null
 	return false
 	
-#func fill_color_alg(position: Vector2i, fill_color:Color):
-	## TODO & FIXME: 用compute_shader 
-	#if not is_valid(position):
-		#return 
-	#var target_color = get_pixel(position)
-	#if target_color == fill_color:
-		#return
-	#var modified = FloodFillOptimized.fill(_canvas_image, position, fill_color)
-	#canvas_image_updated.emit()
-
 func new_empty_image() -> Image:
 	return Image.create_empty(canvas_size.x, canvas_size.y, false, Image.FORMAT_RGBA8)
 
@@ -153,18 +151,19 @@ func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i
 		return false
 	var used_rect :Rect2i = data.image.get_used_rect()
 	if used_rect.size == Vector2i.ZERO:
-		# FIXME: 为了方便我把大小为1的图片当作空图片使用，应该不会造成什么问题？
-		var image_size = Vector2.ONE
-		image_layer.image = Image.create_empty(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+		image_layer.image = null
+		image_layer.position = Vector2.ZERO
 	else:
 		image_layer.image = data.image.get_region(used_rect)
-	image_layer.position += data.offset + used_rect.position
+		image_layer.position += data.offset + used_rect.position
 	return true
 
 static func extend_blit_image(base:Image, src:Image, mask:Image, src_rect:Rect2i, dst:Vector2i, mode:=BlitMode.BLIT) -> Dictionary:
 	# NOTE: mask 可以为 null, 为 null 时会调用 blit_rect 方法
+	if not base:
+		base = Image.create_empty(1, 1, false, Image.FORMAT_RGBA8)
 	var base_rect = Rect2i(Vector2i.ZERO, base.get_size())
-	var rect = Rect2i(dst, src_rect.size) .merge(base_rect)
+	var rect = Rect2i(dst, src_rect.size).merge(base_rect)
 	if not rect.has_area():
 		return {}
 	var image = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)

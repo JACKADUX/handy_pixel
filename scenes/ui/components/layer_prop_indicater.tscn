@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cichbtv1kgsti"]
+
+[ext_resource type="Script" uid="uid://7wj6r5e4b8kq" path="res://scenes/ui/components/layer_prop_indicater.gd" id="1_mtlck"]
+[ext_resource type="Texture2D" uid="uid://bewaefb0t8l33" path="res://assets/icons/transparent_24.svg" id="1_usxn7"]
+[ext_resource type="Texture2D" uid="uid://cbperemeqkqhl" path="res://assets/icons/lock_on_24.svg" id="2_mtlck"]
+[ext_resource type="Texture2D" uid="uid://do6e4ncagohcf" path="res://assets/icons/visibility_off_24.svg" id="3_05e3u"]
+
+[node name="LayerPropIndicater" type="PanelContainer"]
+offset_right = 36.0
+offset_bottom = 92.0
+theme_type_variation = &"base_panel"
+script = ExtResource("1_mtlck")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color(0.196078, 0.192157, 0.176471, 1)
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="TextureRectOpacity" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("1_usxn7")
+stretch_mode = 2
+
+[node name="TextureRectLock" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("2_mtlck")
+stretch_mode = 2
+
+[node name="TextureRectVisible" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("3_05e3u")
+stretch_mode = 2

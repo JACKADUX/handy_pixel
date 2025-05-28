@@ -5,11 +5,13 @@
 [node name="InformationDialog" type="PanelContainer"]
 offset_right = 404.0
 offset_bottom = 73.0
+mouse_filter = 2
 theme_type_variation = &"popup_panel"
 script = ExtResource("1_b0gas")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true

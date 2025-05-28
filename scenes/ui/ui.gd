@@ -4,6 +4,7 @@ extends Control
 @onready var layers: Control = %Layers  # 用来新增页面 比如 ProjectManagePanel
 @onready var tool_ui_control: ToolUIControl = %ToolUIControl
 @onready var popup_arrow_panel_manager: PopupArrowPanelManager = %PopupArrowPanelManager
+@onready var temp_action_buttons: TempActionButtons = %TempActionButtons
 
 @onready var top_bar: HBoxContainer = %TopBar
 @onready var top_center_bar: HBoxContainer = %TopCenterBar
@@ -27,3 +28,8 @@ func open_projects_panel():
 	layers.add_child(project_manage_panel)
 	project_manage_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE)
 	project_manage_panel.update_projects()
+
+
+func set_main_panel_visible(value:bool):
+	main_panel.visible = value
+	temp_action_buttons.update()

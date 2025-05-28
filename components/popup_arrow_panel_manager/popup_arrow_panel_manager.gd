@@ -10,7 +10,7 @@ static func get_from_ui_system() -> PopupArrowPanelManager:
 
 func _ready() -> void:
 	show()
-	set_block(false)
+	set_block.call_deferred(false)
 
 func set_block(value:bool):
 	if value:
@@ -94,7 +94,6 @@ func add_panel_container(control:Control, margin:=24):
 	margin_container.add_child(control)
 	return contanier
 
-
 func quick_popup_tween(control:Control, type:=0):
 	match type:
 		0:
@@ -129,15 +128,20 @@ func confirm_dialog(pos:Vector2) -> ConfirmDialog:
 	
 const InfomationDialog = preload("res://components/dialogs/infomation_dialog.gd")
 const INFOMATION_DIALOG = preload("res://components/dialogs/infomation_dialog.tscn")
-func infomation_dialog(text:String, pos:Vector2, delay:float=3) -> InfomationDialog:
+const GROUP_INFORMATION_DIALOG = "InformationDiaglogGroup"
+func clear_information_dialogs():
+	for dlg in get_tree().get_nodes_in_group(GROUP_INFORMATION_DIALOG):
+		dlg.queue_free()
+		
+func infomation_dialog(text:String, pos:Vector2, delay:float=1) -> InfomationDialog:
 	var dialog = INFOMATION_DIALOG.instantiate()
 	add_child(dialog)
+	dialog.add_to_group(GROUP_INFORMATION_DIALOG)
 	dialog.z_index = 10
 	dialog.label.text = text
-	
-	var center = get_rect().get_center()
 	dialog.global_position = pos - dialog.get_rect().get_center()
 	dialog.pivot_offset = dialog.size*0.5
+	dialog.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(dialog, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
@@ -147,6 +151,11 @@ func infomation_dialog(text:String, pos:Vector2, delay:float=3) -> InfomationDia
 		on_clean_notifyed()
 	)
 	return dialog
+
+func quick_notify_dialog(text:String):
+	clear_information_dialogs()
+	infomation_dialog(text, size*0.5, 1)
+
 
 const TooltipDialog = preload("res://components/dialogs/tooltip_dialog.gd")
 const TOOLTIP_DIALOG = preload("res://components/dialogs/tooltip_dialog.tscn")
@@ -181,7 +190,6 @@ func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialo
 
 const Keyboard = preload("res://components/keyboard/keyboard.gd")
 const KEYBOARD = preload("res://components/keyboard/keyboard.tscn")
-
 func call_keyboard(value:float, bind_fn:Callable):
 	set_block(true)
 	var key_board = KEYBOARD.instantiate() as Keyboard

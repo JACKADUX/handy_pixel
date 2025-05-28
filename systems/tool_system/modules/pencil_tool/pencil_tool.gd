@@ -53,7 +53,7 @@ func activate() -> void:
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	if tool_ui_control:
 		tool_ui = PENCIL_TOOL_UI.instantiate()
-		tool_ui_control.add_too_ui(tool_ui)
+		tool_ui_control.add_tool_ui(tool_ui)
 		tool_ui.hide()
 
 	
@@ -76,9 +76,6 @@ func _get_action_button_datas():
 		ActionButtonPanel.create_action_button_data(3, FillColorTool.ACTION_FILL_COLOR, fill_color_icon),
 		ActionButtonPanel.create_action_button_data(4, EraserTool.ACTION_ERASE_COLOR, erase_icon),
 	]
-	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
-	if select_tool.has_selection():
-		actions.append(ActionButtonPanel.create_action_button_data(1, SelectionTool.ACTION_DESELECT_ALL, SelectionTool.ICON_CANCEL_SELECT))
 	return actions
 		
 
@@ -87,11 +84,26 @@ func _handle_value_changed(prop_name:String, value:Variant):
 		set_mask_image_dirty()	
 
 func _on_action_called(action:String, state:ActionHandler.State):
-	match state:
-		ActionHandler.State.JUST_PRESSED:
-			_cache_pen_position = Vector2i(INF,INF)
-			match action:
-				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+	match action:
+		ColorPickerTool.ACTION_PICK_COLOR:
+			match state:
+				ActionHandler.State.PRESSED:	
+					var color_picker = _tool_system.get_tool(ColorPickerTool.get_tool_name())
+					var color = color_picker.pick_color(_tool_system.cursor_tool.cell_pos_floor)
+					SystemManager.ui_system.model_data_mapper.set_value("active_color", color)
+		_:
+			_draw_relavent_action_called(action, state)
+			
+func _draw_relavent_action_called(action:String, state:ActionHandler.State):
+	if state == ActionHandler.State.JUST_PRESSED:
+		_cache_pen_position = Vector2i(INF,INF)
+		_check_draw_started()
+	if not is_draw_started():
+		return 
+	match action:
+		PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+			match state:
+				ActionHandler.State.JUST_PRESSED:
 					var active_color = get_active_color()
 					set_pen_color(active_color)
 					if active_color.a > 0:
@@ -99,33 +111,25 @@ func _on_action_called(action:String, state:ActionHandler.State):
 					else:
 						set_draw_mode(ImageLayers.BlitMode.BLIT)
 					begin_draw()
-				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+				ActionHandler.State.PRESSED:
+					_auto_fluent_draw()
+				ActionHandler.State.JUST_RELEASED:
+					end_draw()
+		EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			match state:
+				ActionHandler.State.JUST_PRESSED:
 					set_pen_color(Color.TRANSPARENT)
 					set_draw_mode(ImageLayers.BlitMode.BLIT)
 					begin_draw()
-		ActionHandler.State.PRESSED:	
-			match action:
-				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+				ActionHandler.State.PRESSED:
 					_auto_fluent_draw()
-				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-					_auto_fluent_draw()
-				ColorPickerTool.ACTION_PICK_COLOR:
-					var color_picker = _tool_system.get_tool(ColorPickerTool.get_tool_name())
-					var color = color_picker.pick_color(_tool_system.cursor_tool.cell_pos_floor)
-					SystemManager.ui_system.model_data_mapper.set_value("active_color", color)
-					
-		ActionHandler.State.JUST_RELEASED:	
-			match action:
-				PencilTool.ACTION_DRAW_COLOR, ToolSystem.ACTION_TOOL_MAIN_PRESSED:
+				ActionHandler.State.JUST_RELEASED:
 					end_draw()
-				EraserTool.ACTION_ERASE_COLOR, ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
-					end_draw()
-				FillColorTool.ACTION_FILL_COLOR:
+		FillColorTool.ACTION_FILL_COLOR:
+			match state:
+				ActionHandler.State.JUST_RELEASED:
 					var fill_color = _tool_system.get_tool(FillColorTool.get_tool_name()) as FillColorTool
 					fill_color.action_fill_active_color_on_active_layer(_tool_system.cursor_tool.cell_pos_floor)
-				SelectionTool.ACTION_DESELECT_ALL:
-					var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
-					select_tool._on_action_called(SelectionTool.ACTION_DESELECT_ALL, ActionHandler.State.JUST_RELEASED)
 
 func _on_event_occurred(event:String, data:Dictionary):
 	match event:
@@ -137,6 +141,16 @@ func _on_event_occurred(event:String, data:Dictionary):
 			elif data.state == InputRecognizer.State.HOVER:
 				show_action_button_panel(true)
 				show_tool_ui(true)
+
+func _check_draw_started():
+	if not project_controller.is_layer_editable(project_controller.get_active_layer_index()):
+		_draw_started = false
+		PopupArrowPanelManager.get_from_ui_system().quick_notify_dialog("编辑失败:当前图层已锁定！")
+	else:
+		_draw_started = true
+
+func is_draw_started():
+	return _draw_started
 
 func show_tool_ui(value:bool):
 	if value:
@@ -154,26 +168,20 @@ func get_active_color():
 
 ## Action -------------------------------------------------------------------------------------------- 
 func begin_draw():
-	_draw_started = true
+	var active_layer_index = project_controller.get_active_layer_index()
 	var image_layers := project_controller.get_image_layers()
 	_blit_color_image = image_layers.new_empty_image()
 	_blit_mask_image = image_layers.new_empty_image()
-	_prev_image_layer = image_layers.get_layer(project_controller.get_active_layer_index()).duplicate(true)
+	_prev_image_layer = image_layers.get_layer(active_layer_index).duplicate(true)
 
 func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 	if not dst_list:
 		return 
-	var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
+	#var select_tool :SelectionTool = _tool_system.get_tool("selection_tool")
 	var inter_mask :Image= mask_image
 	var rect = Rect2(Vector2.ZERO, mask_image.get_size())
 	
 	for pen_pos in dst_list:
-		# TODO: 选区绘画需要更好的方式？
-		if select_tool.has_selection():
-			var selection_mask_image = select_tool.selection_mask_image.get_region(Rect2(pen_pos, rect.size))
-			inter_mask = Image.create_empty(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
-			inter_mask.blit_rect_mask(mask_image, selection_mask_image, rect, Vector2.ZERO)
-		
 		_blit_color_image.blit_rect_mask(src_image, inter_mask, rect, pen_pos)
 		_blit_mask_image.blit_rect_mask(mask_image, inter_mask, rect, pen_pos)
 	var used_rect = _blit_mask_image.get_used_rect()
@@ -188,9 +196,6 @@ func draw_list(src_image:Image, mask_image:Image, dst_list:PackedVector2Array):
 	)
 	
 func end_draw():
-	if not _draw_started:
-		return 
-	_draw_started = false
 	var used_rect = _blit_mask_image.get_used_rect()
 	# NOTE: set_layer 是为了半透明效果，必须要这么做
 	# WARNING: 这部分方法涉及到的参数非常敏感，除非出现bug或者需要新增功能否则不要轻易改动。
@@ -269,7 +274,6 @@ func _get_draw_cell_pos(cell_pos_round:Vector2i, cell_pos_floor:Vector2i) -> Vec
 	var cell_pos = cell_pos_round if _is_even_pen_size() else cell_pos_floor
 	var ofs = Vector2.ONE*pen_size*0.5
 	return cell_pos-Vector2i(ofs)
-
 
 # 生成笔刷形状的坐标偏移
 func generate_alpha_image(size: int, shape: PenShape) -> Image:

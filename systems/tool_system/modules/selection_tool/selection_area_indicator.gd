@@ -5,7 +5,6 @@ var tool :SelectionTool
 
 const MARCHING_ANTS = preload("res://assets/shader/marching_ants.gdshader")
 
-
 var _points : PackedVector2Array
 
 var _sprite : Sprite2D
@@ -41,7 +40,7 @@ func init_with_tool(p_tool:SelectionTool):
 	
 	tool.property_updated.connect(func(prop_name:String, value):
 		match prop_name:
-			"selection_mask_image":
+			"image_mask_changed":
 				if not tool._started:
 					_points.clear()
 					queue_redraw()

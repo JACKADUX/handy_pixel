@@ -1,10 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://c6y6t0ckd1yaa"]
+[gd_scene load_steps=19 format=3 uid="uid://c6y6t0ckd1yaa"]
 
 [ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="1_5hgw5"]
 [ext_resource type="Script" uid="uid://bynnlg6cyqokh" path="res://scenes/ui/image_layers_ui/image_layers_ui.gd" id="1_temu2"]
+[ext_resource type="PackedScene" uid="uid://bu4hy0uildd2x" path="res://scenes/ui/image_layers_ui/w_layer_opacity.tscn" id="2_6ku13"]
 [ext_resource type="Texture2D" uid="uid://c6vpbof8q2dyu" path="res://assets/icons/library_add_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_e1gak"]
 [ext_resource type="Texture2D" uid="uid://cs11aqx2xidq3" path="res://assets/icons/delete_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_kriey"]
 [ext_resource type="PackedScene" uid="uid://flmr31hfks82" path="res://scenes/ui/image_layers_ui/layer.tscn" id="2_temu2"]
+[ext_resource type="Texture2D" uid="uid://b7mpi33k45u0p" path="res://assets/icons/merge_down.svg" id="3_ha8yx"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="5_e1gak"]
 [ext_resource type="Texture2D" uid="uid://mh2qrrgff6ak" path="res://assets/icons/keyboard_arrow_up_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="6_kriey"]
 [ext_resource type="Texture2D" uid="uid://cohqac8xvo007" path="res://assets/icons/keyboard_arrow_down_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="7_b6ovq"]
@@ -36,19 +38,44 @@ offset_bottom = 680.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_temu2")
 script = ExtResource("1_temu2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="MergeDownButton" type="Button" parent="HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+icon = ExtResource("3_ha8yx")
+icon_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WidgetLayerOpacity" parent="HBoxContainer/VBoxContainer2" instance=ExtResource("2_6ku13")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_e1gak")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DeleteButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
+[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
 unique_name_in_owner = true
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 custom_minimum_size = Vector2(96, 0)
@@ -61,11 +88,11 @@ icon = ExtResource("2_kriey")
 flat = true
 icon_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
 
-[node name="AddLayerButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer2"]
+[node name="AddLayerButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer2"]
 unique_name_in_owner = true
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 texture_filter = 1
@@ -79,67 +106,62 @@ icon = ExtResource("2_e1gak")
 flat = true
 icon_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kriey")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer3"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/PanelContainer3"]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="ContainerAgent" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer" node_paths=PackedStringArray("container")]
+[node name="ContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer" node_paths=PackedStringArray("container")]
 unique_name_in_owner = true
 script = ExtResource("1_5hgw5")
 container = NodePath("../MarginContainer/VBoxContainer")
-metadata/_custom_type_script = "uid://200q1ddqwf1s"
 
-[node name="ScrollDragger" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer" node_paths=PackedStringArray("agent")]
+[node name="ScrollDragger" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer" node_paths=PackedStringArray("agent")]
 script = ExtResource("5_e1gak")
 agent = NodePath("..")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer3/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="Layer" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
+[node name="Layer" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
 layout_mode = 2
 
-[node name="FPWS" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer"]
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer"]
 script = ExtResource("7_w53l4")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
-[node name="Layer2" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
+[node name="Layer2" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
 layout_mode = 2
 
-[node name="FPWS2" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer2"]
+[node name="FPWS2" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer2"]
 script = ExtResource("7_w53l4")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
-[node name="Layer3" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
+[node name="Layer3" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
 layout_mode = 2
 
-[node name="FPWS3" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer3"]
+[node name="FPWS3" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer3"]
 script = ExtResource("7_w53l4")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
-[node name="Layer4" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
+[node name="Layer4" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_temu2")]
 layout_mode = 2
 
-[node name="FPWS4" type="Node" parent="VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer4"]
+[node name="FPWS4" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer3/ScrollContainer/MarginContainer/VBoxContainer/Layer4"]
 script = ExtResource("7_w53l4")
-metadata/_custom_type_script = "uid://dhboqsinyusk7"
 
-[node name="UpShadow" type="ColorRect" parent="VBoxContainer/PanelContainer3" node_paths=PackedStringArray("scroll_container")]
+[node name="UpShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer/PanelContainer3" node_paths=PackedStringArray("scroll_container")]
 material = SubResource("ShaderMaterial_b6ovq")
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
@@ -151,7 +173,7 @@ script = ExtResource("9_w53l4")
 scroll_container = NodePath("../ScrollContainer")
 type = 1
 
-[node name="DownShadow" type="ColorRect" parent="VBoxContainer/PanelContainer3" node_paths=PackedStringArray("scroll_container")]
+[node name="DownShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer/PanelContainer3" node_paths=PackedStringArray("scroll_container")]
 material = SubResource("ShaderMaterial_b6ovq")
 instance_shader_parameters/v = 0.0
 custom_minimum_size = Vector2(0, 96)
@@ -164,15 +186,15 @@ script = ExtResource("9_w53l4")
 scroll_container = NodePath("../ScrollContainer")
 type = 3
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kriey")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MoveUpButton" type="Button" parent="VBoxContainer/PanelContainer2/HBoxContainer"]
+[node name="MoveUpButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer2/HBoxContainer"]
 unique_name_in_owner = true
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 custom_minimum_size = Vector2(0, 96)
@@ -184,12 +206,12 @@ icon = ExtResource("6_kriey")
 flat = true
 icon_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer2/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/VBoxContainer/PanelContainer2/HBoxContainer"]
 visible = false
 layout_mode = 2
 theme_type_variation = &"seperator_widget_v"
 
-[node name="MoveDownButton" type="Button" parent="VBoxContainer/PanelContainer2/HBoxContainer"]
+[node name="MoveDownButton" type="Button" parent="HBoxContainer/VBoxContainer/PanelContainer2/HBoxContainer"]
 unique_name_in_owner = true
 self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
 custom_minimum_size = Vector2(0, 96)

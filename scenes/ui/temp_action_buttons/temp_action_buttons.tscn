@@ -1,0 +1,144 @@
+[gd_scene load_steps=11 format=3 uid="uid://cjqisd86dg4bc"]
+
+[ext_resource type="Script" uid="uid://cifsbhaq1hdqw" path="res://scenes/ui/temp_action_buttons/temp_action_buttons.gd" id="1_vt1vw"]
+[ext_resource type="Texture2D" uid="uid://do5cigr54uh5b" path="res://assets/icons/delete_48.svg" id="2_g1e2q"]
+[ext_resource type="Texture2D" uid="uid://c2upk7f85no2s" path="res://assets/icons/copy_48.svg" id="2_xhjrc"]
+[ext_resource type="Texture2D" uid="uid://ptrpoqggmrb0" path="res://assets/icons/cancel_select.svg" id="3_m3cox"]
+[ext_resource type="Texture2D" uid="uid://882xwwym5sa8" path="res://assets/icons/close_24.svg" id="4_7llpl"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_g1e2q"]
+[ext_resource type="Script" uid="uid://n5gnb3d31j7v" path="res://systems/project_system/module/project_controller_action_requester.gd" id="4_m3cox"]
+[ext_resource type="Texture2D" uid="uid://cvaqbx2kejoay" path="res://assets/icons/paste_48.svg" id="5_fyk2g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7llpl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l5pw0"]
+bg_color = Color(0.152344, 0.152344, 0.152344, 0.517647)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="TempActionButtons" type="MarginContainer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -255.0
+offset_top = -96.0
+offset_right = 255.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("1_vt1vw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="CopySelectButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("2_xhjrc")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/CopySelectButton"]
+script = ExtResource("4_g1e2q")
+title = "复制选区"
+tooltip = "复制当前选区的内容"
+duration = 3.0
+metadata/_custom_type_script = "uid://dr2vyuwskcgl3"
+
+[node name="ProjectControllerActionRequester" type="Node" parent="HBoxContainer/CopySelectButton"]
+script = ExtResource("4_m3cox")
+action_name = "ImageMaskCopy"
+
+[node name="PastSelectButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("5_fyk2g")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/PastSelectButton"]
+script = ExtResource("4_g1e2q")
+title = "粘贴"
+tooltip = "粘贴复制的内容"
+duration = 3.0
+metadata/_custom_type_script = "uid://dr2vyuwskcgl3"
+
+[node name="ProjectControllerActionRequester" type="Node" parent="HBoxContainer/PastSelectButton"]
+script = ExtResource("4_m3cox")
+action_name = "ImageMaskPaste"
+
+[node name="ClearPastDataButton" type="Button" parent="HBoxContainer/PastSelectButton"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7llpl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_l5pw0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l5pw0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l5pw0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_l5pw0")
+icon = ExtResource("4_7llpl")
+icon_alignment = 1
+
+[node name="ProjectControllerActionRequester" type="Node" parent="HBoxContainer/PastSelectButton/ClearPastDataButton"]
+script = ExtResource("4_m3cox")
+action_name = "ClearImageMaskCopyData"
+
+[node name="DeleteSelectButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("2_g1e2q")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/DeleteSelectButton"]
+script = ExtResource("4_g1e2q")
+title = "清空选区"
+tooltip = "清空当前的选区"
+duration = 3.0
+metadata/_custom_type_script = "uid://dr2vyuwskcgl3"
+
+[node name="ProjectControllerActionRequester" type="Node" parent="HBoxContainer/DeleteSelectButton"]
+script = ExtResource("4_m3cox")
+action_name = "ImageMaskDelete"
+
+[node name="CancelSelectButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+theme_override_constants/icon_max_width = 48
+icon = ExtResource("3_m3cox")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/CancelSelectButton"]
+script = ExtResource("4_g1e2q")
+title = "取消选区"
+tooltip = "取消当前的选区"
+duration = 3.0
+metadata/_custom_type_script = "uid://dr2vyuwskcgl3"
+
+[node name="ProjectControllerActionRequester" type="Node" parent="HBoxContainer/CancelSelectButton"]
+script = ExtResource("4_m3cox")
+action_name = "ClearImageMask"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=49 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -37,11 +37,14 @@
 [ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
 [ext_resource type="PackedScene" uid="uid://f7yrqg5ge5gk" path="res://components/dialogs/tooltip_dialog.tscn" id="27_pa3n2"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
+[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="30_h7igw"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
+[ext_resource type="PackedScene" uid="uid://cichbtv1kgsti" path="res://scenes/ui/components/layer_prop_indicater.tscn" id="31_puycq"]
 [ext_resource type="PackedScene" uid="uid://ybxugb3nobbe" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd.tscn" id="34_lkvmi"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="38_h7igw"]
 [ext_resource type="Script" uid="uid://dpp2tqk3w1pmq" path="res://scenes/ui/components/camera_info.gd" id="40_y0kyo"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
+[ext_resource type="PackedScene" uid="uid://cjqisd86dg4bc" path="res://scenes/ui/temp_action_buttons/temp_action_buttons.tscn" id="42_h7igw"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_0xdx3"]
 allow_unpress = true
@@ -497,6 +500,46 @@ script = ExtResource("8_qmss2")
 popup_panel_scene = ExtResource("23_pa3n2")
 panel_offset = Vector2(0, 200)
 
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_bottom = 26.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+
+[node name="IndexLabel" type="Label" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(0.0976563, 0.0976563, 0.0976563, 1)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.964706, 0.964706, 0.964706, 1)
+theme_override_fonts/font = ExtResource("30_h7igw")
+theme_override_font_sizes/font_size = 16
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LayerPropIndicater" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton" node_paths=PackedStringArray("index_lable") instance=ExtResource("31_puycq")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -46.0
+offset_right = 0.0
+offset_bottom = 46.0
+grow_vertical = 2
+index_lable = NodePath("../MarginContainer/IndexLabel")
+
 [node name="ColorSelectionButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/RightBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
@@ -569,6 +612,10 @@ disabled = true
 icon = ExtResource("17_o2sfg")
 icon_alignment = 2
 expand_icon = true
+
+[node name="TempActionButtons" parent="MainPanel/VBoxContainer/BottomBar" instance=ExtResource("42_h7igw")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="RedoButton" type="Button" parent="MainPanel/VBoxContainer/BottomBar"]
 unique_name_in_owner = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6y6t0ckd1yaa"]
+[gd_scene load_steps=24 format=3 uid="uid://c6y6t0ckd1yaa"]
 
 [ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="1_5hgw5"]
 [ext_resource type="Script" uid="uid://bynnlg6cyqokh" path="res://scenes/ui/image_layers_ui/image_layers_ui.gd" id="1_temu2"]
@@ -6,10 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://c6vpbof8q2dyu" path="res://assets/icons/library_add_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_e1gak"]
 [ext_resource type="Texture2D" uid="uid://cs11aqx2xidq3" path="res://assets/icons/delete_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="2_kriey"]
 [ext_resource type="PackedScene" uid="uid://flmr31hfks82" path="res://scenes/ui/image_layers_ui/layer.tscn" id="2_temu2"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="3_1nnl3"]
 [ext_resource type="Texture2D" uid="uid://b7mpi33k45u0p" path="res://assets/icons/merge_down.svg" id="3_ha8yx"]
+[ext_resource type="Texture2D" uid="uid://d0pukt5cox26n" path="res://assets/icons/outline.svg" id="4_jgmjq"]
+[ext_resource type="Script" uid="uid://3x7ykqpcwxmj" path="res://components/outline_generate/outline_generate_caller.gd" id="5_1nnl3"]
 [ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="5_e1gak"]
+[ext_resource type="Texture2D" uid="uid://duouu4o5hicg3" path="res://assets/icons/color_switch.svg" id="5_sf231"]
 [ext_resource type="Texture2D" uid="uid://mh2qrrgff6ak" path="res://assets/icons/keyboard_arrow_up_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="6_kriey"]
 [ext_resource type="Texture2D" uid="uid://cohqac8xvo007" path="res://assets/icons/keyboard_arrow_down_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="7_b6ovq"]
+[ext_resource type="Script" uid="uid://bgh4j8cbug710" path="res://components/color_switch/color_switch_caller.gd" id="7_jgmjq"]
 [ext_resource type="Shader" uid="uid://dsrhe3ayjhwqn" path="res://assets/shader/quad_map.gdshader" id="7_kriey"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="7_w53l4"]
 [ext_resource type="Script" uid="uid://c6ob21ox68x3t" path="res://addons/handy_nodes/nodes/scroll_border_indicator.gd" id="9_w53l4"]
@@ -43,16 +48,55 @@ layout_mode = 2
 theme_override_constants/separation = 24
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
-visible = false
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 8
 
 [node name="MergeDownButton" type="Button" parent="HBoxContainer/VBoxContainer3"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
+theme_type_variation = &"base_button"
 icon = ExtResource("3_ha8yx")
 icon_alignment = 1
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/VBoxContainer3/MergeDownButton"]
+script = ExtResource("3_1nnl3")
+title = "向下合并"
+tooltip = "将当前图层和下方图层进行合并"
+duration = 6.0
+
+[node name="OutlineButton" type="Button" parent="HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+icon = ExtResource("4_jgmjq")
+icon_alignment = 1
+
+[node name="OutlineGenerateCaller" type="Node" parent="HBoxContainer/VBoxContainer3/OutlineButton"]
+script = ExtResource("5_1nnl3")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/VBoxContainer3/OutlineButton"]
+script = ExtResource("3_1nnl3")
+title = "描边生成"
+tooltip = "创建当前图层或者选区内容的描边"
+duration = 6.0
+
+[node name="ColorSwitchButton" type="Button" parent="HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+theme_type_variation = &"base_button"
+icon = ExtResource("5_sf231")
+icon_alignment = 1
+
+[node name="ColorSwitchCaller" type="Node" parent="HBoxContainer/VBoxContainer3/ColorSwitchButton"]
+script = ExtResource("7_jgmjq")
+
+[node name="PopupTextTooltipHelper" type="Node" parent="HBoxContainer/VBoxContainer3/ColorSwitchButton"]
+script = ExtResource("3_1nnl3")
+title = "颜色替换"
+tooltip = "替换当前图层或者选区所选的颜色"
+duration = 6.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 custom_minimum_size = Vector2(96, 0)

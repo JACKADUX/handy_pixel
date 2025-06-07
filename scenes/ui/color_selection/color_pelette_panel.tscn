@@ -1,0 +1,181 @@
+[gd_scene load_steps=21 format=3 uid="uid://dvnhjf3n30j1x"]
+
+[ext_resource type="Texture2D" uid="uid://c36h8iduw2ylf" path="res://assets/icons/remove_list.svg" id="1_bwgey"]
+[ext_resource type="Script" uid="uid://srpkjro7t6yu" path="res://scenes/ui/color_selection/color_pelette_panel.gd" id="1_i7v56"]
+[ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="2_i7v56"]
+[ext_resource type="Texture2D" uid="uid://cwmydkpklmuiq" path="res://assets/icons/add_list.svg" id="3_flfsw"]
+[ext_resource type="Texture2D" uid="uid://capu0qrpvjyjw" path="res://assets/icons/list.svg" id="4_oo2qn"]
+[ext_resource type="Script" uid="uid://cmmcv7w2km2vp" path="res://addons/handy_nodes/mvc_component/view_adapters/menu_button_view_adapter.gd" id="5_2xsqm"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc_component/general_controller.gd" id="6_sipfm"]
+[ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="7_g2rc1"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="8_fqhob"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="9_dayiw"]
+[ext_resource type="Script" uid="uid://dmowc0un73wpr" path="res://scenes/ui/color_selection/color_selection_handler.gd" id="10_1v15f"]
+[ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="11_4jf2v"]
+[ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="12_al6t6"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="13_abohd"]
+[ext_resource type="Shader" uid="uid://dsrhe3ayjhwqn" path="res://assets/shader/quad_map.gdshader" id="14_dw0jh"]
+[ext_resource type="Script" uid="uid://c6ob21ox68x3t" path="res://addons/handy_nodes/nodes/scroll_border_indicator.gd" id="15_s0xj3"]
+[ext_resource type="Texture2D" uid="uid://bvhmll860k3ps" path="res://assets/icons/remove_color.svg" id="16_1awve"]
+[ext_resource type="Texture2D" uid="uid://dd2iw51w8a3us" path="res://assets/icons/add_color.svg" id="17_eb27s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3am5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nw6s"]
+shader = ExtResource("14_dw0jh")
+
+[node name="ColorPalettePanel" type="VBoxContainer"]
+theme_override_constants/separation = 16
+script = ExtResource("1_i7v56")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RemovePaletteButton" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("1_bwgey")
+flat = true
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="HBoxContainer2/RemovePaletteButton"]
+script = ExtResource("2_i7v56")
+title = "删除色卡"
+tooltip = "删除当前选择的色卡。不可撤回。"
+duration = 5.0
+
+[node name="Control2" type="Control" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddPaletteButton" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("3_flfsw")
+flat = true
+
+[node name="PopupTextTooltipHelper6" type="Node" parent="HBoxContainer2/AddPaletteButton"]
+script = ExtResource("2_i7v56")
+title = "新增色卡"
+tooltip = "创建新的色卡。"
+duration = 5.0
+
+[node name="MenuButton" type="MenuButton" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+icon = ExtResource("4_oo2qn")
+
+[node name="OptionButtonViewAdapter" type="Node" parent="HBoxContainer2/MenuButton"]
+script = ExtResource("5_2xsqm")
+
+[node name="GeneralController" type="Node" parent="HBoxContainer2/MenuButton/OptionButtonViewAdapter"]
+script = ExtResource("6_sipfm")
+model = ExtResource("7_g2rc1")
+prop_name = "active_palette_index"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_o3am5")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="PanelContainer/ScrollContainer"]
+script = ExtResource("8_fqhob")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="PanelContainer/ScrollContainer" node_paths=PackedStringArray("container_agent")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("9_dayiw")
+container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="ColorSelectionHandler" type="Node" parent="PanelContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("color_palette_generator")]
+script = ExtResource("10_1v15f")
+color_palette_generator = NodePath("..")
+model_data_mapper = ExtResource("7_g2rc1")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="PanelContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("11_4jf2v")
+container = NodePath("../HFlowContainer")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/ScrollContainer/ColorPaletteGenerator"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="AdvancedColorPanel" parent="PanelContainer/ScrollContainer/ColorPaletteGenerator/HFlowContainer" instance=ExtResource("12_al6t6")]
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="PanelContainer/ScrollContainer/ColorPaletteGenerator/HFlowContainer/AdvancedColorPanel"]
+script = ExtResource("13_abohd")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="UpShadow" type="ColorRect" parent="PanelContainer" node_paths=PackedStringArray("scroll_container")]
+material = SubResource("ShaderMaterial_5nw6s")
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.23)
+script = ExtResource("15_s0xj3")
+scroll_container = NodePath("../ScrollContainer")
+type = 1
+
+[node name="DownShadow" type="ColorRect" parent="PanelContainer" node_paths=PackedStringArray("scroll_container")]
+material = SubResource("ShaderMaterial_5nw6s")
+instance_shader_parameters/v = 0.0
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+mouse_filter = 2
+color = Color(0, 0, 0, 0.25)
+script = ExtResource("15_s0xj3")
+scroll_container = NodePath("../ScrollContainer")
+type = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RemoveColorButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("16_1awve")
+flat = true
+
+[node name="PopupTextTooltipHelper6" type="Node" parent="HBoxContainer/RemoveColorButton"]
+script = ExtResource("2_i7v56")
+title = "删除颜色"
+tooltip = "去除当前选择的颜色或者末端的颜色。不可撤回。"
+duration = 5.0
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddColorButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("17_eb27s")
+flat = true
+
+[node name="PopupTextTooltipHelper7" type="Node" parent="HBoxContainer/AddColorButton"]
+script = ExtResource("2_i7v56")
+title = "添加颜色"
+tooltip = "给色卡添加当前选择的颜色。"
+duration = 5.0

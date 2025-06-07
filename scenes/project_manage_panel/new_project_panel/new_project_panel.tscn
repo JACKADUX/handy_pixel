@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="5_t1ats"]
 [ext_resource type="Script" uid="uid://b0ddeg4g3xfmg" path="res://addons/handy_nodes/mvc_component/view_adapters/value_combine_adapter.gd" id="5_wxudy"]
 [ext_resource type="Texture2D" uid="uid://d3pv6ixfej7dl" path="res://assets/icons/width.svg" id="9_vp61n"]
-[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://scenes/ui/components/keyboard_caller.gd" id="10_ll40s"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://components/keyboard/keyboard_caller.gd" id="10_ll40s"]
 [ext_resource type="Texture2D" uid="uid://cw82aco636sv8" path="res://assets/icons/height.svg" id="12_vmpnl"]
 [ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="13_vp61n"]
 

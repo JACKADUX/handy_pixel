@@ -8,14 +8,14 @@ func clear():
 func get_touch_count() -> int:
 	var count = 0
 	for input_data:InputData in _datas:
-		if input_data.pressed:
+		if input_data and input_data.pressed:
 			count += 1
 	return count
 
 func get_drag_count() -> int:
 	var count = 0
 	for input_data:InputData in _datas:
-		if input_data.pressed and input_data.draged:
+		if input_data and input_data.pressed and input_data.draged:
 			count += 1
 	return count
 

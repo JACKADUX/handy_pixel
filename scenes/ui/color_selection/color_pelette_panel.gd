@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+signal value_changed(value:Color)
+
 @onready var color_palette_generator: ColorPaletteGenerator = %ColorPaletteGenerator
 @onready var menu_button: MenuButton = %MenuButton
 @onready var add_color_button:= %AddColorButton
@@ -12,17 +14,16 @@ func _ready() -> void:
 	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, value:Variant):
 		match prop_name:
 			"palettes":
-				var popup = menu_button.get_popup()
-				popup.clear()
-				for index:int in value.size():
-					popup.add_icon_item(SystemManager.color_system._palette_map_textures[index], "")
+				update_menu()
+	)
+	
+	color_palette_generator.color_selected.connect(func(value):
+		value_changed.emit(value)
 	)
 	
 	add_color_button.pressed.connect(func():
 		SystemManager.color_system.with_in_active_palette(func(colors:PackedColorArray):
 			var color = SystemManager.color_system.get_active_color()
-			#if color in colors:
-			#	return true
 			colors.append(color)
 		)
 	)
@@ -39,6 +40,7 @@ func _ready() -> void:
 			colors.remove_at(index)
 		)
 	)
+	
 	remove_palette_button.pressed.connect(func():
 		var center = remove_palette_button.global_position + remove_palette_button.get_rect().get_center()
 		var dialog = PopupArrowPanelManager.get_from_ui_system().confirm_dialog(center+Vector2(0, 96))
@@ -46,5 +48,11 @@ func _ready() -> void:
 			SystemManager.color_system.remove_palette()
 		)
 	)
-
 	
+	update_menu()
+	
+func update_menu():
+	var popup = menu_button.get_popup()
+	popup.clear()
+	for index:int in SystemManager.color_system.get_palettes_count():
+		popup.add_icon_item(SystemManager.color_system._palette_map_textures[index], "")

@@ -66,8 +66,8 @@ func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
 	return
 
 
-static func get_from_system(key:String) -> ComputeShaderObject:
-	return SystemManager.compute_shader_system.get_compute_shader_object(key)
+#static func get_from_system(key:String) -> ComputeShaderObject:
+	#return SystemManager.compute_shader_system.get_compute_shader_object(key)
 
 
 class ComputeShaderData: pass

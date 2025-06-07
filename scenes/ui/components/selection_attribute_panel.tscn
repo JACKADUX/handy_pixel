@@ -1,12 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://drhwvq1d8binf"]
+[gd_scene load_steps=14 format=3 uid="uid://drhwvq1d8binf"]
 
 [ext_resource type="Script" uid="uid://dwnuqna7iwuwe" path="res://scenes/ui/components/toggle_button_widget.gd" id="1_mas42"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_2nh30"]
+[ext_resource type="Texture2D" uid="uid://ckr1kncipa12m" path="res://assets/icons/square_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="3_4e1cw"]
 [ext_resource type="Texture2D" uid="uid://ddxk01e58vwxi" path="res://assets/icons/layer_new.svg" id="3_xgo10"]
 [ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_2nh30"]
 [ext_resource type="Texture2D" uid="uid://bfto6ddbliw4r" path="res://assets/icons/layer_union.svg" id="4_mas42"]
 [ext_resource type="Texture2D" uid="uid://cdrd5f6fsr3ji" path="res://assets/icons/layer_sub.svg" id="5_2nh30"]
+[ext_resource type="Texture2D" uid="uid://ceqfvon2p1rml" path="res://assets/icons/wand.svg" id="5_88rds"]
 [ext_resource type="Texture2D" uid="uid://djfn8rtb5epf" path="res://assets/icons/layer_difference.svg" id="6_xgo10"]
+[ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="10_qerwy"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://components/keyboard/keyboard_caller.gd" id="11_7cncd"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_qerwy"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
 
@@ -14,6 +20,67 @@
 offset_right = 243.0
 offset_bottom = 239.0
 theme_override_constants/separation = 48
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_type_variation = &"base_panel"
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer2"]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"clip_panel"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ToggleButtonView" type="Node" parent="PanelContainer2/PanelContainer/HBoxContainer" node_paths=PackedStringArray("button_datas")]
+script = ExtResource("1_mas42")
+button_datas = {
+NodePath("../AreaButton"): 1,
+NodePath("../WandButton"): 2
+}
+
+[node name="ToolDataController" type="Node" parent="PanelContainer2/PanelContainer/HBoxContainer/ToggleButtonView"]
+script = ExtResource("2_2nh30")
+tool_name = "selection_tool"
+prop_name = "mode"
+
+[node name="AreaButton" type="Button" parent="PanelContainer2/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_qerwy")
+icon = ExtResource("3_4e1cw")
+icon_alignment = 1
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer2/PanelContainer/HBoxContainer/AreaButton"]
+script = ExtResource("4_2nh30")
+title = "区域选择"
+duration = 3.0
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="WandButton" type="Button" parent="PanelContainer2/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"tab_button"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qerwy")
+icon = ExtResource("5_88rds")
+icon_alignment = 1
+
+[node name="PopupTextTooltipHelper5" type="Node" parent="PanelContainer2/PanelContainer/HBoxContainer/WandButton"]
+script = ExtResource("4_2nh30")
+title = "魔棒工具"
+tooltip = "会选择画布中所有相同的颜色。"
+duration = 3.0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
@@ -26,8 +93,8 @@ theme_type_variation = &"clip_panel"
 
 [node name="HBoxContainer" type="GridContainer" parent="PanelContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 4
 columns = 2
 
 [node name="ToggleButtonView" type="Node" parent="PanelContainer/PanelContainer/HBoxContainer" node_paths=PackedStringArray("button_datas")]
@@ -50,6 +117,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"tab_button"
 toggle_mode = true
+button_pressed = true
 button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("3_xgo10")
 icon_alignment = 1
@@ -95,7 +163,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"tab_button"
 toggle_mode = true
-button_pressed = true
 button_group = SubResource("ButtonGroup_je0kj")
 icon = ExtResource("6_xgo10")
 icon_alignment = 1
@@ -104,3 +171,31 @@ icon_alignment = 1
 script = ExtResource("4_2nh30")
 title = "交集选区"
 duration = 3.0
+
+[node name="CustomSpinBoxWidget" parent="." instance=ExtResource("10_qerwy")]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+widget_layout_mode = 0
+min_value = 0
+max_value = 255
+drag_factor = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="CustomSpinBoxWidget"]
+modulate = Color(0.196078, 0.192157, 0.176471, 0.482353)
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+texture = ExtResource("5_88rds")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ToolDataController" type="Node" parent="CustomSpinBoxWidget"]
+script = ExtResource("2_2nh30")
+tool_name = "selection_tool"
+prop_name = "wand_tolarence"
+
+[node name="KeyboardCaller" type="Node" parent="CustomSpinBoxWidget"]
+script = ExtResource("11_7cncd")

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://xwf3y70npyiy"]
+
+[ext_resource type="Script" uid="uid://ltm0r0tyfdkq" path="res://scenes/ui/color_selection/color_selection.gd" id="1_2qx2g"]
+[ext_resource type="PackedScene" uid="uid://dvnhjf3n30j1x" path="res://scenes/ui/color_selection/color_pelette_panel.tscn" id="2_vmf6y"]
+[ext_resource type="PackedScene" uid="uid://ci5cxde6n84l4" path="res://scenes/ui/color_selection/color_pickers_panel.tscn" id="3_e14gm"]
+
+[node name="ColorSelection" type="VBoxContainer"]
+offset_right = 1136.0
+offset_bottom = 696.0
+size_flags_vertical = 3
+script = ExtResource("1_2qx2g")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ColorPalettePanel" parent="HBoxContainer" instance=ExtResource("2_vmf6y")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ColorPickersPanel" parent="HBoxContainer" instance=ExtResource("3_e14gm")]
+unique_name_in_owner = true
+layout_mode = 2

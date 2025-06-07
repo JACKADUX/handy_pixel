@@ -1,0 +1,169 @@
+[gd_scene load_steps=15 format=3 uid="uid://dckbwifapogr4"]
+
+[ext_resource type="Script" uid="uid://br8dt2bbk1s1l" path="res://components/color_switch/color_switch.gd" id="1_0x0at"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="2_euibx"]
+[ext_resource type="Script" uid="uid://c3na8v4holaws" path="res://components/color_panel/color_palette_generator.gd" id="3_fcglf"]
+[ext_resource type="Script" uid="uid://djjcpadwhefev" path="res://addons/handy_nodes/nodes/container_agent.gd" id="4_jjr6g"]
+[ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="5_eiqp0"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="5_mh4nn"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="6_apd4a"]
+[ext_resource type="Shader" uid="uid://dsrhe3ayjhwqn" path="res://assets/shader/quad_map.gdshader" id="7_3qpod"]
+[ext_resource type="Script" uid="uid://c6ob21ox68x3t" path="res://addons/handy_nodes/nodes/scroll_border_indicator.gd" id="8_2v7kl"]
+[ext_resource type="PackedScene" uid="uid://cagu6t0ycb7lu" path="res://scenes/ui/color_selection/color_selection_button.tscn" id="8_nk7i1"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="9_nwa2b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qcgmn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_64g41"]
+shader = ExtResource("7_3qpod")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4tgj"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="ColorSwitch" type="VBoxContainer"]
+offset_right = 1392.0
+offset_bottom = 776.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+alignment = 1
+script = ExtResource("1_0x0at")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_qcgmn")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(610, 610)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollDragger" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer"]
+script = ExtResource("2_euibx")
+
+[node name="ColorPaletteGenerator" type="MarginContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer" node_paths=PackedStringArray("container_agent")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("3_fcglf")
+container_agent = NodePath("ColorPaletteContainerAgent")
+
+[node name="ColorPaletteContainerAgent" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/ColorPaletteGenerator" node_paths=PackedStringArray("container")]
+script = ExtResource("4_jjr6g")
+container = NodePath("../HFlowContainer")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/ColorPaletteGenerator"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="AdvancedColorPanel" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/ColorPaletteGenerator/HFlowContainer" instance=ExtResource("5_eiqp0")]
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="HBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/ColorPaletteGenerator/HFlowContainer/AdvancedColorPanel"]
+script = ExtResource("6_apd4a")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="UpShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer/PanelContainer" node_paths=PackedStringArray("scroll_container")]
+material = SubResource("ShaderMaterial_64g41")
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.23)
+script = ExtResource("8_2v7kl")
+scroll_container = NodePath("../ScrollContainer")
+type = 1
+
+[node name="DownShadow" type="ColorRect" parent="HBoxContainer/VBoxContainer/PanelContainer" node_paths=PackedStringArray("scroll_container")]
+material = SubResource("ShaderMaterial_64g41")
+instance_shader_parameters/v = 0.0
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+mouse_filter = 2
+color = Color(0, 0, 0, 0.25)
+script = ExtResource("8_2v7kl")
+scroll_container = NodePath("../ScrollContainer")
+type = 3
+
+[node name="InfoLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890625, 0.890625, 0.890625, 1)
+text = "128 -> 64"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="HBoxContainer"]
+custom_minimum_size = Vector2(600, 600)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4tgj")
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Panel"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mh4nn")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="OriTextureRect" type="TextureRect" parent="HBoxContainer/Panel"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Panel"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorSelectionButton" parent="HBoxContainer" instance=ExtResource("8_nk7i1")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("9_nwa2b")]
+unique_name_in_owner = true
+layout_mode = 2

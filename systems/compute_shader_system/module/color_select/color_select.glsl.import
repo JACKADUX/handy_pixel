@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dhfvdli0vb74y"
+path="res://.godot/imported/color_select.glsl-9aa830fd67b57270d2e071f007bff04a.res"
+
+[deps]
+
+source_file="res://systems/compute_shader_system/module/color_select/color_select.glsl"
+dest_files=["res://.godot/imported/color_select.glsl-9aa830fd67b57270d2e071f007bff04a.res"]
+
+[params]
+

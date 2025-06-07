@@ -1,4 +1,5 @@
-class_name CSO_FloodFill extends ComputeShaderObject
+# class_name CSO_FloodFill 
+extends ComputeShaderObject
 
 var input_image_rid: RID
 var input_mask_rid: RID
@@ -73,7 +74,7 @@ func _prepare_resources(compute_shader_data:ComputeShaderData):
 	params_buffer_RID = rd.storage_buffer_create(buffer_data.size(), buffer_data)
 	add_to_free_list(params_buffer_RID)
 	
-	var counter_data = PackedInt32Array([0, 0]).to_byte_array()
+	var counter_data = PackedInt32Array([0]).to_byte_array()
 	counter_buffer_RID = rd.storage_buffer_create(counter_data.size(), counter_data)
 	add_to_free_list(counter_buffer_RID)
 	
@@ -123,10 +124,8 @@ func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 	rd.buffer_update(params_buffer_RID, 0, buffer_data.size(), buffer_data)
 	
 	# begin
-	#NOTE: hv_pass 0 水平，1 垂直。由于手机端会出现未知原因的不完整填充 所以暂时关闭这个功能，但不影响结果
-	var hv_pass: int = 0 
 	for i in max_iter:
-		var counter_data = PackedInt32Array([0, hv_pass]).to_byte_array()
+		var counter_data = PackedInt32Array([0]).to_byte_array()
 		rd.buffer_update(counter_buffer_RID, 0, counter_data.size(), counter_data)
 		
 		var compute_list := rd.compute_list_begin()
@@ -141,7 +140,7 @@ func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 		var outdata = rd.buffer_get_data(counter_buffer_RID, 0, counter_data.size()).to_int32_array()
 		if outdata[0] == 0:
 			break
-		hv_pass = 1 - hv_pass
+
 	# out
 	var output_data = rd.texture_get_data(output_image_rid, 0)
 	var output_image = Image.create_from_data(tex_size.x, tex_size.y, false, Image.FORMAT_RGBA8, output_data)
@@ -176,7 +175,6 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 		return sqr <= tolerance*tolerance
 		
 	var counter := 0
-	var hv_pass = 0
 	while true:
 		if not poss:
 			break
@@ -187,7 +185,7 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 		for pos in poss:
 			output_image.set_pixelv(pos, fill_color)
 			var left = pos.x
-			while hv_pass:
+			while true:
 				left -= 1
 				if left < 0: break
 				var coord = Vector2(left, pos.y)
@@ -200,7 +198,7 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 				next_poss.append(coord)
 				
 			var right = pos.x
-			while hv_pass:
+			while true:
 				right += 1
 				if right >= w: break
 				var coord = Vector2(right, pos.y)
@@ -212,7 +210,7 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 					break
 				next_poss.append(coord)
 			var top = pos.y
-			while not hv_pass:
+			while true:
 				top -= 1
 				if top < 0: break
 				var coord = Vector2(pos.x, top)
@@ -224,7 +222,7 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 					break
 				next_poss.append(coord)
 			var bottom = pos.y
-			while not hv_pass:
+			while true:
 				bottom += 1
 				if bottom >= h: break
 				var coord = Vector2(pos.x, bottom)
@@ -236,7 +234,6 @@ static func floor_fill_cpu(image: Image, mask: Image, qury_pos: Vector2i, fill_c
 					break
 				next_poss.append(coord)
 		poss = next_poss
-		hv_pass = 1- hv_pass
 	return output_image
 
 class FloodFillData extends ComputeShaderData:

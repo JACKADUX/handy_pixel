@@ -1,4 +1,5 @@
-class_name Ellipse extends ComputeShaderObject
+# class_name Ellipse 
+extends ComputeShaderObject
 
 # FIXME: gpu 和 cpu 算法结果不一样
 

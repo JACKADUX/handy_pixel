@@ -18,7 +18,10 @@ extends Control
 func _ready() -> void:
 	SystemManager.ui_system.ui = self
 	%HomeButton.pressed.connect(open_projects_panel)
-	
+	%SaveButton.pressed.connect(func():
+		SystemManager.save_data()
+		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("保存成功！", Vector2.ZERO)
+	)
 	
 func open_projects_panel():
 	const ProjectManagePanel = preload("res://scenes/project_manage_panel/project_manage_panel.gd")

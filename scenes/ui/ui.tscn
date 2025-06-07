@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=55 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -18,7 +18,7 @@
 [ext_resource type="FontFile" uid="uid://cog58ofm8xw8o" path="res://assets/fonts/DMSans-Medium.ttf" id="10_pa3n2"]
 [ext_resource type="Texture2D" uid="uid://b66sa50fjhg6n" path="res://assets/icons/palette_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="14_7ygsn"]
 [ext_resource type="PackedScene" uid="uid://bwlq377qokg4n" path="res://scenes/ui/components/pen_attribute_panel.tscn" id="15_7ygsn"]
-[ext_resource type="PackedScene" uid="uid://xwf3y70npyiy" path="res://scenes/ui/components/color_selection.tscn" id="15_oopc8"]
+[ext_resource type="PackedScene" uid="uid://xwf3y70npyiy" path="res://scenes/ui/color_selection/color_selection.tscn" id="15_oopc8"]
 [ext_resource type="Texture2D" uid="uid://s2gp8byvgypg" path="res://assets/icons/polyline_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="16_272wc"]
 [ext_resource type="Texture2D" uid="uid://b37jm4is53q" path="res://assets/icons/pencil.svg" id="16_lkvmi"]
 [ext_resource type="Script" uid="uid://bq16oqrhtgqyw" path="res://scenes/ui/active_tool_requester.gd" id="16_ydrdt"]
@@ -36,15 +36,21 @@
 [ext_resource type="PackedScene" uid="uid://yho2ooro7uxu" path="res://scenes/ui/components/shape_attribute_panel.tscn" id="24_lw3t2"]
 [ext_resource type="Script" uid="uid://btquogkbtf62w" path="res://components/popup_arrow_panel_manager/popup_arrow_panel_manager.gd" id="27_khplb"]
 [ext_resource type="PackedScene" uid="uid://f7yrqg5ge5gk" path="res://components/dialogs/tooltip_dialog.tscn" id="27_pa3n2"]
+[ext_resource type="Texture2D" uid="uid://c2xwcc76whn47" path="res://assets/icons/save.svg" id="28_dxwg8"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
 [ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="30_h7igw"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://cichbtv1kgsti" path="res://scenes/ui/components/layer_prop_indicater.tscn" id="31_puycq"]
+[ext_resource type="Script" uid="uid://bngvhqw0p556k" path="res://components/popup_arrow_panel_manager/popup_panel_plugin_helper.gd" id="33_1vftb"]
 [ext_resource type="PackedScene" uid="uid://ybxugb3nobbe" path="res://scenes/tool_ui_control.gd/tool_ui_control.gd.tscn" id="34_lkvmi"]
 [ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="38_h7igw"]
 [ext_resource type="Script" uid="uid://dpp2tqk3w1pmq" path="res://scenes/ui/components/camera_info.gd" id="40_y0kyo"]
 [ext_resource type="PackedScene" uid="uid://qq0lx8rkpbnw" path="res://components/popup_arrow_panel_manager/popup_arrow_panel.tscn" id="41_lw3t2"]
 [ext_resource type="PackedScene" uid="uid://cjqisd86dg4bc" path="res://scenes/ui/temp_action_buttons/temp_action_buttons.tscn" id="42_h7igw"]
+[ext_resource type="Script" uid="uid://3214mp32ykpt" path="res://components/popup_arrow_panel_manager/popup_panel_plugin.gd" id="47_2adqd"]
+[ext_resource type="PackedScene" uid="uid://bj0g15wddammq" path="res://components/outline_generate/outline_generate.tscn" id="48_vcaq3"]
+[ext_resource type="PackedScene" uid="uid://c3gijbd20i1q2" path="res://components/keyboard/keyboard.tscn" id="49_vcaq3"]
+[ext_resource type="PackedScene" uid="uid://dckbwifapogr4" path="res://components/color_switch/color_switch.tscn" id="51_oyxrf"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_0xdx3"]
 allow_unpress = true
@@ -485,6 +491,17 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 24
 
+[node name="SaveButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/RightBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"base_button"
+icon = ExtResource("28_dxwg8")
+icon_alignment = 1
+expand_icon = true
+
 [node name="LayerButton" type="Button" parent="MainPanel/VBoxContainer/MiddleBar/RightBar"]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
@@ -549,10 +566,9 @@ theme_type_variation = &"base_button"
 icon_alignment = 1
 expand_icon = true
 
-[node name="PopupArrowHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
-script = ExtResource("8_qmss2")
-popup_panel_scene = ExtResource("15_oopc8")
-panel_offset = Vector2(0, 90)
+[node name="PopupPanelPluginHelper" type="Node" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
+script = ExtResource("33_1vftb")
+plugin_name = "color_selection"
 
 [node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/ColorSelectionButton"]
 layout_mode = 1
@@ -675,6 +691,26 @@ offset_bottom = 114.0
 
 [node name="FPWS" type="Node" parent="PopupArrowPanelManager/PopupArrowPanel"]
 script = ExtResource("31_0xdx3")
+
+[node name="PopupPlugin_OutlineGenerate" type="Node" parent="PopupArrowPanelManager"]
+script = ExtResource("47_2adqd")
+packed_scene = ExtResource("48_vcaq3")
+plugin_name = "outline_generate"
+
+[node name="PopupPlugin_Keyboard" type="Node" parent="PopupArrowPanelManager"]
+script = ExtResource("47_2adqd")
+packed_scene = ExtResource("49_vcaq3")
+plugin_name = "keyboard"
+
+[node name="PopupPlugin_ColorSelection" type="Node" parent="PopupArrowPanelManager"]
+script = ExtResource("47_2adqd")
+packed_scene = ExtResource("15_oopc8")
+plugin_name = "color_selection"
+
+[node name="PopupPlugin_ColorSwitch" type="Node" parent="PopupArrowPanelManager"]
+script = ExtResource("47_2adqd")
+packed_scene = ExtResource("51_oyxrf")
+plugin_name = "color_switch"
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 visible = false

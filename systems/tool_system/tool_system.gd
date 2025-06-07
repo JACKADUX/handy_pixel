@@ -110,7 +110,6 @@ func register_tool(tool: BaseTool) -> void:
 		tool._tool_system = self
 		_tools[tool_name] = tool
 		tool.register_action(SystemManager.input_system.action_handler)
-		tool.register_shader(SystemManager.compute_shader_system)
 		tool.property_updated.connect(func(prop_name:String, value:Variant):
 			tool_property_updated.emit(tool_name, prop_name, value)
 		)
@@ -155,3 +154,6 @@ func get_tool_ui_control() -> ToolUIControl:
 
 func get_main_canvas_data() -> CanvasData:
 	return SystemManager.canvas_system.main_canvas_data
+
+func get_compute_shader_object(key:String) -> ComputeShaderObject:
+	return SystemManager.compute_shader_system.get_compute_shader_object(key)

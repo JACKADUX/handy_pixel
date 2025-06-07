@@ -5,6 +5,7 @@ signal update_layer_property_requested(index:int, property:String, value:Variant
 signal delete_layer_requested(index:int)
 signal move_layer_requested(index:int, to_index:int)
 signal activate_layer_requested(index:int)
+signal merge_down_layer_requested(index:int)
 
 @onready var container_agent: ContainerAgent = %ContainerAgent
 @onready var add_layer_button: Button = %AddLayerButton
@@ -13,6 +14,8 @@ signal activate_layer_requested(index:int)
 @onready var move_down_button: Button = %MoveDownButton
 
 @onready var widget_layer_opacity: = %WidgetLayerOpacity
+@onready var merge_down_button: Button = %MergeDownButton
+
 
 const Layer = preload("res://scenes/ui/image_layers_ui/layer.gd")
 const LAYER = preload("res://scenes/ui/image_layers_ui/layer.tscn")
@@ -39,6 +42,11 @@ func _ready() -> void:
 	
 	widget_layer_opacity.value_changed.connect(func(value:float):
 		update_layer_property_requested.emit(active_index, ImageLayer.PROP_OPACITY, value)
+	)
+	merge_down_button.pressed.connect(func():
+		if active_index <= 0:
+			return 
+		merge_down_layer_requested.emit(active_index)
 	)
 	
 	bind_with_controller(SystemManager.project_system.project_controller)
@@ -117,6 +125,10 @@ func bind_with_controller(project_contorller :ProjectController):
 	)
 	move_layer_requested.connect(func(index:int, to_index:int):
 		project_contorller.request_action(ProjectController.ACTION_MOVE_LAYER, {"index":index, "to_index":to_index})
+	)
+	
+	merge_down_layer_requested.connect(func(index:int):
+		project_contorller.request_action(ProjectController.ACTION_MERGE_DOWN_LAYER, {"index":index})
 	)
 	
 	

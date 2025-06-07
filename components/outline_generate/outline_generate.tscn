@@ -1,0 +1,222 @@
+[gd_scene load_steps=16 format=3 uid="uid://bj0g15wddammq"]
+
+[ext_resource type="Script" uid="uid://bhfc2r0hixfvv" path="res://components/outline_generate/outline_generate.gd" id="1_vb63m"]
+[ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="2_40llp"]
+[ext_resource type="Script" uid="uid://d52d41ouular" path="res://components/outline_generate/pattern_view_adapter.gd" id="2_smrl8"]
+[ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="3_1d3kd"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://components/keyboard/keyboard_caller.gd" id="4_ek5py"]
+[ext_resource type="Script" uid="uid://b34ad457xwvey" path="res://addons/handy_nodes/mvc_component/general_controller.gd" id="5_vm421"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="6_55m5s"]
+[ext_resource type="Resource" uid="uid://mj2hbv42w62k" path="res://systems/ui_system/ui_model_data.tres" id="6_smrl8"]
+[ext_resource type="PackedScene" uid="uid://cagu6t0ycb7lu" path="res://scenes/ui/color_selection/color_selection_button.tscn" id="8_qlrmh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_40llp"]
+draw_center = false
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.8, 0.8, 0.8, 0.0980392)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_40llp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb63m"]
+draw_center = false
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.375, 0.375, 0.375, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26qkf"]
+bg_color = Color(0.196078, 0.192157, 0.176471, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.984314, 0.768627, 0.211765, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Theme" id="Theme_1d3kd"]
+Button/styles/disabled = SubResource("StyleBoxFlat_40llp")
+Button/styles/focus = SubResource("StyleBoxEmpty_40llp")
+Button/styles/hover = SubResource("StyleBoxFlat_vb63m")
+Button/styles/normal = SubResource("StyleBoxFlat_vb63m")
+Button/styles/pressed = SubResource("StyleBoxFlat_26qkf")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4tgj"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="OutlineGenerate" type="VBoxContainer"]
+offset_left = 562.0
+offset_top = 172.0
+offset_right = 1346.0
+offset_bottom = 896.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 48
+alignment = 1
+script = ExtResource("1_vb63m")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = SubResource("Theme_1d3kd")
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 3
+
+[node name="PatternViewAdapter" type="Node" parent="HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+script = ExtResource("2_smrl8")
+
+[node name="GeneralController" type="Node" parent="HBoxContainer/GridContainer/PatternViewAdapter"]
+script = ExtResource("5_vm421")
+model = ExtResource("6_smrl8")
+prop_name = "outline_generate_pattern"
+metadata/_custom_type_script = "uid://b34ad457xwvey"
+
+[node name="Button" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+
+[node name="Button2" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+
+[node name="Button3" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+
+[node name="Button4" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+
+[node name="Button5" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+
+[node name="Button6" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+
+[node name="Button7" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+
+[node name="Button8" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+
+[node name="Button9" type="Button" parent="HBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+toggle_mode = true
+
+[node name="Panel" type="Panel" parent="HBoxContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4tgj")
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Panel"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_40llp")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="OutlineTextureRect" type="TextureRect" parent="HBoxContainer/Panel"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Panel"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="CustomSpinBoxWidget" parent="HBoxContainer2" instance=ExtResource("3_1d3kd")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0
+max_value = 64
+
+[node name="GeneralController" type="Node" parent="HBoxContainer2/CustomSpinBoxWidget"]
+script = ExtResource("5_vm421")
+model = ExtResource("6_smrl8")
+prop_name = "outline_generate_expend_size"
+metadata/_custom_type_script = "uid://b34ad457xwvey"
+
+[node name="KeyboardCaller" type="Node" parent="HBoxContainer2/CustomSpinBoxWidget"]
+script = ExtResource("4_ek5py")
+
+[node name="ColorSelectionButton" parent="HBoxContainer2" instance=ExtResource("8_qlrmh")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ConfirmDialog" parent="." instance=ExtResource("6_55m5s")]
+unique_name_in_owner = true
+layout_mode = 2

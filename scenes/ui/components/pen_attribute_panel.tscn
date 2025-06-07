@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="4_8q6c3"]
 [ext_resource type="Script" uid="uid://dr2vyuwskcgl3" path="res://components/popup_arrow_panel_manager/popup_text_tooltip_helper.gd" id="4_x3tsf"]
 [ext_resource type="Texture2D" uid="uid://ddh14srfsw5xy" path="res://assets/icons/ink_eraser_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="5_x3tsf"]
-[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://scenes/ui/components/keyboard_caller.gd" id="8_x3tsf"]
+[ext_resource type="Script" uid="uid://dti4rg1fgsqck" path="res://components/keyboard/keyboard_caller.gd" id="8_x3tsf"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
 

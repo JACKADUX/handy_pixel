@@ -52,6 +52,9 @@ func set_active_color(value:Color):
 	active_color = value
 	_update_history_color()
 
+func get_palettes_count() -> int:
+	return palettes.size()
+
 func _update_history_color():
 	var colors = history_color.colors
 	if active_color in colors:

@@ -10,7 +10,8 @@ static func get_from_ui_system() -> PopupArrowPanelManager:
 
 func _ready() -> void:
 	show()
-	set_block.call_deferred(false)
+	set_block(false)
+	register_plugins()
 
 func set_block(value:bool):
 	if value:
@@ -78,7 +79,6 @@ func new_block_layer(color:=Color.BLACK) -> ColorRect:
 func custom_popup(control:Control):
 	var block_layer = new_block_layer(Color(Color.BLACK, 0.2))
 	block_layer.add_child(control)
-	
 	return block_layer
 	
 func add_panel_container(control:Control, margin:=24):
@@ -152,10 +152,9 @@ func infomation_dialog(text:String, pos:Vector2, delay:float=1) -> InfomationDia
 	)
 	return dialog
 
-func quick_notify_dialog(text:String):
+func quick_notify_dialog(text:String, delay:float=1):
 	clear_information_dialogs()
-	infomation_dialog(text, size*0.5, 1)
-
+	infomation_dialog(text, size*0.5, delay)
 
 const TooltipDialog = preload("res://components/dialogs/tooltip_dialog.gd")
 const TOOLTIP_DIALOG = preload("res://components/dialogs/tooltip_dialog.tscn")
@@ -188,13 +187,24 @@ func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialo
 	)
 	return dialog
 
-const Keyboard = preload("res://components/keyboard/keyboard.gd")
-const KEYBOARD = preload("res://components/keyboard/keyboard.tscn")
-func call_keyboard(value:float, bind_fn:Callable):
-	set_block(true)
-	var key_board = KEYBOARD.instantiate() as Keyboard
+## Plugin
+var _plugins := {}
+const PopupPanelPlugin = preload("res://components/popup_arrow_panel_manager/popup_panel_plugin.gd")
+func register_plugins():
+	for child in get_children():
+		if child is not PopupPanelPlugin:
+			continue
+		_plugins[child.plugin_name] = child.packed_scene
+		child.queue_free()
+		
+func call_popup_panel_plugin(plugin_name:String) -> Control:
+	var packed_scene = _plugins.get(plugin_name)
+	if not packed_scene:
+		printerr("call_popup_panel_plugin失败 plugin_name: '%s' 不存在"%plugin_name)
+		return 
+	var panel :Control= packed_scene.instantiate()
 	var block_layer = new_block_layer(Color(Color.BLACK, 0.2))
-	var panel_container = add_panel_container(key_board)
+	var panel_container = add_panel_container(panel)
 	block_layer.add_child(panel_container)
 	
 	panel_container.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
@@ -203,13 +213,8 @@ func call_keyboard(value:float, bind_fn:Callable):
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(panel_container, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
-	
-	key_board.set_value(value)
-	key_board.confirmed.connect(func(v):
-		bind_fn.call(v)
+
+	panel.tree_exited.connect(func():
 		block_layer.queue_free()
 	)
-	key_board.canceled.connect(func():
-		block_layer.queue_free()
-	)
-	return key_board
+	return panel

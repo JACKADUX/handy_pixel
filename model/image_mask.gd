@@ -18,8 +18,8 @@ func get_region_mask(rect:Rect2i) -> Image:
 	if not _image: return 
 	return _image.get_region(rect)
 
-func get_used_rect() -> Rect2:
-	if not _image: return Rect2()
+func get_used_rect() -> Rect2i:
+	if not _image: return Rect2i()
 	return _image.get_used_rect() 
 
 func has_mask() -> bool:
@@ -28,7 +28,7 @@ func has_mask() -> bool:
 func set_mask(image:Image):
 	_image = image
 
-func update_mask_with(rect:Rect2, mask_type:=MaskType.NEW):
+func update_mask_with_rect(rect:Rect2, mask_type:=MaskType.NEW):
 	if not _image:
 		_image = Image.create_empty(_mask_size.x, _mask_size.y, false, Image.FORMAT_RGBA8)
 	match mask_type:
@@ -43,6 +43,24 @@ func update_mask_with(rect:Rect2, mask_type:=MaskType.NEW):
 			var region_image = _image.get_region(rect)
 			_image.fill(Color.TRANSPARENT)
 			_image.blit_rect(region_image, Rect2(Vector2.ZERO, region_image.get_size()), rect.position)
+
+func update_mask_with_image(image:Image, mask_type:=MaskType.NEW):
+	if not _image:
+		_image = Image.create_empty(_mask_size.x, _mask_size.y, false, Image.FORMAT_RGBA8)
+	match mask_type:
+		MaskType.NEW:
+			_image = image
+		MaskType.ADD:
+			_image.blit_rect_mask(image, image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
+		MaskType.SUBTRACT:
+			var erase_image = image.duplicate()
+			erase_image.fill(Color.TRANSPARENT)
+			_image.blit_rect_mask(erase_image, image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
+		MaskType.INTERSECT:
+			var intersect_image = _image.duplicate()
+			intersect_image.fill(Color.TRANSPARENT)
+			intersect_image.blit_rect_mask(_image, image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
+			_image = intersect_image
 
 func intersect_mask(src:Image, mask:Image, src_rect:Rect2, dst:Vector2) -> Image:
 	if not src or not has_mask():

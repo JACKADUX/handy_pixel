@@ -7,7 +7,7 @@ const ACTION_FILL_COLOR := "action_fill_color"
 
 var tolerance :float = 0.01  # 填充容差 0-> 当前颜色， 1->所有颜色
 
-var flood_fill := CSO_FloodFill.new()
+var flood_fill : ComputeShaderSystem.FloodFill
 
 static func get_tool_name() -> String:
 	return "fill_color"
@@ -15,10 +15,9 @@ static func get_tool_name() -> String:
 func register_action(action_handler:ActionHandler):
 	action_handler.register_action(ACTION_FILL_COLOR)
 
-func register_shader(compute_shader_system:ComputeShaderSystem):
-	compute_shader_system.register_compute_shader_object("flood_fill", flood_fill)
-
 func initialize() -> void:
+	if not flood_fill:
+		flood_fill = _tool_system.get_compute_shader_object("flood_fill")
 	flood_fill.free_rids()
 
 func get_tool_data() -> Dictionary:
@@ -40,7 +39,7 @@ func action_fill_active_color_on_active_layer(qury_pos:Vector2i):
 	if mask_image and mask_image.get_pixelv(qury_pos).a == 0:
 		# NOTE : 真正选区的范围外面， 选区的形状可以不是矩形 所以需要判定像素
 		return 
-	var flood_fill_data = CSO_FloodFill.FloodFillData.create(
+	var flood_fill_data = flood_fill.FloodFillData.create(
 			image, mask_image, qury_pos, Color.WHITE, tolerance
 	)
 	var output_mask = flood_fill.compute(flood_fill_data)

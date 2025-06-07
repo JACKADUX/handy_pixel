@@ -82,11 +82,6 @@ func register_action(action_handler:ActionHandler):
 	# action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
 	pass
 
-## ComputeShader注册, 非必要的工具可跳过
-func register_shader(compute_shader_system:ComputeShaderSystem):
-	# compute_shader_system.register_compute_shader_object("flood_fill", flood_fill)
-	pass
-
 ## 工具初始化， 新建项目时自动调用
 func initialize() -> void:
 	pass

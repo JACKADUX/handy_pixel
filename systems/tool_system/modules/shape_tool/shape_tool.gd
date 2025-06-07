@@ -4,8 +4,8 @@ enum ShapeType {NONE, LINE, RECTANGLE, RECTANGLE_FILL, ELLIPSE, ELLIPSE_FILL, BE
 
 var shape_type := ShapeType.LINE
 
-var ellipse := Ellipse.new() # ComputeShaderObject
-var outline := Outline.new() # ComputeShaderObject
+var ellipse : ComputeShaderSystem.Ellipse
+var inline : ComputeShaderSystem.Inline
 
 var _shape_indicator : ShapeIndicator
 
@@ -16,21 +16,19 @@ var cell_pos_round : Vector2i:
 var shape_data :ShapeData= RectShapeData.new()
 
 var _draw_started := false
+var _input_recognizer_state = 0
+
 
 static func get_tool_name() -> String:
 	return "shape"
 
-func register_action(action_handler:ActionHandler):
-	#action_handler.register_action(ACTION_SELECT_ALL)
-	pass
-
-func register_shader(compute_shader_system:ComputeShaderSystem):
-	compute_shader_system.register_compute_shader_object("ellipse", ellipse)
-	compute_shader_system.register_compute_shader_object("outline", outline)
-
 func initialize() -> void:
+	if not ellipse:
+		ellipse = _tool_system.get_compute_shader_object("ellipse")
+	if not inline:
+		inline = _tool_system.get_compute_shader_object("inline")
 	ellipse.free_rids()
-	outline.free_rids()
+	inline.free_rids()
 	if _shape_indicator:
 		_shape_indicator.update()
 	shape_data.clear()
@@ -53,10 +51,13 @@ func get_tool_data() -> Dictionary:
 	}
 
 func _get_action_button_datas() -> Array:
+	var index = 0
+	if not shape_data.is_dynamic_state() or _input_recognizer_state == InputRecognizer.State.HOVER:
+		index = 1
 	return [
-		ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.main_pressed_icon),
-		ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon),
-	]
+			ActionButtonPanel.create_action_button_data(0, ToolSystem.ACTION_TOOL_MAIN_PRESSED, ToolSystem.main_pressed_icon, index),
+			ActionButtonPanel.create_action_button_data(1, ToolSystem.ACTION_TOOL_CANCEL_PRESSED, ToolSystem.cancel_pressed_icon, index),
+		]
 
 func _handle_value_changed(prop_name:String, value:Variant):
 	match prop_name:
@@ -83,6 +84,8 @@ func _on_action_called(action:String, state:ActionHandler.State):
 				ShapeType.BEZEIR:
 					_handle_bezier(state)
 		ToolSystem.ACTION_TOOL_CANCEL_PRESSED:
+			if _input_recognizer_state != InputRecognizer.State.HOVER:
+				show_action_button_panel(false)
 			shape_data.clear()
 			raise_shape_data_updated()
 
@@ -97,10 +100,15 @@ func is_draw_started():
 	return _draw_started
 
 func _on_event_occurred(event:String, data:Dictionary):
+	
 	match event:
 		InputRecognizer.EVENT_STATE_CHANGED:
+			_input_recognizer_state = data.state
 			if data.state == InputRecognizer.State.NONE:
-				show_action_button_panel(false)
+				if not shape_data.is_dynamic_state():
+					show_action_button_panel(false)
+				else:
+					show_action_button_panel(true)
 			elif data.state == InputRecognizer.State.HOVER:
 				show_action_button_panel(true)
 		InputRecognizer.EVENT_HOVERED:
@@ -118,13 +126,14 @@ func _handle_two_point_rect(state:ActionHandler.State):
 	# NOTE: 通用的两点模型
 	match state:
 		ActionHandler.State.JUST_PRESSED:
-			if not shape_data.mask:
-				shape_data.mask = true
-				shape_data.p1 = cell_pos_floor
-				shape_data.p2 = cell_pos_floor
-			else:
-				_shape_apply()
-				shape_data.clear()
+			match shape_data.state:
+				0:
+					shape_data.state = 1
+					shape_data.p1 = cell_pos_floor
+					shape_data.p2 = cell_pos_floor
+				1:
+					_shape_apply()
+					shape_data.clear()
 			raise_shape_data_updated()
 			
 		ActionHandler.State.PRESSED:
@@ -201,6 +210,9 @@ func _shape_apply():
 	project_controller.action_blit_image(active_index, fill_image, output_mask, Rect2(Vector2.ZERO, rect.size), rect.position, 
 										undo_image_layer, ImageLayers.BlitMode.BLEND
 										)
+										
+	if _input_recognizer_state != InputRecognizer.State.HOVER:
+		show_action_button_panel(false)
 
 func get_shape_image_data() -> Dictionary:
 	if shape_type == ShapeType.BEZEIR:
@@ -230,14 +242,14 @@ func get_rect_shape_image_data_with(shape_data:RectShapeData, shape_type:ShapeTy
 			var image = Image.create(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
 			image.fill(Color.WHITE)
 			if shape_type == ShapeType.RECTANGLE:
-				image = outline.compute(Outline.OutlineData.create(image, Color.WHITE))
+				image = inline.compute(inline.InlineData.create(image, Color.WHITE))
 			return {"image":image, "rect":rect}
 		
 		ShapeType.ELLIPSE, ShapeType.ELLIPSE_FILL:
-			var ellipse_data = Ellipse.EllipseData.create(Vector2(rect.size.x, rect.size.y), Color.WHITE)
+			var ellipse_data = ellipse.EllipseData.create(Vector2(rect.size.x, rect.size.y), Color.WHITE)
 			var image = ellipse.compute(ellipse_data)
 			if shape_type == ShapeType.ELLIPSE:
-				image = outline.compute(Outline.OutlineData.create(image, Color.WHITE))
+				image = inline.compute(inline.InlineData.create(image, Color.WHITE))
 			return {"image":image, "rect":rect}
 	return {}
 
@@ -279,15 +291,15 @@ class ShapeData:
 class RectShapeData extends ShapeData:
 	var p1:Vector2i
 	var p2:Vector2i
-	var mask := false
+	var state := 0
 
 	func is_dynamic_state() -> bool:
-		return mask 
+		return state != 0 
 	
 	func clear():
 		p1 = Vector2i.ZERO
 		p2 = Vector2i.ZERO
-		mask = false
+		state = 0
 		
 class BezierShapeData extends ShapeData:
 	var p1:Vector2i

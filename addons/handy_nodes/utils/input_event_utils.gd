@@ -10,7 +10,7 @@ static func is_double_clicked(event:InputEvent) -> bool:
 	if is_mouse_support():
 		return event is InputEventMouseButton and event.double_click
 	elif is_touch_support():
-		return event is InputEventScreenTouch and event.double_tab
+		return event is InputEventScreenTouch and event.double_tap
 	return false
 	
 static func is_pressed(event:InputEvent, index:int=-1) -> bool:

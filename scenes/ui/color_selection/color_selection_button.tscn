@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cagu6t0ycb7lu"]
+
+[ext_resource type="Script" uid="uid://cvlyeqo0o358m" path="res://scenes/ui/color_selection/color_selection_caller.gd" id="1_ascmp"]
+[ext_resource type="Script" uid="uid://nhy30u51tpg5" path="res://scenes/ui/color_selection/color_selection_button.gd" id="1_y41f1"]
+[ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="2_y41f1"]
+
+[node name="ColorSelectionButton" type="Button"]
+custom_minimum_size = Vector2(96, 96)
+focus_mode = 0
+flat = true
+script = ExtResource("1_y41f1")
+
+[node name="ColorSelectionCaller" type="Node" parent="." node_paths=PackedStringArray("color_panel")]
+unique_name_in_owner = true
+script = ExtResource("1_ascmp")
+color_panel = NodePath("../AdvancedColorPanel")
+
+[node name="AdvancedColorPanel" parent="." instance=ExtResource("2_y41f1")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2

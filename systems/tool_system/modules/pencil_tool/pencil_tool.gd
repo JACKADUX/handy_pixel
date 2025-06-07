@@ -284,8 +284,8 @@ func generate_alpha_image(size: int, shape: PenShape) -> Image:
 			return image
 		PenShape.CIRCLE:
 			# NOTE
-			var ellipse = Ellipse.get_from_system("ellipse") as Ellipse
+			var ellipse = _tool_system.get_compute_shader_object("ellipse")
 			if not ellipse:
 				return 
-			return ellipse.compute(Ellipse.EllipseData.create(Vector2.ONE*size, Color.WHITE))
+			return ellipse.compute(ellipse.EllipseData.create(Vector2.ONE*size, Color.WHITE))
 	return 

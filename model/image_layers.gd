@@ -158,6 +158,32 @@ func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i
 		image_layer.position += data.offset + used_rect.position
 	return true
 
+func is_layer_editable(index:int) -> bool:
+	return not get_layer_property(index, ImageLayer.PROP_LOCK)
+
+func merge_layer(from_index:int, to_index:int) -> bool:
+	if not is_layer_editable(from_index) or not is_layer_editable(to_index):
+		return false
+	var top_layer = get_layer(from_index) 
+	var down_layer = get_layer(to_index)
+	
+	var empty_image = Image.create_empty(1,1,false,Image.FORMAT_RGBA8)
+	var top_image = top_layer.image if top_layer.image else empty_image
+	var down_image = down_layer.image if down_layer.image else empty_image
+	var dst = top_layer.position - down_layer.position
+	
+	var image_data = ImageLayers.extend_blit_image(down_image, top_image, null,  Rect2(Vector2.ZERO, top_image.get_size()),dst, ImageLayers.BlitMode.BLEND)
+	if not image_data:
+		return false
+	var used_rect :Rect2i = image_data.image.get_used_rect()
+	if used_rect.size == Vector2i.ZERO:
+		down_layer.image = null
+		down_layer.position = Vector2.ZERO
+	else:
+		down_layer.image = image_data.image.get_region(used_rect)
+		down_layer.position += image_data.offset + used_rect.position
+	return true
+	
 static func extend_blit_image(base:Image, src:Image, mask:Image, src_rect:Rect2i, dst:Vector2i, mode:=BlitMode.BLIT) -> Dictionary:
 	# NOTE: mask 可以为 null, 为 null 时会调用 blit_rect 方法
 	if not base:

@@ -14,7 +14,10 @@ var _copy_data : ImageLayer
 const ACTION_ACTIVATE_LAYER := "ActivateLayer" # {"index":0}
 const ACTION_MOVE_LAYER := "MoveLayer" # {"index":0, "to_index":0}
 const ACTION_UPDATE_LAYER := "UpdateLayer" # {"index":0}
+const ACTION_MERGE_DOWN_LAYER := "MergeDownLayer" # {"index":0}
 
+
+const ACTION_ADD_IMAGE_MASK := "AddImageMask" # {"mask":Image, "type":mask_type}
 const ACTION_ADD_RECT_IMAGE_MASK := "AddRectImageMask" # {"rect":Rect, "type":mask_type}
 const ACTION_IMAGE_MASK_CHANGED := "ImageMaskChanged" # {}
 const ACTION_CLEAR_IMAGE_MASK := "ClearImageMask" # {}
@@ -53,12 +56,50 @@ func request_action(action_name:String, data:={}):
 				undoredo.add_do_method(move_layer.bind(index, to_index))
 				undoredo.add_undo_method(move_layer.bind(to_index, index))
 			)
+		
+		ACTION_MERGE_DOWN_LAYER:
+			var image_layers = get_image_layers()
+			var index = data.get("index", 0)
+			if index <= 0 or image_layers.get_layer_count() <= index :
+				return 
+			var down_index = index -1
+			var undo_top_layer = image_layers.get_layer(index).duplicate(true)
+			var undo_down_layer = image_layers.get_layer(down_index).duplicate(true)
+			if not image_layers.merge_layer(index, down_index):
+				PopupArrowPanelManager.get_from_ui_system().infomation_dialog("合并失败：请保证上下图层都处于非锁定状态!", Vector2.ZERO, 2)
+				return 
+			set_layer(down_index, image_layers.get_layer(down_index))
+			set_active_layer(down_index)
+			delete_layer(index)
 			
+			SystemManager.undoredo_system.add_simple_undoredo(action_name, func(undoredo:UndoRedo):
+				undoredo.add_do_method(func():
+					if not image_layers.merge_layer(index, down_index):
+						return 
+					set_layer(down_index, image_layers.get_layer(down_index))
+					set_active_layer(down_index)
+					delete_layer(index)
+				)
+				undoredo.add_undo_method(func():
+					create_layer(index)
+					set_layer(index, undo_top_layer)
+					set_layer(down_index, undo_down_layer)
+					set_active_layer(index)
+				)
+			)
+		
+		ACTION_ADD_IMAGE_MASK:
+			var mask = data.get("mask")
+			var mask_type = data.get("mask_type", ImageMask.MaskType.NEW)
+			action_update_image_mask(func():
+				_image_mask.update_mask_with_image(mask, mask_type)
+			)
+		
 		ACTION_ADD_RECT_IMAGE_MASK:
 			var rect = data.get("rect", Rect2())
 			var mask_type = data.get("mask_type", ImageMask.MaskType.NEW)
 			action_update_image_mask(func():
-				_image_mask.update_mask_with(rect, mask_type)
+				_image_mask.update_mask_with_rect(rect, mask_type)
 			)
 
 		ACTION_CLEAR_IMAGE_MASK:
@@ -83,23 +124,13 @@ func request_action(action_name:String, data:={}):
 			)
 			
 		ACTION_IMAGE_MASK_COPY:
-			if not _image_mask.has_mask():
-				return 
-			var active_index = get_active_layer_index()
-			var rect = _image_mask.get_used_rect()
-			var mask = _image_mask.get_region_mask(rect)
-			var src = mask.duplicate() as Image
-			src.fill(Color.TRANSPARENT)
-			
-			var image = _image_layers.get_canvas_image(active_index)
-			if image:
-				image = image.get_region(rect)
-				src.blit_rect_mask(image, mask, Rect2(Vector2.ZERO, rect.size), Vector2.ZERO)
-			if src.is_empty() or src.is_invisible():
+			var res_data = get_active_layer_masked_image_data()
+			if not res_data :
 				PopupArrowPanelManager.get_from_ui_system().infomation_dialog("复制失败：选区内无有效像素!", Vector2.ZERO)
 				return 
-			src = src.get_region(src.get_used_rect())
-			_copy_data = ImageLayer.create_with_image(src)
+			var src = res_data.get("image")
+			var pos = _image_layers.get_layer(get_active_layer_index()).position
+			_copy_data = ImageLayer.create_with_image(src, true, pos-Vector2i.ONE)
 			raise_action(ACTION_IMAGE_MASK_COPY)
 		
 		ACTION_CLEAR_IMAGE_MASK_COPY_DATA:
@@ -121,8 +152,10 @@ func request_action(action_name:String, data:={}):
 		
 		ACTION_IMAGE_MASK_SELECT_ALL:
 			action_update_image_mask(func():
-				_image_mask.update_mask_with(Rect2(Vector2.ZERO,_image_layers.get_size()))
+				_image_mask.update_mask_with_rect(Rect2(Vector2.ZERO,_image_layers.get_size()))
 			)
+			
+
 		
 func action_create_layer(index:int):
 	if not create_layer(index):
@@ -261,14 +294,35 @@ func blit_image(index:int, src:Image, mask:Image, src_rect: Rect2i, dst:Vector2i
 	return true
 
 func is_layer_editable(index:int) -> bool:
-	return not _image_layers.get_layer_property(index, ImageLayer.PROP_LOCK)
+	return _image_layers.is_layer_editable(index)
 
 ## ImageMask Method ------------------------------------------------------------------------------------------------
 func get_image_mask() -> ImageMask:
 	return _image_mask
 
-
-
+func get_active_layer_masked_image_data() -> Dictionary:
+	var active_index = get_active_layer_index()
+	var image = _image_layers.get_canvas_image(active_index)
+	if not image:
+		return {}
+	if not _image_mask.has_mask():
+		var used_rect = image.get_used_rect()
+		if not used_rect.has_area():
+			return {}
+		return  {"image": image.get_region(used_rect), "rect":used_rect}
+	var rect = _image_mask.get_used_rect()
+	var mask = _image_mask.get_region_mask(rect)
+	var src = mask.duplicate() as Image
+	src.fill(Color.TRANSPARENT)
+	image = image.get_region(rect)
+	src.blit_rect_mask(image, mask, Rect2(Vector2.ZERO, rect.size), Vector2.ZERO)
+	var used_rect = src.get_used_rect()
+	if not used_rect.has_area():
+		return {}
+	src = src.get_region(used_rect)
+	rect.position += used_rect.position
+	return {"image": src, "rect":rect}
+	
 ## Utils ------------------------------------------------------------------------------------------------
 func raise_action(action_name:String, data:Dictionary={}):
 	action_called.emit(action_name, data)

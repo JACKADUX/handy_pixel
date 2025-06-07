@@ -5,6 +5,8 @@ open source pixel art mobile app made with godot
 QQ群：1047147793 | Discord : https://discord.gg/VBZH2ZWx
 
 ![cover2](https://github.com/user-attachments/assets/fd1a32da-6a0f-4cbb-84b9-a0cefd458c21)
+![QQ截图20250608010322](https://github.com/user-attachments/assets/f08d874a-ba33-48b9-b7eb-a6dcfb0403fd)
+
 ![(`XI7T(R3RRI$)AK(U3{3$A](https://github.com/user-attachments/assets/a9ccf0b2-b60c-4b02-95da-ab5eda3f73ec)
 
 ![2{AL4X1Z$A%S5YA4MK)3U02](https://github.com/user-attachments/assets/e6c92b4a-3ca4-43e3-b009-d7852a70886d)

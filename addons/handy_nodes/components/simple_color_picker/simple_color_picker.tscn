@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://cq4kby8epqdpm" path="res://addons/handy_nodes/components/simple_color_picker/resource/sv_bar.gdshader" id="2_q4vep"]
 [ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://addons/handy_nodes/components/simple_color_picker/tracer.gd" id="3_ibwdk"]
 [ext_resource type="Shader" uid="uid://bg8wmqoixn0fu" path="res://addons/handy_nodes/components/simple_color_picker/resource/hue_bar.gdshader" id="3_nyo1t"]
-[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="4_5lqg6"]
+[ext_resource type="LabelSettings" uid="uid://c5t8k53nca448" path="res://assets/resource/label_settings/title_40_outline.tres" id="4_5lqg6"]
 [ext_resource type="Shader" uid="uid://c1gf6eu1kk2n7" path="res://addons/handy_nodes/components/simple_color_picker/resource/transparent_bar.gdshader" id="4_a5ldj"]
 [ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="5_qkw3p"]
 
@@ -24,6 +24,7 @@ shader_parameter/v = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y52tk"]
 shader = ExtResource("4_a5ldj")
+shader_parameter/blend = 0.0
 
 [node name="SimpleColorPicker" type="VBoxContainer"]
 custom_minimum_size = Vector2(600, 456)
@@ -65,12 +66,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.945313, 0.945313, 0.945313, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_5lqg6")
-theme_override_font_sizes/font_size = 32
 text = "H 0"
+label_settings = ExtResource("4_5lqg6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -157,11 +154,7 @@ border = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.945313, 0.945313, 0.945313, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_5lqg6")
-theme_override_font_sizes/font_size = 32
 text = "A 255"
+label_settings = ExtResource("4_5lqg6")
 horizontal_alignment = 1
 vertical_alignment = 1

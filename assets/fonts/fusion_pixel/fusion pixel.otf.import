@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dlf1jmx67l13y"
-path="res://.godot/imported/DMSans-Regular.ttf-f1e2290814c0bdb7e2b4f7e1ce11f4c6.fontdata"
+uid="uid://dqs3s8grf1hey"
+path="res://.godot/imported/fusion pixel.otf-f3b78dd90e3342ebd3d2cf9f35cc88ca.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/DMSans-Regular.ttf"
-dest_files=["res://.godot/imported/DMSans-Regular.ttf-f1e2290814c0bdb7e2b4f7e1ce11f4c6.fontdata"]
+source_file="res://assets/fonts/fusion_pixel/fusion pixel.otf"
+dest_files=["res://.godot/imported/fusion pixel.otf-f3b78dd90e3342ebd3d2cf9f35cc88ca.fontdata"]
 
 [params]
 
@@ -21,6 +21,7 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
+modulate_color_glyphs=false
 hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true

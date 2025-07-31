@@ -8,9 +8,9 @@ func _ready():
 	if not Engine.is_editor_hint():
 		queue_free()
 
-static func get_color(color_name:String) -> Color:
-	var color = ThemeDB.get_project_theme().get_color(color_name, "COLORS")
+static func get_color(p_color_name:String) -> Color:
+	var color = ThemeDB.get_project_theme().get_color(p_color_name, "COLORS")
 	return Color.RED if not color else color
 
-static func apply(node:CanvasItem, color_name:String):
-	node.self_modulate = get_color(color_name)
+static func apply(node:CanvasItem, p_color_name:String):
+	node.self_modulate = get_color(p_color_name)

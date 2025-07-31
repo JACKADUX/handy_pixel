@@ -12,7 +12,7 @@ signal value_changed(value)
 
 func _ready() -> void:
 	for color_node in color_nodes.get_children():
-		color_node.value_changed.connect(func(v):
+		color_node.value_changed.connect(func(_v):
 			value_changed.emit(get_value())
 		)
 	

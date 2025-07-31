@@ -22,7 +22,7 @@ func _ready() -> void:
 		handle_goback()
 	)
 	
-	edit_button.toggled.connect(func(on_toggle:bool):
+	edit_button.toggled.connect(func(_on_toggle:bool):
 		_update_project_edit_buttons()
 	)
 	

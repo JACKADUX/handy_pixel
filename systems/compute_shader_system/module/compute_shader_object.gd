@@ -11,15 +11,15 @@ var _rid_free_list :Array[RID]=[]
 
 func create_uniform(type: int, binding: int, rid: RID) -> RDUniform:
 	var uniform := RDUniform.new()
-	uniform.uniform_type = type
+	uniform.uniform_type = type as RenderingDevice.UniformType
 	uniform.binding = binding
 	uniform.add_id(rid)
 	return uniform
 
-func set_rd(rd:RenderingDevice):
-	if not rd:
+func set_rd(p_rd:RenderingDevice):
+	if not p_rd:
 		return
-	self.rd = rd
+	rd = p_rd
 	var shader_file = load(get_glsl_path())
 	var shader_spirv = shader_file.get_spirv()
 	shader_RID = rd.shader_create_from_spirv(shader_spirv)
@@ -44,14 +44,15 @@ func free_rids():
 		rd.free_rid(rid)
 	_rid_free_list.clear()
 	
-func _prepare_resources(compute_shader_data:ComputeShaderData):
+func _prepare_resources(_compute_shader_data:ComputeShaderData):
 	# NOTE: 创建RID，具体细节参考flood_fill.gd 或者 ellipse.gd
 	# WARNING: 记得在合适的实际 free_rids() 否则可能造成内存泄漏
 	free_rids()
 	pass
 
 func _gpu_usable()->bool:
-	return rd != null
+	var force_cpu = SystemManager.db_system.get_setting_value("force_use_cpu", false)
+	return rd != null and not force_cpu
 
 func compute(compute_shader_data:ComputeShaderData) -> Image:
 	if _gpu_usable():
@@ -59,10 +60,10 @@ func compute(compute_shader_data:ComputeShaderData) -> Image:
 	else:
 		return _compute_cpu(compute_shader_data)
 		
-func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
+func _compute_gpu(_compute_shader_data:ComputeShaderData) -> Image:
 	return 
 
-func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
+func _compute_cpu(_compute_shader_data:ComputeShaderData) -> Image:
 	return
 
 

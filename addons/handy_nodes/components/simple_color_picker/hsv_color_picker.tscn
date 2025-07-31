@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://addons/handy_nodes/components/simple_color_picker/tracer.gd" id="3_doll6"]
 [ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="4_3kugk"]
 [ext_resource type="Shader" uid="uid://bd7pixayg3xvb" path="res://addons/handy_nodes/components/simple_color_picker/resource/blend_color_bar.gdshader" id="4_5sio0"]
-[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="4_doll6"]
+[ext_resource type="LabelSettings" uid="uid://c5t8k53nca448" path="res://assets/resource/label_settings/title_40_outline.tres" id="4_doll6"]
 [ext_resource type="Shader" uid="uid://c1gf6eu1kk2n7" path="res://addons/handy_nodes/components/simple_color_picker/resource/transparent_bar.gdshader" id="5_fjm34"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1att3"]
@@ -24,6 +24,7 @@ shader = ExtResource("4_5sio0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_645cy"]
 shader = ExtResource("5_fjm34")
+shader_parameter/blend = 0.0
 
 [node name="HSVColorPicker" type="VBoxContainer"]
 offset_right = 536.0
@@ -64,12 +65,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_doll6")
-theme_override_font_sizes/font_size = 32
 text = "H 0"
+label_settings = ExtResource("4_doll6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -108,12 +105,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_doll6")
-theme_override_font_sizes/font_size = 32
 text = "S 100"
+label_settings = ExtResource("4_doll6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -152,12 +145,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_doll6")
-theme_override_font_sizes/font_size = 32
 text = "V 100"
+label_settings = ExtResource("4_doll6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -224,11 +213,7 @@ border = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.964844, 0.964844, 0.964844, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_doll6")
-theme_override_font_sizes/font_size = 32
 text = "A 255"
+label_settings = ExtResource("4_doll6")
 horizontal_alignment = 1
 vertical_alignment = 1

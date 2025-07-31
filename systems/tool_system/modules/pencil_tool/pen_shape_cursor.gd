@@ -7,7 +7,7 @@ const OUTLINE = preload("res://assets/shader/inline.gdshader")
 
 func init_with_tool(p_tool:PencilTool):
 	tool = p_tool
-	tool.property_updated.connect(func(prop_name:String, value):
+	tool.property_updated.connect(func(prop_name:String, _value):
 		match prop_name:
 			
 			"pen_size":
@@ -25,7 +25,7 @@ func init_with_tool(p_tool:PencilTool):
 				material.set_shader_parameter("line_color", value)
 	)
 	
-	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, value):
+	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, _value):
 		match prop_name:
 			"cell_pos_floor":
 				_align_center()

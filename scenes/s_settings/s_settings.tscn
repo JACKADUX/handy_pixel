@@ -1,0 +1,116 @@
+[gd_scene load_steps=10 format=3 uid="uid://xmqdrxk7xjfl"]
+
+[ext_resource type="Script" uid="uid://2l7xbsw0r3oa" path="res://scenes/s_settings/s_settings.gd" id="1_o8xvt"]
+[ext_resource type="PackedScene" uid="uid://by4rjjub5hhuh" path="res://components/custom_spin_box_widget/custom_spin_box_widget.tscn" id="2_bu3kp"]
+[ext_resource type="Script" uid="uid://domh3j7r0ah0v" path="res://addons/handy_nodes/nodes/scroll_dragger.gd" id="2_hq21d"]
+[ext_resource type="PackedScene" uid="uid://7i7nimv7es2f" path="res://scenes/s_settings/setting_section_panel.tscn" id="3_dwffg"]
+[ext_resource type="PackedScene" uid="uid://cagu6t0ycb7lu" path="res://scenes/ui/color_selection/color_selection_button.tscn" id="4_5gxv2"]
+[ext_resource type="PackedScene" uid="uid://bkjem4vowq8qq" path="res://components/custom_check_button/custom_check_button.tscn" id="6_dwffg"]
+[ext_resource type="PackedScene" uid="uid://bbaua5n045rq6" path="res://components/custom_selector_widget/custom_selector.tscn" id="7_crc1b"]
+[ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="7_dwffg"]
+[ext_resource type="Texture2D" uid="uid://bakcxmayhlo5m" path="res://assets/icons/close_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="8_hdgs0"]
+
+[node name="SceneSettings" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o8xvt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollDragger" type="Node" parent="MarginContainer/ScrollContainer" node_paths=PackedStringArray("agent")]
+script = ExtResource("2_hq21d")
+agent = NodePath("..")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="SectionPanelsVBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme_override_constants/separation = 96
+
+[node name="SettingSectionPanel" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer" instance=ExtResource("3_dwffg")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "SpinBox"
+
+[node name="CustomSpinBoxWidget" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_bu3kp")]
+custom_minimum_size = Vector2(500, 96)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer" index="1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Color "
+
+[node name="ColorSelectionButton" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("4_5gxv2")]
+custom_minimum_size = Vector2(500, 96)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer" index="2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Bool"
+
+[node name="CustomCheckButton" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("6_dwffg")]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer" index="3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Bool"
+
+[node name="CustomSelector" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel/VBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("7_crc1b")]
+layout_mode = 2
+
+[node name="FPWS" type="Node" parent="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel"]
+script = ExtResource("7_dwffg")
+metadata/_custom_type_script = "uid://bfif1mfm0s464"
+
+[node name="GobackButton" type="Button" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"base_button"
+icon = ExtResource("8_hdgs0")
+icon_alignment = 1
+
+[editable path="MarginContainer/ScrollContainer/MarginContainer/SectionPanelsVBoxContainer/SettingSectionPanel"]

@@ -9,12 +9,12 @@ func _ready() -> void:
 
 func init_with_tool(p_tool:ShapeTool):
 	tool = p_tool
-	tool.property_updated.connect(func(prop_name:String, value):
+	tool.property_updated.connect(func(prop_name:String, _value):
 		match prop_name:
 			"shape_data":
 				update()
 	)
-	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop_name:String, value):
+	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop_name:String, _value):
 			match prop_name:
 				"camera_zoom":
 					update()

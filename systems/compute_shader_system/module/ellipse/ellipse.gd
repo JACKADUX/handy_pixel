@@ -47,9 +47,9 @@ func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 		return 
 	if image_size.x <= 2 or image_size.y <= 2:
 		# NOTE:小于2 就不走glsl的算法,而且等于2时由于减角算法 glsl 会输出空图，所以这样最好
-		var image = Image.create_empty(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
-		image.fill(fill_color)
-		return image
+		var _image = Image.create_empty(image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
+		_image.fill(fill_color)
+		return _image
 	image_size += Vector2i.ONE  # NOTE: +1 是因为 glsl的算法会比实际传入值小1，所以算是个补偿
 	compute_shader_data.size = image_size
 	_prepare_resources(compute_shader_data)
@@ -86,7 +86,7 @@ func compute_ellipse(image_size: Vector2, fill_color: Color) -> Image:
 
 	# out
 	var output_data = rd.texture_get_data(output_image_RID, 0)
-	var output_image = Image.create_from_data(image_size.x, image_size.y, false, Image.FORMAT_RGBA8, output_data)
+	var output_image = Image.create_from_data(int(image_size.x), int(image_size.y), false, Image.FORMAT_RGBA8, output_data)
 	return output_image
 
 func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
@@ -142,8 +142,8 @@ class EllipseData extends ComputeShaderData:
 	var size:Vector2i  # w x h
 	var fill_color: Color
 	
-	static func create(size:Vector2i, fill_color:Color) -> EllipseData:
+	static func create(p_size:Vector2i, p_fill_color:Color) -> EllipseData:
 		var data = EllipseData.new()
-		data.size = size
-		data.fill_color = fill_color
+		data.size = p_size
+		data.fill_color = p_fill_color
 		return data

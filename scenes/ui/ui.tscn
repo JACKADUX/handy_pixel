@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://ohii5c0hg52f"]
+[gd_scene load_steps=53 format=3 uid="uid://ohii5c0hg52f"]
 
 [ext_resource type="Texture2D" uid="uid://5qxkkr8pehh6" path="res://assets/icons/home_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="1_4w2x3"]
 [ext_resource type="Script" uid="uid://b4nlqvwmcosmk" path="res://scenes/ui/ui.gd" id="1_fqqne"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://bllt4mivxjyv6" path="res://scenes/ui/components/canvas_speed_selection.tscn" id="9_26a3v"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="9_y0kyo"]
 [ext_resource type="Script" uid="uid://cuxcltq10tp26" path="res://scenes/ui/components/canvas_speed_handler.gd" id="10_26a3v"]
-[ext_resource type="FontFile" uid="uid://cog58ofm8xw8o" path="res://assets/fonts/DMSans-Medium.ttf" id="10_pa3n2"]
 [ext_resource type="Texture2D" uid="uid://b66sa50fjhg6n" path="res://assets/icons/palette_96dp_FFFFFF_FILL1_wght400_GRAD0_opsz48.svg" id="14_7ygsn"]
 [ext_resource type="PackedScene" uid="uid://bwlq377qokg4n" path="res://scenes/ui/components/pen_attribute_panel.tscn" id="15_7ygsn"]
 [ext_resource type="PackedScene" uid="uid://xwf3y70npyiy" path="res://scenes/ui/color_selection/color_selection.tscn" id="15_oopc8"]
@@ -38,7 +37,6 @@
 [ext_resource type="PackedScene" uid="uid://f7yrqg5ge5gk" path="res://components/dialogs/tooltip_dialog.tscn" id="27_pa3n2"]
 [ext_resource type="Texture2D" uid="uid://c2xwcc76whn47" path="res://assets/icons/save.svg" id="28_dxwg8"]
 [ext_resource type="PackedScene" uid="uid://bqv0brlwb1ysd" path="res://components/color_panel/advanced_color_panel.tscn" id="29_dxwg8"]
-[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="30_h7igw"]
 [ext_resource type="Script" uid="uid://bfif1mfm0s464" path="res://addons/handy_nodes/nodes/free_parent_when_start.gd" id="31_0xdx3"]
 [ext_resource type="PackedScene" uid="uid://cichbtv1kgsti" path="res://scenes/ui/components/layer_prop_indicater.tscn" id="31_puycq"]
 [ext_resource type="Script" uid="uid://bngvhqw0p556k" path="res://components/popup_arrow_panel_manager/popup_panel_plugin_helper.gd" id="33_1vftb"]
@@ -65,12 +63,8 @@ content_margin_top = -1.0
 content_margin_right = -1.0
 content_margin_bottom = -1.0
 script = ExtResource("17_lkvmi")
-radius_offset = 0.0
 color = Color(1, 1, 1, 1)
-outline_width = 0.0
-outline_color = Color(1, 1, 1, 1)
 point_count = 12
-enable_aa = true
 metadata/_custom_type_script = "uid://de2j5atkd2pup"
 
 [node name="UI" type="Control"]
@@ -202,9 +196,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("10_pa3n2")
-theme_override_font_sizes/font_size = 24
-text = "0.5x"
+theme_type_variation = &"label_title"
+theme_override_font_sizes/font_size = 30
+text = ".5x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -268,13 +262,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="MenuButton" type="Button" parent="MainPanel/VBoxContainer/TopBar"]
+[node name="SettingsButton" type="Button" parent="MainPanel/VBoxContainer/TopBar"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_type_variation = &"base_button"
-disabled = true
 icon = ExtResource("5_qmss2")
 icon_alignment = 1
 expand_icon = true
@@ -519,7 +513,7 @@ panel_offset = Vector2(0, 200)
 
 [node name="MarginContainer" type="MarginContainer" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton"]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -20.0
@@ -528,7 +522,7 @@ grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 12
+theme_override_constants/margin_right = 8
 
 [node name="IndexLabel" type="Label" parent="MainPanel/VBoxContainer/MiddleBar/RightBar/LayerButton/MarginContainer"]
 unique_name_in_owner = true
@@ -536,9 +530,9 @@ modulate = Color(0.0976563, 0.0976563, 0.0976563, 1)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_type_variation = &"label_title"
 theme_override_colors/font_color = Color(0.964706, 0.964706, 0.964706, 1)
-theme_override_fonts/font = ExtResource("30_h7igw")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 30
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -684,6 +678,8 @@ grow_vertical = 2
 script = ExtResource("27_khplb")
 
 [node name="PopupArrowPanel" parent="PopupArrowPanelManager" instance=ExtResource("41_lw3t2")]
+layout_mode = 1
+anchors_preset = -1
 offset_left = 1175.0
 offset_top = 114.0
 offset_right = 1175.0

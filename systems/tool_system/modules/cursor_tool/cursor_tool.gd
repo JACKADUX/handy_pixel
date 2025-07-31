@@ -30,7 +30,7 @@ func get_tool_data() -> Dictionary:
 		"cusor_immediate_mode":cusor_immediate_mode
 	}
 
-func _handle_value_changed(prop_name:String, value:Variant):
+func _handle_value_changed(prop_name:String, _value:Variant):
 	match prop_name:
 		"cursor_position":
 			var f_pos = Vector2i(floor(cursor_position/ CanvasData.CELL_SIZE))

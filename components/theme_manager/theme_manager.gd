@@ -56,21 +56,21 @@ var corner_radius = stroke*2
 var text_size_offset = 0 # 不同字体尺寸会不一样可以根据字体调整
 # Titles  # bug？ 24px的字体实际大小是25 多一个像素所以-1
 var text_title: int: # onboarding Bold
-	get: return 32 + 34 + text_size_offset
+	get: return 72 + text_size_offset
 var text_sub_title: int: # primary semi-bold
-	get: return 24 + 30 + text_size_offset
+	get: return 60 + text_size_offset
 var text_body: int:
-	get: return 16 + 32 + text_size_offset
+	get: return 48 + text_size_offset
 var text_details: int:
-	get: return 14 + 28 + text_size_offset
+	get: return 36 + text_size_offset
 var text_small: int:
-	get: return 10 + 20 + text_size_offset
+	get: return 24 + text_size_offset
 
 #
 static var contrast: float = 0.2
 
-var font_base = preload("res://assets/fonts/DMSans-Regular.ttf")
-var font_bold = preload("res://assets/fonts/DMSans-Medium.ttf")
+var font_base = preload("res://assets/fonts/fusion_pixel/fusion pixel.otf")
+var font_bold = preload("res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc")
 
 func _initialize():
 	set_font(font_base, text_body)
@@ -106,6 +106,7 @@ func create_panel_container():
 	# clip_panel
 	var clip_panel = (main_panel.pip_duplicate()
 		.pip_corner_radius_all(corner_radius-stroke)
+		.pip_bg_color(color_bg_sub)
 	)
 	builder.add_type("clip_panel", "PanelContainer").panel_set_stylebox(clip_panel.get_stylebox_flat())
 	

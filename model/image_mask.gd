@@ -30,7 +30,7 @@ func set_mask(image:Image):
 
 func update_mask_with_rect(rect:Rect2, mask_type:=MaskType.NEW):
 	if not _image:
-		_image = Image.create_empty(_mask_size.x, _mask_size.y, false, Image.FORMAT_RGBA8)
+		_image = Image.create_empty(int(_mask_size.x), int(_mask_size.y), false, Image.FORMAT_RGBA8)
 	match mask_type:
 		MaskType.NEW:
 			_image.fill(Color.TRANSPARENT)
@@ -46,7 +46,7 @@ func update_mask_with_rect(rect:Rect2, mask_type:=MaskType.NEW):
 
 func update_mask_with_image(image:Image, mask_type:=MaskType.NEW):
 	if not _image:
-		_image = Image.create_empty(_mask_size.x, _mask_size.y, false, Image.FORMAT_RGBA8)
+		_image = Image.create_empty(int(_mask_size.x), int(_mask_size.y), false, Image.FORMAT_RGBA8)
 	match mask_type:
 		MaskType.NEW:
 			_image = image

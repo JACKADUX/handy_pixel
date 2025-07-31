@@ -37,10 +37,10 @@ func debug():
 	cso_outline.set_rd(rd)
 
 func _ready() -> void:
-	custom_spin_box_widget.value_changed.connect(func(v):
+	custom_spin_box_widget.value_changed.connect(func(_v):
 		generate()
 	)
-	pattern_view_adapter.value_changed.connect(func(v):
+	pattern_view_adapter.value_changed.connect(func(_v):
 		generate()
 	)
 	confirm_dialog.confirmed.connect(func():
@@ -86,19 +86,19 @@ func set_color(value:Color):
 	active_color = value
 	color_selection_button.set_value(value)
 	
-func _expand_image(image:Image, expand:int=1) -> Image:
-	if expand < 1 or not image:
-		return image
-	var rect = Rect2(Vector2.ZERO, image.get_size())
+func _expand_image(p_image:Image, expand:int=1) -> Image:
+	if expand < 1 or not p_image:
+		return p_image
+	var rect = Rect2(Vector2.ZERO, p_image.get_size())
 	var grow_rect = rect.grow(expand)
 	var expand_image = Image.create_empty(grow_rect.size.x, grow_rect.size.y, false, Image.FORMAT_RGBA8)
-	expand_image.blit_rect(image, rect, Vector2.ONE*expand)
+	expand_image.blit_rect(p_image, rect, Vector2.ONE*expand)
 	return expand_image
 
-func _apply_color(image:Image, color:Color) -> Image:
-	var empty_image :Image = image.duplicate()
+func _apply_color(p_image:Image, color:Color) -> Image:
+	var empty_image :Image = p_image.duplicate()
 	empty_image.fill(Color.TRANSPARENT)
-	var color_image :Image = image.duplicate()
+	var color_image :Image = p_image.duplicate()
 	color_image.fill(color)
-	empty_image.blit_rect_mask(color_image, image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
+	empty_image.blit_rect_mask(color_image, p_image, Rect2(Vector2.ZERO, p_image.get_size()), Vector2.ZERO)
 	return empty_image

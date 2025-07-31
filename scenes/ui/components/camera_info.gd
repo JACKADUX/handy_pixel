@@ -12,7 +12,7 @@ func _ready() -> void:
 	if not SystemManager.is_initialized():
 		await SystemManager.system_initialized
 	camera_tool = SystemManager.tool_system.camera_tool
-	camera_tool.property_updated.connect(func(prop, value):
+	camera_tool.property_updated.connect(func(prop, _value):
 		match prop:
 			"camera_zoom", "camera_offset":
 				_update()
@@ -28,7 +28,7 @@ func _ready() -> void:
 	tooltip_dlg.modulate.a = 0
 	tooltip_dlg.show()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Engine.get_process_frames() % 60*duration == 0 and _prev:
 		if _pv != [camera_tool.camera_zoom, camera_tool.camera_offset]:
 			_pv = [camera_tool.camera_zoom, camera_tool.camera_offset]

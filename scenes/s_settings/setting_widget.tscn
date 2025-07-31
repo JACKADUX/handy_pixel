@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://kthqt8y7x1ok"]
+
+[ext_resource type="Script" uid="uid://dut06xq3g0mam" path="res://scenes/s_settings/setting_widget.gd" id="1_u2oi4"]
+
+[node name="SettingWidget" type="HBoxContainer"]
+script = ExtResource("1_u2oi4")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "WidgetTitle"

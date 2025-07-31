@@ -38,5 +38,5 @@ func get_compute_shader_object(key:String) -> ComputeShaderObject:
 func save_data() -> Dictionary:
 	return {}
 	
-func load_data(data:Dictionary):
+func load_data(_data:Dictionary):
 	pass

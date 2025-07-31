@@ -13,6 +13,7 @@
 [sub_resource type="ButtonGroup" id="ButtonGroup_je0kj"]
 
 [node name="PenAttributePanel" type="VBoxContainer"]
+anchors_preset = -1
 offset_right = 243.0
 offset_bottom = 239.0
 theme_override_constants/separation = 48

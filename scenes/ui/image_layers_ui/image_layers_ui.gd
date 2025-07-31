@@ -132,13 +132,13 @@ func bind_with_controller(project_contorller :ProjectController):
 	)
 	
 	
-func init_with(layers:Array[ImageLayer], active_index:int=0):
+func init_with(layers:Array[ImageLayer], p_active_index:int=0):
 	clear()
 	for image_layer:ImageLayer in layers:
 		update_layer_with(create_layer(), image_layer)
 	update_layers_index()
-	set_active_index(active_index) # 
-	update_side_property_with(layers[active_index])
+	set_active_index(p_active_index) # 
+	update_side_property_with(layers[p_active_index])
 
 	
 func update_layer_with(layer:Layer, image_layer:ImageLayer):
@@ -153,7 +153,6 @@ func clear():
 func set_active_index(index:int):
 	active_index = index
 	update_layers_activate()
-	var active_layer = get_layer(active_index)
 	ensure_layer_control_visible(get_layer(active_index))
 
 func update_side_property_with(image_layer:ImageLayer):

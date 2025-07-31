@@ -79,7 +79,7 @@ func _get_action_button_datas():
 	return actions
 		
 
-func _handle_value_changed(prop_name:String, value:Variant):
+func _handle_value_changed(prop_name:String, _value:Variant):
 	if prop_name == "pen_shape" or prop_name == "pen_size":
 		set_mask_image_dirty()	
 

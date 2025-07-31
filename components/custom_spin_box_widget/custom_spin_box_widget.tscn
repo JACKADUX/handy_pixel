@@ -8,6 +8,7 @@
 
 [node name="CustomSpinBoxWidget" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 100)
+anchors_preset = -1
 offset_right = 300.0
 offset_bottom = 100.0
 theme_type_variation = &"base_panel"
@@ -68,7 +69,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 mouse_filter = 0
-theme_type_variation = &"label_details"
+theme_type_variation = &"label_title"
+theme_override_font_sizes/font_size = 50
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1

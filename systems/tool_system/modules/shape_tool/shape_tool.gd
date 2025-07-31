@@ -220,17 +220,17 @@ func get_shape_image_data() -> Dictionary:
 	else:
 		return get_rect_shape_image_data_with(shape_data, shape_type)
 	
-func get_rect_shape_image_data_with(shape_data:RectShapeData, shape_type:ShapeType) -> Dictionary:
+func get_rect_shape_image_data_with(p_shape_data:RectShapeData, p_shape_type:ShapeType) -> Dictionary:
 	var canvas_size = main_canvas_data.real_canvas_size
-	var rect = RectUtils.create_rect_from_points([shape_data.p1, shape_data.p2])
+	var rect = RectUtils.create_rect_from_points([p_shape_data.p1, p_shape_data.p2])
 	rect.size += Vector2.ONE
 	rect = Rect2i(Vector2.ZERO, canvas_size).intersection(rect)
 	if not rect:
 		return {}
-	match shape_type:
+	match p_shape_type:
 		ShapeType.LINE:
 			var image = Image.create(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
-			var points = Geometry2D.bresenham_line(shape_data.p1, shape_data.p2)
+			var points = Geometry2D.bresenham_line(p_shape_data.p1, p_shape_data.p2)
 			for p in points:
 				if p.x < 0 or p.y < 0 or canvas_size.x <= p.x or canvas_size.y <= p.y:
 					continue
@@ -241,27 +241,27 @@ func get_rect_shape_image_data_with(shape_data:RectShapeData, shape_type:ShapeTy
 		ShapeType.RECTANGLE, ShapeType.RECTANGLE_FILL:
 			var image = Image.create(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
 			image.fill(Color.WHITE)
-			if shape_type == ShapeType.RECTANGLE:
+			if p_shape_type == ShapeType.RECTANGLE:
 				image = inline.compute(inline.InlineData.create(image, Color.WHITE))
 			return {"image":image, "rect":rect}
 		
 		ShapeType.ELLIPSE, ShapeType.ELLIPSE_FILL:
 			var ellipse_data = ellipse.EllipseData.create(Vector2(rect.size.x, rect.size.y), Color.WHITE)
 			var image = ellipse.compute(ellipse_data)
-			if shape_type == ShapeType.ELLIPSE:
+			if p_shape_type == ShapeType.ELLIPSE:
 				image = inline.compute(inline.InlineData.create(image, Color.WHITE))
 			return {"image":image, "rect":rect}
 	return {}
 
-func get_bezier_shape_image_data_with(shape_data:BezierShapeData):
+func get_bezier_shape_image_data_with(p_shape_data:BezierShapeData):
 	var canvas_size = main_canvas_data.real_canvas_size
-	var rect = RectUtils.create_rect_from_points([shape_data.p1, shape_data.p2, shape_data.p1+shape_data.h1, shape_data.p2+shape_data.h2])
+	var rect = RectUtils.create_rect_from_points([p_shape_data.p1, p_shape_data.p2, p_shape_data.p1+p_shape_data.h1, p_shape_data.p2+p_shape_data.h2])
 	rect.size += Vector2.ONE
 	rect = Rect2i(Vector2.ZERO, canvas_size).intersection(rect)
 	if not rect:
 		return {}
 	var image = Image.create(rect.size.x, rect.size.y, false, Image.FORMAT_RGBA8)
-	var curve = shape_data.get_curve()
+	var curve = p_shape_data.get_curve()
 	var bpoints = curve.get_baked_points()
 	var points := PackedVector2Array()
 	var pcount = bpoints.size()

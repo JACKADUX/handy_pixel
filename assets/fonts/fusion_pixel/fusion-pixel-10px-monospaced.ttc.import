@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b11kiy70re55p"
-path="res://.godot/imported/NotoSansSC-Bold.ttf-3108acbae6403bf8197feddb121fa25e.fontdata"
+uid="uid://cwfi6y4t2mv4l"
+path="res://.godot/imported/fusion-pixel-10px-monospaced.ttc-c177ec559b81958f34b3da8413505217.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf"
-dest_files=["res://.godot/imported/NotoSansSC-Bold.ttf-3108acbae6403bf8197feddb121fa25e.fontdata"]
+source_file="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc"
+dest_files=["res://.godot/imported/fusion-pixel-10px-monospaced.ttc-c177ec559b81958f34b3da8413505217.fontdata"]
 
 [params]
 
@@ -21,6 +21,7 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
+modulate_color_glyphs=false
 hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true

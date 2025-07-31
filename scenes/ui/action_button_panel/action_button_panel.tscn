@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cohsm4kdgnn5y" path="res://scenes/ui/radio_container.gd" id="5_qi656"]
 
 [node name="ActionButtonPanel" type="MarginContainer"]
-anchors_preset = 3
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

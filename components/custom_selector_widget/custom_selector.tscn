@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbaua5n045rq6"]
+
+[ext_resource type="Script" uid="uid://c5o2tufan6rbo" path="res://components/custom_selector_widget/custom_selector.gd" id="1_55voc"]
+[ext_resource type="Texture2D" uid="uid://mh2qrrgff6ak" path="res://assets/icons/keyboard_arrow_up_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="2_vm0yv"]
+[ext_resource type="Texture2D" uid="uid://cohqac8xvo007" path="res://assets/icons/keyboard_arrow_down_96dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.svg" id="3_uplsn"]
+
+[node name="CustomSelector" type="PanelContainer"]
+custom_minimum_size = Vector2(500, 100)
+anchors_preset = -1
+offset_right = 500.0
+offset_bottom = 100.0
+theme_type_variation = &"base_panel"
+script = ExtResource("1_55voc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 0
+theme_type_variation = &"label_title"
+theme_override_font_sizes/font_size = 50
+text = "select"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparatorR2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_v"
+
+[node name="RVBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RTopButton" type="TextureButton" parent="HBoxContainer/RVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("2_vm0yv")
+stretch_mode = 3
+
+[node name="Panel2" type="HSeparator" parent="HBoxContainer/RVBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"seperator_widget_h"
+
+[node name="RBottomButton" type="TextureButton" parent="HBoxContainer/RVBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.196078, 0.192157, 0.176471, 1)
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture_normal = ExtResource("3_uplsn")
+stretch_mode = 3

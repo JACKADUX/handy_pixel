@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	project_controller = SystemManager.project_system.project_controller 
 	
-	project_controller.action_called.connect(func(action_name:String, data:Dictionary):
+	project_controller.action_called.connect(func(action_name:String, _data:Dictionary):
 		match action_name:
 			project_controller.ACTION_IMAGE_MASK_CHANGED:
 				if project_controller.get_image_mask().has_mask():

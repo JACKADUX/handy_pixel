@@ -16,7 +16,7 @@ func init_with_tool(p_tool:CameraTool):
 				offset = value
 			#
 	)
-	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, value):
+	SystemManager.tool_system.cursor_tool.property_updated.connect(func(prop_name:String, _value):
 		match prop_name:
 			"cursor_position":
 				if tool.follow_cursor:

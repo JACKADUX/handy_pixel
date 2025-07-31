@@ -115,22 +115,22 @@ func _process(delta: float) -> void:
 
 func auto_mode():
 	var area_type_lr := LayoutHelper.get_area_type_lr(get_global_rect(), get_viewport_rect())
-	var value = WidgetLayoutMode.LR
+	var _value = WidgetLayoutMode.LR
 	match area_type_lr:
 		LayoutHelper.AreaTypeLR.LEFT:
-			value = WidgetLayoutMode.LTB
+			_value = WidgetLayoutMode.LTB
 		LayoutHelper.AreaTypeLR.RIGHT:
-			value = WidgetLayoutMode.RTB
-	set_widget_layout_mode(value)
+			_value = WidgetLayoutMode.RTB
+	set_widget_layout_mode(_value)
 
-func set_widget_layout_mode(value:WidgetLayoutMode):
+func set_widget_layout_mode(p_mode:WidgetLayoutMode):
 	lv_box_container.hide()
 	rv_box_container.hide()
 	left_button.hide()
 	right_button.hide()
 	v_separator_l.hide()
 	v_separator_r.hide()
-	match value:
+	match p_mode:
 		WidgetLayoutMode.LTB:
 			lv_box_container.show()
 			v_separator_l.show()

@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://c5t8k53nca448"]
+
+[ext_resource type="FontFile" uid="uid://cwfi6y4t2mv4l" path="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc" id="1_quny7"]
+
+[resource]
+line_spacing = 0.0
+font = ExtResource("1_quny7")
+font_size = 40
+font_color = Color(0.054902, 0.054902, 0.054902, 1)
+outline_size = 10

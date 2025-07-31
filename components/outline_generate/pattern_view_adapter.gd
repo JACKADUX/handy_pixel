@@ -5,7 +5,7 @@ var buttons :Array[Button]
 func adapt_view(): 
 	buttons.assign(view.get_children().filter(func(b): return b is Button))
 	for button in buttons:
-		button.toggled.connect(func(toggled_on:bool):
+		button.toggled.connect(func(_toggled_on:bool):
 			value_changed.emit(get_value())
 		)
 

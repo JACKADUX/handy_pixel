@@ -89,8 +89,6 @@ func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 
 func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
 	var image = compute_shader_data.image as Image
-	var fill_color = compute_shader_data.fill_color
-	var width = compute_shader_data.width
 	var final_image = image.duplicate()
 	var image_size = image.get_size()
 	var valid_fn = func(x,y):
@@ -117,8 +115,8 @@ class InlineData extends ComputeShaderData:
 	var fill_color: Color
 	var width: int=1
 	
-	static func create(image:Image, fill_color:Color) -> InlineData:
+	static func create(p_image:Image, p_fill_color:Color) -> InlineData:
 		var data = InlineData.new()
-		data.image = image
-		data.fill_color = fill_color
+		data.image = p_image
+		data.fill_color = p_fill_color
 		return data

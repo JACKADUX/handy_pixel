@@ -23,12 +23,12 @@ func _ready() -> void:
 		_set_final_size(custom_spin_box_widget.get_value())
 	)
 	
-	custom_spin_box_widget.value_changed.connect(func(v):
+	custom_spin_box_widget.value_changed.connect(func(_v):
 		_set_final_size(custom_spin_box_widget.get_value())
 	)
 		
 	confirm_dialog.confirmed.connect(func():
-		image.resize(image_final_size.x, image_final_size.y, Image.INTERPOLATE_NEAREST)
+		image.resize(int(image_final_size.x), int(image_final_size.y), Image.INTERPOLATE_NEAREST)
 		image.save_png(image_path)
 	)
 	

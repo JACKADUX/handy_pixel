@@ -61,7 +61,7 @@ func _compute_gpu(compute_shader_data:ComputeShaderData) -> Image:
 	
 	var image_size = image.get_size()
 	_prepare_resources(compute_shader_data)
-	var output_image : Image
+	var output_image : Image = null
 	
 	# update buffer
 	var buffer_data = PackedFloat32Array(pattern).to_byte_array()
@@ -135,16 +135,16 @@ class OutlineData extends ComputeShaderData:
 		1,1,1,
 	]
 	
-	static func create(image:Image, pattern_type:PatternType, count:int=1) -> OutlineData:
+	static func create(p_image:Image, pattern_type:PatternType, p_count:int=1) -> OutlineData:
 		var data = OutlineData.new()
-		data.image = image
+		data.image = p_image
 		data.pattern = _type_plus_cross if pattern_type == PatternType.PLUS_CROSS else _type_plus
-		data.count = count
+		data.count = p_count
 		return data
 	
-	static func create_with_list(image:Image, pattern:Array, count:int=1) -> OutlineData:
+	static func create_with_list(p_image:Image, p_pattern:Array, p_count:int=1) -> OutlineData:
 		var data = OutlineData.new()
-		data.image = image
-		data.pattern = pattern
-		data.count = count
+		data.image = p_image
+		data.pattern = p_pattern
+		data.count = p_count
 		return data

@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://7i7nimv7es2f"]
+
+[ext_resource type="FontFile" uid="uid://cwfi6y4t2mv4l" path="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc" id="1_bersx"]
+[ext_resource type="Script" uid="uid://bwl5qwvs2dcea" path="res://scenes/s_settings/setting_section_panel.gd" id="1_bfjk5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdgs0"]
+bg_color = Color(0.125, 0.125, 0.125, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 16.0
+expand_margin_top = 16.0
+expand_margin_right = 16.0
+expand_margin_bottom = 16.0
+
+[node name="SettingSectionPanel" type="PanelContainer"]
+script = ExtResource("1_bfjk5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 96
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890625, 0.890625, 0.890625, 1)
+theme_override_fonts/font = ExtResource("1_bersx")
+theme_override_font_sizes/font_size = 72
+theme_override_styles/normal = SubResource("StyleBoxFlat_hdgs0")
+text = "Section"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 48

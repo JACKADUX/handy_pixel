@@ -82,7 +82,6 @@ func _offset_limit(offset:Vector2):
 		var v21 = p2-p1
 		var v_off = zoomed_offset-rect1_center
 		if v21.dot(v_off) > 0:
-			var dir = Vector2.ZERO
 			zoomed_offset -= v21 + v21.normalized()*100
 		return zoomed_offset/camera_zoom
 	return offset

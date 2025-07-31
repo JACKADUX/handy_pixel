@@ -34,7 +34,7 @@ func _debug():
 	set_layer_position(1, Vector2(4,6))
 	queue_redraw_layer.call_deferred(-1)
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if _redraw_dirty:
 		for index in _redraw_dirty:
 			draw_layer(index)
@@ -70,7 +70,6 @@ func bind_with_controller():
 				update_layer_with(to_index, image_layers.get_layer(to_index))
 	)
 	project_contorller.layer_property_updated.connect(func(index:int, property:String, value:Variant):
-		var image_layer := project_contorller.get_image_layers().get_layer(index)
 		match property:
 			ImageLayer.PROP_ALL:
 				update_layer_with(index, value)
@@ -114,7 +113,7 @@ func init_viewport():
 func set_viewport_size(size:Vector2):
 	if _prev_size != size:
 		_prev_size = size
-		RenderingServer.viewport_set_size(viewport_id, size.x, size.y) # 设置尺寸
+		RenderingServer.viewport_set_size(viewport_id, int(size.x), int(size.y)) # 设置尺寸
 
 func get_texture_rid() -> RID:
 	return RenderingServer.viewport_get_texture(viewport_id)

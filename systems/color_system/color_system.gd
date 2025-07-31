@@ -22,7 +22,7 @@ func system_initialize():
 	
 	SystemManager.ui_system.model_data_mapper.register("active_color", 
 		func(value): set_active_color(value),
-		func(key): return get_active_color()
+		func(_key): return get_active_color()
 	)
 	SystemManager.ui_system.model_data_mapper.register_with(self, "history_color")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "palettes")

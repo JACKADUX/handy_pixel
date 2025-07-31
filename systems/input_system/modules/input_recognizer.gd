@@ -13,7 +13,7 @@ var state := State.NONE
 
 var input_datas := InputDatas.new()
 	
-func handle_input(event: InputEvent) -> void:
+func handle_input(_event: InputEvent) -> void:
 	pass
 
 func set_state(value:State):

@@ -19,9 +19,6 @@ func system_initialize():
 	
 	var db_system = SystemManager.db_system
 	db_system.load_data_requested.connect(func():
-		project_cover_size = db_system.get_project_setting("project_cover_size", 256)
-		preset_canvas_size = db_system.get_project_setting("preset_canvas_size", Vector2i(32,32))
-		preset_canvas_bg_color = db_system.get_project_setting("preset_canvas_bg_color", Color.TRANSPARENT)
 		load_data(db_system.get_data("ProjectSystem", {}))
 		_local_data_check()
 		project_datas_changed.emit()
@@ -29,10 +26,6 @@ func system_initialize():
 	db_system.save_data_requested.connect(func():
 		if active_project_id:
 			save_project_image_layers(active_project_id, project_controller.get_image_layers())
-		
-		db_system.set_project_setting("preset_canvas_size", preset_canvas_size)
-		db_system.set_project_setting("preset_canvas_bg_color", preset_canvas_bg_color)
-		db_system.set_project_setting("project_cover_size", project_cover_size)
 		db_system.set_data("ProjectSystem", save_data())
 	)
 
@@ -47,16 +40,16 @@ func set_property(id:String, prop:String, value:Variant) -> bool:
 			return true
 	return false
 
-func get_property(id:String, prop:String, defualt:Variant=null) -> Variant:
+func get_property(id:String, _prop:String, defualt:Variant=null) -> Variant:
 	for data:Dictionary in project_datas:
 		if data.id == id:
 			return data.get(id, defualt)
 	return 
 
-func _create_project(id:="", name:="", file_path:="", cover_path:="") -> Dictionary:
+func _create_project(id:="", p_name:="", file_path:="", cover_path:="") -> Dictionary:
 	return {
 		"id": id,
-		"name": name,
+		"name": p_name,
 		"created_at": Time.get_unix_time_from_system(),
 		"updated_at": Time.get_unix_time_from_system(),
 		"file_path": file_path,
@@ -64,14 +57,14 @@ func _create_project(id:="", name:="", file_path:="", cover_path:="") -> Diction
 		"canvas_size":Vector2.ZERO
 	}
 
-func new_project(name:="", p_canvas_size:=Vector2i(32, 32), color:=Color.TRANSPARENT) -> String:
+func new_project(p_name:="", p_canvas_size:=Vector2i(32, 32), color:=Color.TRANSPARENT) -> String:
 	var id = UUID.v4()
 	var file_path := files_path.path_join(id+".tres")
 	var cover_path := files_path.path_join(id+".png")
 	var image_layers = ImageLayers.new()
 	image_layers.initialize(p_canvas_size, color)
 	ResourceSaver.save(image_layers, file_path)
-	var pd := _create_project(id, name, file_path, cover_path)
+	var pd := _create_project(id, p_name, file_path, cover_path)
 	project_datas.append(pd)
 	project_datas_changed.emit()
 	return id
@@ -143,12 +136,18 @@ func get_project_datas() -> Array:
 func save_data():
 	return {
 		"active_project_id":active_project_id,
-		"project_datas":project_datas
+		"project_datas":project_datas,
+		"preset_canvas_size": preset_canvas_size,
+		"preset_canvas_bg_color": preset_canvas_bg_color,
+		"project_cover_size": project_cover_size,
 	}
 
 func load_data(data:Dictionary):
 	active_project_id = data.get("active_project_id", "")
 	project_datas = data.get("project_datas", [])
+	project_cover_size = data.get("project_cover_size", 256)
+	preset_canvas_size = data.get("preset_canvas_size", Vector2i(32,32))
+	preset_canvas_bg_color = data.get("preset_canvas_bg_color", Color.TRANSPARENT)
 
 func _validate_active_id():
 	var saved_ids = project_datas.map(func(d): return d.id)

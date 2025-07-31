@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://bd7pixayg3xvb" path="res://addons/handy_nodes/components/simple_color_picker/resource/blend_color_bar.gdshader" id="1_xkva0"]
 [ext_resource type="Script" uid="uid://b3be8hn7asdcv" path="res://addons/handy_nodes/components/simple_color_picker/tracer.gd" id="2_oh2py"]
 [ext_resource type="Texture2D" uid="uid://c0ouqly5c1e6y" path="res://assets/images/Checkerboard_48.svg" id="4_j3pjk"]
-[ext_resource type="FontFile" uid="uid://b11kiy70re55p" path="res://assets/fonts/NotoSansSC/NotoSansSC-Bold.ttf" id="4_tflxy"]
+[ext_resource type="LabelSettings" uid="uid://c5t8k53nca448" path="res://assets/resource/label_settings/title_40_outline.tres" id="4_tflxy"]
 [ext_resource type="Shader" uid="uid://c1gf6eu1kk2n7" path="res://addons/handy_nodes/components/simple_color_picker/resource/transparent_bar.gdshader" id="5_tflxy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1att3"]
@@ -14,6 +14,7 @@ shader = ExtResource("1_xkva0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_645cy"]
 shader = ExtResource("5_tflxy")
+shader_parameter/blend = 0.0
 
 [node name="RgbColorPicker" type="VBoxContainer"]
 offset_right = 536.0
@@ -59,9 +60,9 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
 theme_override_colors/font_outline_color = Color(0.972656, 0.972656, 0.972656, 1)
 theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_tflxy")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 40
 text = "R 255"
+label_settings = ExtResource("4_tflxy")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -99,12 +100,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.972656, 0.972656, 0.972656, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_tflxy")
-theme_override_font_sizes/font_size = 32
 text = "G 255"
+label_settings = ExtResource("4_tflxy")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -142,12 +139,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.972656, 0.972656, 0.972656, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_tflxy")
-theme_override_font_sizes/font_size = 32
 text = "B 255"
+label_settings = ExtResource("4_tflxy")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -214,11 +207,7 @@ border = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.0546875, 0.0546875, 0.0546875, 1)
-theme_override_colors/font_outline_color = Color(0.972656, 0.972656, 0.972656, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("4_tflxy")
-theme_override_font_sizes/font_size = 32
 text = "A 255"
+label_settings = ExtResource("4_tflxy")
 horizontal_alignment = 1
 vertical_alignment = 1

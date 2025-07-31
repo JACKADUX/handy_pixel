@@ -35,7 +35,7 @@ class_name Grid extends Node2D
 func _ready() -> void:
 	if not SystemManager.is_initialized():
 		await SystemManager.system_initialized
-	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop, value):
+	SystemManager.tool_system.camera_tool.property_updated.connect(func(prop, _value):
 		if !grid_enabled:
 			return 
 		match prop:
@@ -44,7 +44,10 @@ func _ready() -> void:
 	)
 
 func _update_visible():
-	hide() if SystemManager.tool_system.camera_tool.camera_zoom <= 1 else show()
+	if SystemManager.tool_system.camera_tool.camera_zoom <= 1:
+		hide() 
+	else:
+		show()
 	
 func _draw():
 	if !grid_enabled or grid_spacing < 1:

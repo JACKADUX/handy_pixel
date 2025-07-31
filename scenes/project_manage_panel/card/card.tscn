@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bo4ekf0ypdo1f"]
+[gd_scene load_steps=12 format=3 uid="uid://bo4ekf0ypdo1f"]
 
 [ext_resource type="Script" uid="uid://oofrgxwggij1" path="res://scenes/project_manage_panel/card/card.gd" id="1_5577b"]
-[ext_resource type="FontFile" uid="uid://ya4ry7qi6plk" path="res://assets/fonts/NotoSansSC/NotoSansSC-Medium.ttf" id="2_davfs"]
 [ext_resource type="Shader" uid="uid://cthsbvhawucuo" path="res://assets/shader/scale.gdshader" id="2_f3yfe"]
 [ext_resource type="Script" uid="uid://0syxcf2838lg" path="res://addons/handy_nodes/trigger_reactor/trigger.gd" id="3_paafk"]
 [ext_resource type="Script" uid="uid://bt6tds0lgyobf" path="res://addons/handy_nodes/trigger_reactor/reactor.gd" id="4_bvlio"]
@@ -28,8 +27,9 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 expand_margin_left = 12.0
-expand_margin_top = 5.0
+expand_margin_top = 8.0
 expand_margin_right = 12.0
+expand_margin_bottom = 8.0
 
 [node name="Card" type="PanelContainer"]
 offset_right = 240.0
@@ -136,9 +136,9 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+theme_type_variation = &"label_title"
 theme_override_colors/font_color = Color(0.859375, 0.859375, 0.859375, 1)
-theme_override_fonts/font = ExtResource("2_davfs")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_davfs")
 text = "1024x1024"
 horizontal_alignment = 1

@@ -9,7 +9,7 @@ func init_with_tool(p_tool:TransformTool):
 	tool = p_tool
 	var camera_tool = SystemManager.tool_system.camera_tool
 	
-	tool.property_updated.connect(func(prop_name:String, value):
+	tool.property_updated.connect(func(prop_name:String, _value):
 		match prop_name:
 			"rects":
 				queue_redraw()

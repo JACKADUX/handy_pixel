@@ -19,7 +19,7 @@ func _ready() -> void:
 		event_occurred.emit(event, data)
 	)
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	action_handler.process()
 
 func _unhandled_input(event: InputEvent) -> void:

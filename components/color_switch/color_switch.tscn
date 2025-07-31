@@ -10,7 +10,7 @@
 [ext_resource type="Shader" uid="uid://dsrhe3ayjhwqn" path="res://assets/shader/quad_map.gdshader" id="7_3qpod"]
 [ext_resource type="Script" uid="uid://c6ob21ox68x3t" path="res://addons/handy_nodes/nodes/scroll_border_indicator.gd" id="8_2v7kl"]
 [ext_resource type="PackedScene" uid="uid://cagu6t0ycb7lu" path="res://scenes/ui/color_selection/color_selection_button.tscn" id="8_nk7i1"]
-[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="9_nwa2b"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm_dialog.tscn" id="9_nwa2b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qcgmn"]
 

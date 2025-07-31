@@ -44,7 +44,7 @@ func _update_state(event:InputEventScreenDrag):
 				var finger_1 = input_datas.get_input_data(0)
 				var finger_2 = input_datas.get_input_data(1)
 				var pan = (finger_1.relative+finger_2.relative)*0.5
-				send_event(EVENT_PANED, {"relative": finger_1.relative})
+				send_event(EVENT_PANED, {"relative": finger_1.relative, "pan":pan})
 		State.ZOOM:
 			# 当有两个触摸点时计算缩放
 			if touch_count == 2:

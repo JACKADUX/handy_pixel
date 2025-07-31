@@ -32,7 +32,7 @@ func register_action(action_handler:ActionHandler):
 	action_handler.register_action(ACTION_SELECT_ALL)
 	
 	# FIXME: 需要更好的位置
-	project_controller.action_called.connect(func(action_name:String, data:Dictionary):
+	project_controller.action_called.connect(func(action_name:String, _data:Dictionary):
 		match action_name:
 			project_controller.ACTION_IMAGE_MASK_CHANGED:
 				property_updated.emit("image_mask_changed", project_controller.get_image_mask().get_mask())

@@ -51,7 +51,6 @@ func system_initialize():
 	_connect_with_input_system(camera_tool)
 	# 可替换工具
 	var tool_name = SelectionTool.get_tool_name()
-	var tool = get_tool(tool_name)
 	switch_tool(tool_name)
 	
 

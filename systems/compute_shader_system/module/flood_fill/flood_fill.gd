@@ -244,15 +244,15 @@ class FloodFillData extends ComputeShaderData:
 	var tolerance: float = 0
 	var max_iter :int= 1000
 	
-	static func create(image:Image, mask:Image, qury_pos:Vector2i, fill_color:Color, tolerance:float=0) -> FloodFillData:
+	static func create(p_image:Image, p_mask:Image, p_qury_pos:Vector2i, p_fill_color:Color, p_tolerance:float=0) -> FloodFillData:
 		var data = FloodFillData.new()
-		data.image = image
-		if not mask:
+		data.image = p_image
+		if not p_mask:
 		# 如果蒙版不存在就随便指定一张图就可以
-			mask = image.duplicate()
-			mask.fill(Color.WHITE)
-		data.mask = mask
-		data.qury_pos = qury_pos
-		data.fill_color = fill_color
-		data.tolerance = tolerance
+			p_mask = p_image.duplicate()
+			p_mask.fill(Color.WHITE)
+		data.mask = p_mask
+		data.qury_pos = p_qury_pos
+		data.fill_color = p_fill_color
+		data.tolerance = p_tolerance
 		return data

@@ -13,12 +13,12 @@ func _ready() -> void:
 		update()
 	)
 	
-	project_contorller.action_called.connect(func(action_name:String, data:Dictionary):
+	project_contorller.action_called.connect(func(action_name:String, _data:Dictionary):
 		match action_name:
 			ProjectController.ACTION_ACTIVATE_LAYER:
 				update()
 	)
-	project_contorller.layer_property_updated.connect(func(index:int, property:String, value:Variant):
+	project_contorller.layer_property_updated.connect(func(index:int, _property:String, _value:Variant):
 		var active_index = project_contorller.get_active_layer_index()
 		if index != active_index or active_index < 0:
 			return 

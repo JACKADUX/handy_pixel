@@ -126,10 +126,10 @@ func set_color(value:Color):
 	active_color = value
 	color_selection_button.set_value(value)
 	
-func _apply_color(image:Image, color:Color) -> Image:
-	var empty_image :Image = image.duplicate()
+func _apply_color(p_image:Image, color:Color) -> Image:
+	var empty_image :Image = p_image.duplicate()
 	empty_image.fill(Color.TRANSPARENT)
-	var color_image :Image = image.duplicate()
+	var color_image :Image = p_image.duplicate()
 	color_image.fill(color)
-	empty_image.blit_rect_mask(color_image, image, Rect2(Vector2.ZERO, image.get_size()), Vector2.ZERO)
+	empty_image.blit_rect_mask(color_image, p_image, Rect2(Vector2.ZERO, p_image.get_size()), Vector2.ZERO)
 	return empty_image

@@ -97,7 +97,7 @@ func _compute_cpu(compute_shader_data:ComputeShaderData) -> Image:
 	# var shader_data = compute_shader_data as FloodFillData
 	return color_select(
 		compute_shader_data.image, 
-		compute_shader_data.fill_color, 
+		compute_shader_data.target_color, 
 		compute_shader_data.tolerance, 
 	)
 
@@ -106,17 +106,17 @@ class ColorSelectData extends ComputeShaderData:
 	var target_color: Color
 	var tolerance: int = 0 # 0-255
 	
-	static func create(image:Image, target_color:Color, tolerance:int=0) -> ColorSelectData:
+	static func create(p_image:Image, p_target_color:Color, p_tolerance:int=0) -> ColorSelectData:
 		var data = ColorSelectData.new()
-		data.image = image
-		data.target_color = target_color
-		data.tolerance = tolerance
+		data.image = p_image
+		data.target_color = p_target_color
+		data.tolerance = p_tolerance
 		return data
 
 static func color_select(image:Image, color:Color, thr:int) -> Image:
 	var c1 = Vector4(color.r, color.g, color.b, color.a)
-	thr = thr/255.0
-	var thr2 = thr*thr
+	var f_thr = thr/255.0
+	var thr2 = f_thr*f_thr
 	var img = Image.create_empty(image.get_width(), image.get_height(), false, Image.FORMAT_RGBA8)
 	for x in image.get_width():
 		for y in image.get_height():

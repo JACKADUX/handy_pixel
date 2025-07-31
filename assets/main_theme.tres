@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=21 format=3 uid="uid://bcysva7hnxuca"]
 
-[ext_resource type="FontFile" uid="uid://dlf1jmx67l13y" path="res://assets/fonts/DMSans-Regular.ttf" id="1_d80jv"]
-[ext_resource type="FontFile" uid="uid://cog58ofm8xw8o" path="res://assets/fonts/DMSans-Medium.ttf" id="2_0arac"]
+[ext_resource type="FontFile" uid="uid://dqs3s8grf1hey" path="res://assets/fonts/fusion_pixel/fusion pixel.otf" id="1_d80jv"]
+[ext_resource type="FontFile" uid="uid://cwfi6y4t2mv4l" path="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc" id="2_0arac"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d80jv"]
 
@@ -106,7 +106,7 @@ shadow_size = 1
 shadow_offset = Vector2(12, 12)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pl0ij"]
-bg_color = Color(0.196078, 0.192157, 0.176471, 1)
+bg_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -207,7 +207,7 @@ base_button/colors/icon_hover_color = Color(0.196078, 0.192157, 0.176471, 1)
 base_button/colors/icon_hover_pressed_color = Color(0.196078, 0.192157, 0.176471, 1)
 base_button/colors/icon_normal_color = Color(0.196078, 0.192157, 0.176471, 1)
 base_button/colors/icon_pressed_color = Color(0.196078, 0.192157, 0.176471, 1)
-base_button/font_sizes/font_size = 30
+base_button/font_sizes/font_size = 24
 base_button/styles/disabled = SubResource("StyleBoxFlat_pefyd")
 base_button/styles/focus = SubResource("StyleBoxEmpty_upuy7")
 base_button/styles/hover = SubResource("StyleBoxFlat_2jsj3")
@@ -219,16 +219,16 @@ clip_panel/base_type = &"PanelContainer"
 clip_panel/styles/panel = SubResource("StyleBoxFlat_pl0ij")
 label_details/base_type = &"Label"
 label_details/colors/font_color = Color(0.196078, 0.192157, 0.176471, 1)
-label_details/font_sizes/font_size = 42
+label_details/font_sizes/font_size = 36
 label_small/base_type = &"Label"
 label_small/colors/font_color = Color(0.196078, 0.192157, 0.176471, 1)
-label_small/font_sizes/font_size = 30
+label_small/font_sizes/font_size = 24
 label_sub_title/base_type = &"Label"
 label_sub_title/colors/font_color = Color(0.196078, 0.192157, 0.176471, 1)
-label_sub_title/font_sizes/font_size = 54
+label_sub_title/font_sizes/font_size = 60
 label_title/base_type = &"Label"
 label_title/colors/font_color = Color(0.196078, 0.192157, 0.176471, 1)
-label_title/font_sizes/font_size = 66
+label_title/font_sizes/font_size = 72
 label_title/fonts/font = ExtResource("2_0arac")
 popup_panel/base_type = &"PanelContainer"
 popup_panel/styles/panel = SubResource("StyleBoxFlat_mfaqg")

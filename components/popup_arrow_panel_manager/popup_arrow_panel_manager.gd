@@ -104,7 +104,7 @@ func quick_popup_tween(control:Control, type:=0):
 			tween.tween_property(control, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
 	
 
-const CONFIRM = preload("res://components/dialogs/confirm.tscn")
+const CONFIRM = preload("res://components/dialogs/confirm_dialog.tscn")
 const ConfirmDialog = preload("res://components/dialogs/confirm_dialog.gd")
 func confirm_dialog(pos:Vector2) -> ConfirmDialog:
 	set_block(true)
@@ -171,7 +171,7 @@ func tooltip_dialog(title:String, tooltip:String, delay:float=3) -> TooltipDialo
 	dialog.z_index = 20
 	dialog.set_tooltip(title, tooltip)
 	
-	var center = get_rect().get_center()
+	#var center = get_rect().get_center()
 	# dialog.global_position = pos - dialog.get_rect().get_center()
 	dialog.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 0)
 	dialog.position += Vector2(96, -16)

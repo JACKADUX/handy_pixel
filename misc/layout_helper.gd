@@ -4,6 +4,11 @@ enum AreaTypeLR { NONE, LEFT, RIGHT, BOTH}
 enum AreaTypeTB { NONE, TOP, BOTTOM, BOTH}
 
 static func get_point_type_lr(point:Vector2, area:Rect2) -> AreaTypeLR:
+	var default_type = SystemManager.db_system.get_setting_value("action_button_location", 0)
+	if default_type != 0:
+		match default_type:
+			1: return AreaTypeLR.RIGHT
+			2: return AreaTypeLR.LEFT 
 	var mid = area.size.x*0.5
 	if point.x <= mid:
 		return AreaTypeLR.LEFT

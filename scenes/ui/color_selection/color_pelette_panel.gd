@@ -11,7 +11,7 @@ signal value_changed(value:Color)
 
 func _ready() -> void:
 	
-	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, value:Variant):
+	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, _value:Variant):
 		match prop_name:
 			"palettes":
 				update_menu()

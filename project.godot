@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="HandyPixel"
+config/version="0.7.0"
 run/main_scene="uid://cyibwt5gr336g"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 run/max_fps=60
 run/low_processor_mode=true
 boot_splash/fullsize=false
@@ -23,12 +24,18 @@ config/icon="uid://c548w2cntg4m1"
 
 SystemManager="*res://systems/system_manager.tscn"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+gdscript/warnings/incompatible_ternary=0
+gdscript/warnings/static_called_on_instance=0
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/window_width_override=1920
+window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4

@@ -78,7 +78,7 @@ static func get_tool_name() -> String:
 	return ""
 
 ## 行为注册，方便在ui调用
-func register_action(action_handler:ActionHandler):
+func register_action(_action_handler:ActionHandler):
 	# action_handler.register_action(PencilTool.ACTION_DRAW_COLOR)
 	pass
 
@@ -110,13 +110,13 @@ func _get_action_button_datas() -> Array:
 	return []
 
 ## 针对特定属性修改的效果可以发生在这里
-func _handle_value_changed(prop_name:String, value:Variant):
+func _handle_value_changed(_prop_name:String, _value:Variant):
 	#match prop_name:
 		#"pen_shape":
 			#pass
 	pass
 
-func _on_event_occurred(event:String, data:Dictionary):
+func _on_event_occurred(_event:String, _data:Dictionary):
 	#match event:
 		#InputRecognizer.EVENT_STATE_CHANGED:
 			#if data.state == InputRecognizer.State.NONE:
@@ -125,7 +125,7 @@ func _on_event_occurred(event:String, data:Dictionary):
 				#show_action_button_panel(true)
 	pass
 
-func _on_action_called(action:String, state:ActionHandler.State):
+func _on_action_called(_action:String, _state:ActionHandler.State):
 	#match state:
 		#ActionHandler.State.JUST_RELEASED:
 			#match action:

@@ -20,6 +20,10 @@ func system_initialize():
 		model_data_mapper.update_all.call_deferred()
 	)
 	
+	SystemManager.db_system.settings_changed.connect(func():
+		Engine.max_fps = SystemManager.db_system.get_setting_value("max_fps", 60)
+	)
+	
 	SystemManager.ui_system.model_data_mapper.register_with(self, "projects_edit_state")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "image_export_custom_mul")
 	SystemManager.ui_system.model_data_mapper.register_with(self, "color_palette_mode")

@@ -1,9 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3gijbd20i1q2"]
+[gd_scene load_steps=8 format=3 uid="uid://c3gijbd20i1q2"]
 
+[ext_resource type="FontFile" uid="uid://cwfi6y4t2mv4l" path="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc" id="1_1ffh8"]
 [ext_resource type="Script" uid="uid://v5x8s6yedgr7" path="res://components/keyboard/keyboard.gd" id="1_ic2xp"]
 [ext_resource type="Texture2D" uid="uid://do5cigr54uh5b" path="res://assets/icons/delete_48.svg" id="2_1ffh8"]
 [ext_resource type="Texture2D" uid="uid://b3tcmn2voqn80" path="res://assets/icons/backspace.svg" id="2_ge0nx"]
-[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm.tscn" id="3_1ffh8"]
+[ext_resource type="PackedScene" uid="uid://bbq0ll30n1k6s" path="res://components/dialogs/confirm_dialog.tscn" id="3_1ffh8"]
+
+[sub_resource type="Theme" id="Theme_52uu3"]
+default_font = ExtResource("1_1ffh8")
+default_font_size = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic2xp"]
 bg_color = Color(0.196078, 0.192157, 0.176471, 1)
@@ -21,6 +26,7 @@ shadow_size = 2
 shadow_offset = Vector2(12, 12)
 
 [node name="Keyboard" type="VBoxContainer"]
+theme = SubResource("Theme_52uu3")
 theme_override_constants/separation = 24
 script = ExtResource("1_ic2xp")
 

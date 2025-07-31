@@ -2,11 +2,11 @@ class_name CanvasManager extends Node2D
 
 
 @export var subviewport_container: SubViewportContainer
-@export var bg_color := Color.WHITE
 
 @onready var image_layers_canvas: ImageLayersCanvas = %ImageLayersCanvas
 @onready var checker_board: Node2D = %CheckerBoard
 @onready var grid: Grid = %Grid
+@onready var bg: ColorRect = %BG
 
 var group_zoom_notify:= "group_zoom_notify"
 
@@ -20,10 +20,10 @@ func _ready() -> void:
 		main_canvas_data.real_canvas_size = SystemManager.project_system.project_controller.get_image_layers().get_size()
 		
 		var canvas_size = canvas_system.get_canvas_size()
-		set_cheker_board(canvas_size, canvas_system.cheker_size * CanvasData.CELL_SIZE)
-		set_grid(canvas_system.grid_visible, canvas_size, CanvasData.CELL_SIZE)
+		set_cheker_board(canvas_size, canvas_system.checkerboard_size * CanvasData.CELL_SIZE)
+		set_grid(canvas_system.grid_visible, canvas_size, canvas_system.grid_size * CanvasData.CELL_SIZE)
 		image_layers_canvas.scale = Vector2.ONE*CanvasData.CELL_SIZE
-		
+		bg.color = canvas_system.background_color
 	)
 
 func set_cheker_board(canvas_size:Vector2, checker_size:int):

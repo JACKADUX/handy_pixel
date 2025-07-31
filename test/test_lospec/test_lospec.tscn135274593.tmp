@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0elebx02477x"]
+
+[ext_resource type="Script" uid="uid://bjyisfg47ykii" path="res://test/test_lospec/test_lospec.gd" id="1_q2s63"]
+
+[node name="TestLospec" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q2s63")

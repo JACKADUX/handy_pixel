@@ -15,7 +15,7 @@ signal system_initialized
 @onready var compute_shader_system: ComputeShaderSystem = $ComputeShaderSystem
 
 var _initialized := false
-
+	
 func _ready() -> void:
 	OS.request_permissions()
 	if _keep_only(): 
@@ -25,6 +25,8 @@ func _ready() -> void:
 	initialize()
 	load_data()
 	
+
+
 func _notification(what):
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		quit_request()
@@ -65,3 +67,4 @@ func save_data():
 func load_data():
 	if db_system:
 		db_system.db_load()
+		

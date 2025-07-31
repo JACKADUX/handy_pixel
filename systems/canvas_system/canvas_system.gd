@@ -2,8 +2,12 @@ class_name CanvasSystem extends Node
 
 
 var grid_visible := false
-var cheker_size := 16
-
+# settings
+var checkerboard_size := 16
+var grid_size := 16
+var grid_color := Color("8c8c8c")
+var background_color := Color("faf4e6")
+#
 var canvas_manager : CanvasManager
 
 var main_canvas_data :CanvasData = preload("res://systems/canvas_system/main_canvas_data.tres")
@@ -17,33 +21,40 @@ func system_initialize():
 		db_system.set_data("CanvasSystem", save_data())
 	)
 	
+	db_system.settings_changed.connect(func():
+		checkerboard_size = db_system.get_setting_value("checkerboard_size", 16)
+		grid_size = db_system.get_setting_value("grid_size", 16)
+		grid_color = db_system.get_setting_value("grid_color", Color("8c8c8c"))
+		background_color = db_system.get_setting_value("background_color", Color("faf4e6"))
+		update_settings()
+	)
+	
 	SystemManager.ui_system.model_data_mapper.property_updated.connect(func(prop_name:String, value):
 		if not canvas_manager:
 			return 
 		match prop_name:
 			"grid_visible":
 				canvas_manager.grid.grid_enabled = value
-			"checker_size":
-				canvas_manager.checker_board.checker_size = value * CanvasData.CELL_SIZE
 	)
 	if canvas_manager:
 		canvas_manager.image_layers_canvas.bind_with_controller()
 		
 	SystemManager.ui_system.model_data_mapper.register_with(self, "grid_visible")
-	SystemManager.ui_system.model_data_mapper.register_with(self, "cheker_size")
 	
 	
-	
+func update_settings():
+	canvas_manager.checker_board.checker_size = checkerboard_size * CanvasData.CELL_SIZE
+	canvas_manager.grid.grid_spacing = grid_size * CanvasData.CELL_SIZE
+	canvas_manager.grid.grid_color = grid_color
+	canvas_manager.bg.color = background_color
 	
 func save_data():
 	return {
-		"grid_visible":grid_visible,
-		"cheker_size":cheker_size
+		"grid_visible":grid_visible
 	}
 
 func load_data(data:Dictionary):
 	grid_visible = data.get("grid_visible", false)
-	cheker_size = data.get("cheker_size", 16)
 
 func get_canvas_size():
 	return main_canvas_data.get_canvas_size()

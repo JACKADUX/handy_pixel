@@ -155,8 +155,6 @@ func request_action(action_name:String, data:={}):
 				_image_mask.update_mask_with_rect(Rect2(Vector2.ZERO,_image_layers.get_size()))
 			)
 			
-
-		
 func action_create_layer(index:int):
 	if not create_layer(index):
 		return 
@@ -306,10 +304,10 @@ func get_active_layer_masked_image_data() -> Dictionary:
 	if not image:
 		return {}
 	if not _image_mask.has_mask():
-		var used_rect = image.get_used_rect()
-		if not used_rect.has_area():
+		var _used_rect = image.get_used_rect()
+		if not _used_rect.has_area():
 			return {}
-		return  {"image": image.get_region(used_rect), "rect":used_rect}
+		return  {"image": image.get_region(_used_rect), "rect":_used_rect}
 	var rect = _image_mask.get_used_rect()
 	var mask = _image_mask.get_region_mask(rect)
 	var src = mask.duplicate() as Image

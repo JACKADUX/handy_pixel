@@ -12,13 +12,13 @@ func _notification(what):
 	if what == NOTIFICATION_SORT_CHILDREN:
 		sort_controls()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_debug_uodate()
 
 func sort_controls():
 	var index := 0
 	var child_count:int = get_child_count()
-	var step = (end_angle-start_angle)/(child_count-1) if child_count >= 2 else 0
+	var step = int((end_angle-start_angle)/float(child_count-1)) if child_count >= 2 else 0
 	for child: Control in get_children():
 		#if not child.visible:
 		#	continue

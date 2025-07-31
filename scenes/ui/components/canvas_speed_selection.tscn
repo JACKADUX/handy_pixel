@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bllt4mivxjyv6"]
+[gd_scene load_steps=5 format=3 uid="uid://bllt4mivxjyv6"]
 
+[ext_resource type="FontFile" uid="uid://cwfi6y4t2mv4l" path="res://assets/fonts/fusion_pixel/fusion-pixel-10px-monospaced.ttc" id="1_te33x"]
 [ext_resource type="Script" uid="uid://bsprgm68s2bo" path="res://addons/handy_nodes/mvc_component/view_adapters/button_view_adapter.gd" id="1_y2jh3"]
 [ext_resource type="Script" uid="uid://bk4v1rhe5htsa" path="res://scenes/ui/components/tool_data_controller.gd" id="2_y2jh3"]
 
@@ -26,7 +27,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"tab_button"
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("1_te33x")
+theme_override_font_sizes/font_size = 30
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_fildv")
@@ -55,7 +57,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"tab_button"
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("1_te33x")
+theme_override_font_sizes/font_size = 30
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
 text = ".5"
@@ -83,7 +86,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"tab_button"
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("1_te33x")
+theme_override_font_sizes/font_size = 30
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
 text = ".75"
@@ -111,7 +115,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"tab_button"
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("1_te33x")
+theme_override_font_sizes/font_size = 30
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
 text = "1x"
@@ -139,7 +144,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
 theme_type_variation = &"tab_button"
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("1_te33x")
+theme_override_font_sizes/font_size = 30
 toggle_mode = true
 button_group = SubResource("ButtonGroup_fildv")
 text = "1.5x"

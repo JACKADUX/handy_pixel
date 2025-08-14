@@ -12,3 +12,6 @@ func _ready() -> void:
 	color_pickers_panel.value_changed.connect(func(v):
 		value_changed.emit(v)
 	)
+	
+	$GridContainer.columns = 1 if SystemManager.ui_system.is_virtical() else 2
+	

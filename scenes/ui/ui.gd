@@ -23,7 +23,7 @@ func _ready() -> void:
 		SystemManager.save_data()
 		PopupArrowPanelManager.get_from_ui_system().infomation_dialog("保存成功！", Vector2.ZERO)
 	)
-	
+
 func open_projects_panel():
 	const ProjectManagePanel = preload("res://scenes/project_manage_panel/project_manage_panel.gd")
 	const PROJECT_MANAGE_PANEL = preload("res://scenes/project_manage_panel/project_manage_panel.tscn")

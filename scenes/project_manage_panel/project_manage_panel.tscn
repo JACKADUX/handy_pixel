@@ -144,6 +144,7 @@ container = NodePath("../HFlowContainer")
 
 [node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/h_separation = 48
 theme_override_constants/v_separation = 48
 alignment = 1

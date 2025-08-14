@@ -51,11 +51,13 @@ func get_layout_area_type() -> LayoutHelper.AreaTypeLR:
 	#return LayoutHelper.AreaTypeLR.LEFT
 	var tool_ui_control := _tool_system.get_tool_ui_control()
 	var input_data = SystemManager.input_system.input_recognizer.input_datas.get_input_data(0)
+	if not input_data:
+		return LayoutHelper.AreaTypeLR.LEFT
 	var pos = input_data.start_position
 	return LayoutHelper.get_point_type_lr(pos, tool_ui_control.get_viewport_rect())
 
 func show_action_button_panel(value:bool):
-	var tool_ui_control := _tool_system.get_tool_ui_control()
+	var tool_ui_control :=_tool_system.get_tool_ui_control()
 	var action_button_panel = tool_ui_control.action_button_panel
 	var ui = tool_ui_control.owner
 	ui.set_main_panel_visible(not value)

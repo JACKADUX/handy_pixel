@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://dut06xq3g0mam" path="res://scenes/s_settings/setting_widget.gd" id="1_u2oi4"]
 
 [node name="SettingWidget" type="HBoxContainer"]
+mouse_filter = 2
+alignment = 1
 script = ExtResource("1_u2oi4")
 
 [node name="Label" type="Label" parent="."]
-custom_minimum_size = Vector2(500, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 text = "WidgetTitle"

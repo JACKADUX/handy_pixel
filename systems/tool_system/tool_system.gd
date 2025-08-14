@@ -22,8 +22,6 @@ const confirm_pressed_icon = preload("res://assets/icons/check_96dp_FFFFFF_FILL0
 var camera_tool : CameraTool
 var cursor_tool : CursorTool
 
-
-	
 func system_initialize():
 	_register_tools()
 	_register_input_actions()

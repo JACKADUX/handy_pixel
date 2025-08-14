@@ -99,10 +99,14 @@ func update_projects():
 			card.texture_rect.set_texture.call_deferred(ImageTexture.create_from_image(image))
 		)
 		card.main_button.pressed.connect(func():
+			if card.is_draged():
+				return 
 			SystemManager.project_system.set_active_project(project_data.id)
 			handle_goback()
 		)
 		card.delete_button.pressed.connect(func():
+			if card.is_draged():
+				return 
 			var control = card.delete_button
 			var center = control.global_position + control.get_rect().get_center()
 			var dialog = PopupArrowPanelManager.get_from_ui_system().confirm_dialog(center+Vector2(0, 96))
@@ -111,6 +115,8 @@ func update_projects():
 			)
 		)
 		card.export_button.pressed.connect(func():
+			if card.is_draged():
+				return 
 			var image_layers = SystemManager.project_system.load_project_image_layers(card.get_meta("project_id"))
 			if not image_layers:
 				return 

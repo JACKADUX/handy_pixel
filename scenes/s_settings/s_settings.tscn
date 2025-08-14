@@ -28,6 +28,7 @@ theme_override_constants/margin_bottom = 32
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
 [node name="ScrollDragger" type="Node" parent="MarginContainer/ScrollContainer" node_paths=PackedStringArray("agent")]
 script = ExtResource("2_hq21d")

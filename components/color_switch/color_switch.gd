@@ -52,10 +52,13 @@ func _ready() -> void:
 	#debug()
 	#generate()
 	
+	$GridContainer.columns = 1 if SystemManager.ui_system.is_virtical() else 2
+	
 	if not SystemManager.is_initialized():
 		await SystemManager.system_initialized
 	cso_color_select = SystemManager.compute_shader_system.get_compute_shader_object("color_select")
-
+	
+	
 
 func init_with(input_image:Image, color:Color):
 	image = input_image

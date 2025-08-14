@@ -55,13 +55,14 @@ func activate() -> void:
 		tool_ui = PENCIL_TOOL_UI.instantiate()
 		tool_ui_control.add_tool_ui(tool_ui)
 		tool_ui.hide()
-
+	
 	
 ## 工具禁用时调用
 func deactivate() -> void:
 	remove_indicator(_pen_shape_cursor)
 	tool_ui.queue_free()
 	tool_ui = null
+	
 
 func get_tool_data() -> Dictionary:
 	return {

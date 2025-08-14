@@ -5,19 +5,22 @@
 [ext_resource type="PackedScene" uid="uid://ci5cxde6n84l4" path="res://scenes/ui/color_selection/color_pickers_panel.tscn" id="3_e14gm"]
 
 [node name="ColorSelection" type="VBoxContainer"]
-offset_right = 1136.0
-offset_bottom = 696.0
+anchors_preset = -1
+offset_right = 612.0
+offset_bottom = 1360.0
 size_flags_vertical = 3
 script = ExtResource("1_2qx2g")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 2
 
-[node name="ColorPalettePanel" parent="HBoxContainer" instance=ExtResource("2_vmf6y")]
+[node name="ColorPalettePanel" parent="GridContainer" instance=ExtResource("2_vmf6y")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ColorPickersPanel" parent="HBoxContainer" instance=ExtResource("3_e14gm")]
+[node name="ColorPickersPanel" parent="GridContainer" instance=ExtResource("3_e14gm")]
 unique_name_in_owner = true
 layout_mode = 2

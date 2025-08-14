@@ -22,6 +22,17 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		hide()
 	set_mode(mode)
+	
+	get_tree().root.size_changed.connect(func():
+		if is_node_ready():
+			_handle_ui_direction()
+	)
+	
+func _handle_ui_direction():
+	var margin_props = ["margin_left","margin_top","margin_right","margin_bottom"]
+	var config = [192, 192, 96, 192] if SystemManager.ui_system.is_virtical() else [192, 192, 192, 192]
+	for index in margin_props.size():
+		add_theme_constant_override(margin_props[index], config[index])
 
 func setup_action_buttons(action_button_datas:Array):
 	for b in _buttons:

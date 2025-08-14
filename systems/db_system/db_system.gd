@@ -11,7 +11,8 @@ var db := HandyPixelDB.new()
 var default_settings := {
 	"max_fps": {"title": "常规/最大帧率", "type": TYPE_INT, "value":60, "select":[0,30,60,120,240], "select_text":["无限制", "30", "60", "120", "240"]},
 	"auto_save_time": {"title": "常规/自动保存间隔", "type": TYPE_INT, "value":120, "select":[0, 60, 120, 300], "select_text":["关闭", "1分钟", "2分钟", "5分钟"]},
-	"action_button_location": {"title": "常规/功能键位置", "type": TYPE_INT, "value":0, "select":[0, 1, 2], "select_text":["自动", "左边", "右边"]}, # 0 自动 1 左边 2 右边
+	"action_button_location": {"title": "常规/功能键位置", "type": TYPE_INT, "value":0, "select":[0, 1, 2], "select_text":["自动", "左边", "右边"]}, 
+	"screen_direction": {"title": "常规/屏幕方向", "type": TYPE_INT, "value":0, "select":[0, 1], "select_text":["水平", "垂直"]}, 
 	
 	"checkerboard_size": {"title": "画布/棋盘格尺寸", "type": TYPE_INT, "value":16, "min_value":2, "max_value":2048, "step": 1, "rounded":true},
 	"grid_size": {"title": "画布/网格尺寸", "type": TYPE_INT, "value":16, "min_value":2, "max_value":2048, "step": 1, "rounded":true},
@@ -20,6 +21,8 @@ var default_settings := {
 	
 	"force_use_cpu": {"title": "高级/计算着色器强制使用cpu", "type": TYPE_BOOL, "value":false},
 }
+
+
 
 var settings := {}
 
